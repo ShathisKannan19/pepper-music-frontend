@@ -1,7 +1,6 @@
 name: Deploy to shadowctrl - K3s
 
 on:
-  workflow_dispatch: true
   push:
     branches:
       - prod
