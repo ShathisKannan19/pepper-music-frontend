@@ -59,23 +59,23 @@ jobs:
           port: ${{ secrets.K3S_SERVER_SSH_PORT }}
           script: |
             # Load the Docker image into the local repository
-            docker load < /tmp/image.tar
+            sudo docker load < /tmp/image.tar
 
             # Tag the image for your local registry if needed
-            docker tag mrbot-frontend:${{ github.sha }} 192.168.0.103:5000/mrbot-frontend:${{ github.sha }}
+            sudo docker tag mrbot-frontend:${{ github.sha }} 192.168.0.103:5000/mrbot-frontend:${{ github.sha }}
 
             # Push to local registry if you're using one
-            docker push 192.168.0.103:5000/mrbot-frontend:${{ github.sha }}
+            sudo docker push 192.168.0.103:5000/mrbot-frontend:${{ github.sha }}
 
             # Update the deployment.yaml with the new image tag
-            sed -i "s|\${DOCKER_IMAGE}:\${TAG}|192.168.0.103:5000/nextjs-app:${{ github.sha }}|g" k3s/deployment.yaml
+            sudo sed -i "s|\${DOCKER_IMAGE}:\${TAG}|192.168.0.103:5000/nextjs-app:${{ github.sha }}|g" k3s/deployment.yaml
 
             # Apply the updated manifests
-            kubectl apply -f k3s/deployment.yaml
-            kubectl apply -f k3s/service.yaml
+            sudo kubectl apply -f k3s/deployment.yaml
+            sudo kubectl apply -f k3s/service.yaml
 
             # Verify deployment status
-            kubectl rollout status deployment/mrbot-frontend
+            sudo kubectl rollout status deployment/mrbot-frontend
 
             # Clean up
-            rm /tmp/image.tar
+            sudo rm /tmp/image.tar
