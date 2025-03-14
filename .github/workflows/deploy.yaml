@@ -50,7 +50,17 @@ jobs:
           source: 'image.tar'
           target: '/tmp'
 
-      - name: Deploy to K3s
+      - name: Copy YAML files to K3s server
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.K3S_SERVER_HOST }}
+          username: ${{ secrets.K3S_SERVER_USERNAME }}
+          key: ${{ secrets.K3S_SERVER_SSH_KEY }}
+          port: ${{ secrets.K3S_SERVER_SSH_PORT }}
+          source: 'k3s/*'
+          target: '/home/${{ secrets.K3S_SERVER_USERNAME }}/k3s'
+
+       - name: Deploy to K3s
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.K3S_SERVER_HOST }}
@@ -58,6 +68,9 @@ jobs:
           key: ${{ secrets.K3S_SERVER_SSH_KEY }}
           port: ${{ secrets.K3S_SERVER_SSH_PORT }}
           script: |
+            # Ensure the directory exists
+            mkdir -p /home/${{ secrets.K3S_SERVER_USERNAME }}/k3s
+
             # Load the Docker image into the local repository
             sudo docker load < /tmp/image.tar
 
@@ -68,11 +81,11 @@ jobs:
             sudo docker push 192.168.0.103:5000/mrbot-frontend:${{ github.sha }}
 
             # Update the deployment.yaml with the new image tag
-            sudo sed -i "s|\${DOCKER_IMAGE}:\${TAG}|192.168.0.103:5000/nextjs-app:${{ github.sha }}|g" k3s/deployment.yaml
+            sudo sed -i "s|\${DOCKER_IMAGE}:\${TAG}|192.168.0.103:5000/mrbot-frontend:${{ github.sha }}|g" /home/${{ secrets.K3S_SERVER_USERNAME }}/k3s/deployment.yaml
 
             # Apply the updated manifests
-            sudo kubectl apply -f k3s/deployment.yaml
-            sudo kubectl apply -f k3s/service.yaml
+            sudo kubectl apply -f /home/${{ secrets.K3S_SERVER_USERNAME }}/k3s/deployment.yaml
+            sudo kubectl apply -f /home/${{ secrets.K3S_SERVER_USERNAME }}/k3s/service.yaml
 
             # Verify deployment status
             sudo kubectl rollout status deployment/mrbot-frontend
