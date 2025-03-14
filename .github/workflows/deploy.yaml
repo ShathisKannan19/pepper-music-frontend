@@ -42,7 +42,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: linux/arm/v7  # Choose appropriate ARM version for your Raspberry Pi
+          platforms: linux/arm64
           tags: mrbot-frontend:${{ github.sha }}
           outputs: type=docker,dest=image.tar
 
