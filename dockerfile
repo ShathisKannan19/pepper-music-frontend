@@ -6,16 +6,16 @@ WORKDIR /app
 RUN apk add --no-cache bash curl git
 # Install Bun
 RUN curl -fsSL https://bun.sh/install | bash && \
-    echo "export PATH=/root/.bun/bin:$PATH" >> /etc/profile && \
+    export PATH=/root/.bun/bin:$PATH && \
     ln -s /root/.bun/bin/bun /usr/local/bin/bun
 # Copy package.json and bun.lockb
 COPY package.json bun.lockb ./
 # Install dependencies using Bun
-RUN bun install --frozen-lockfile
+RUN /root/.bun/bin/bun install --frozen-lockfile
 # Copy the rest of the application code
 COPY . .
 # Build the Next.js application
-RUN bun run build
+RUN /root/.bun/bin/bun run build
 
 # Production stage
 FROM --platform=linux/arm64 node:18-alpine AS runner
@@ -23,11 +23,7 @@ WORKDIR /app
 # Set to production environment
 ENV NODE_ENV production
 # Install required system dependencies
-RUN apk add --no-cache bash curl git
-# Install Bun in the runner stage as well
-RUN curl -fsSL https://bun.sh/install | bash && \
-    echo "export PATH=/root/.bun/bin:$PATH" >> /etc/profile && \
-    ln -s /root/.bun/bin/bun /usr/local/bin/bun
+RUN apk add --no-cache bash curl
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
@@ -42,5 +38,5 @@ COPY --from=builder --chown=nextjs:nodejs /app/next.config.ts ./next.config.ts
 USER nextjs
 # Expose the application port
 EXPOSE 3000
-# Start the Next.js application
-CMD ["bun", "start"]
+# Use node to start your Next.js app instead of Bun
+CMD ["node", "node_modules/.bin/next", "start"]
