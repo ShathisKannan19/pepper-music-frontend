@@ -60,7 +60,7 @@ jobs:
           source: 'k3s/*'
           target: '/home/${{ secrets.K3S_SERVER_USERNAME }}/k3s'
 
-       - name: Deploy to K3s
+      - name: Deploy to K3s
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.K3S_SERVER_HOST }}
