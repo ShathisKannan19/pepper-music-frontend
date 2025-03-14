@@ -64,8 +64,9 @@ jobs:
             # Load the Docker image into the local repository
             sudo docker load < /tmp/image.tar
 
-            # Get the actual image ID after loading
-            IMAGE_ID=$(sudo docker images --format "{{.Repository}}:{{.Tag}}" | grep "mrbot-frontend")
+            # Get the actual image ID after loading - only grab the first line with grep
+            IMAGE_ID=$(sudo docker images --format "{{.Repository}}:{{.Tag}}" | grep "mrbot-frontend" | head -n 1)
+            echo "Using image ID: $IMAGE_ID"
 
             # Tag the image for your local registry
             sudo docker tag $IMAGE_ID 192.168.0.103:5000/mrbot-frontend:${{ github.sha }}
@@ -79,6 +80,9 @@ jobs:
             # Apply the updated manifests
             sudo kubectl apply -f /home/${{ secrets.K3S_SERVER_USERNAME }}/k3s/deployment.yaml
             sudo kubectl apply -f /home/${{ secrets.K3S_SERVER_USERNAME }}/k3s/service.yaml
+
+            # Force a restart of the deployment to ensure it picks up the new image
+            sudo kubectl rollout restart deployment/mrbot-frontend
 
             # Verify deployment status
             sudo kubectl rollout status deployment/mrbot-frontend
