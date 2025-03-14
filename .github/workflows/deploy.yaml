@@ -59,7 +59,7 @@ jobs:
           port: ${{ secrets.K3S_SERVER_SSH_PORT }}
           source: 'k3s/*'
           target: '/home/${{ secrets.K3S_SERVER_USERNAME }}/k3s'
-          script_before: 'mkdir -p /home/${{ secrets.K3S_SERVER_USERNAME }}/k3s'
+          script_before: 'rm -rf /home/${{ secrets.K3S_SERVER_USERNAME }}/k3s && mkdir -p /home/${{ secrets.K3S_SERVER_USERNAME }}/k3s'
 
       - name: Deploy to K3s
         uses: appleboy/ssh-action@v1.0.0
