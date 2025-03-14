@@ -38,11 +38,11 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and tag Docker image for ARM
+      - name: Build Docker image for ARM (single platform)
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: linux/arm64,linux/arm/v7
+          platforms: linux/arm/v7  # Choose appropriate ARM version for your Raspberry Pi
           tags: mrbot-frontend:${{ github.sha }}
           outputs: type=docker,dest=image.tar
 
