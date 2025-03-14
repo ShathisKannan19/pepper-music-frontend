@@ -65,7 +65,7 @@ jobs:
             docker push 192.168.0.103:5000/mrbot-frontend:${{ github.sha }}
 
             # Update the deployment.yaml with the new image tag
-           sed -i "s|\${DOCKER_IMAGE}:\${TAG}|192.168.0.103:5000/nextjs-app:${{ github.sha }}|g" k3s/deployment.yaml
+            sed -i "s|\${DOCKER_IMAGE}:\${TAG}|192.168.0.103:5000/nextjs-app:${{ github.sha }}|g" k3s/deployment.yaml
 
             # Apply the updated manifests
             kubectl apply -f k3s/deployment.yaml
