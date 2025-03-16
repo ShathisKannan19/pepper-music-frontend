@@ -23,14 +23,14 @@ interface Props {}
 const Footer: NextPage<Props> = ({}) => {
 	return (
 		<footer className="w-full">
-			<div className="w-full bg-white py-1">
+			{/* <div className="w-full bg-white py-1">
 				<div className="container mx-auto">
 					<div className="flex justify-center">
 						<Music className="h-6 w-6 text-black" />
 					</div>
 				</div>
-			</div>
-
+			</div> */}
+			<Separator className="bg-gray-800" />
 			<div className="w-full bg-black text-white">
 				<div className="container mx-auto px-4 py-12">
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -144,7 +144,7 @@ const Footer: NextPage<Props> = ({}) => {
 					</div>
 				</div>
 
-				<Separator className="bg-gray-800" />
+				<Separator className="bg-gray-900" />
 				<div className="container mx-auto px-4 py-6">
 					<div className="flex flex-col md:flex-row justify-between items-center">
 						<p className="text-gray-400 text-sm">
