@@ -15,7 +15,7 @@ const TermsOfService: NextPage<Props> = ({}) => {
 					<p className="text-gray-400">Last updated: March 16, 2025</p>
 				</div>
 
-				<Card className="shadow-lg bg-black">
+				<Card className="shadow-lg bg-black py-0 my-6">
 					<CardContent className="p-0">
 						{/* Introduction Card */}
 						<div className="bg-white text-black p-6 rounded-t-lg border-b border-gray-800">
