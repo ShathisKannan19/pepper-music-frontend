@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { features, inviteLink } from '@/constants';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import Features from '@/components/shared/features';
+import Uptime from '@/components/shared/uptime';
 
 const Page: NextPage = () => {
 	return (
@@ -53,6 +54,9 @@ const Page: NextPage = () => {
 						<Features feature={feature} key={feature.value} />
 					))}
 				</div>
+			</section>
+			<section className="pb-8 px-8">
+				<Uptime />
 			</section>
 		</div>
 	);
