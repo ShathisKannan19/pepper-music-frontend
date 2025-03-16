@@ -1,41 +1,15 @@
 import { NextPage } from 'next';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import GlobalButton from '@/components/shared/globalButton';
+import Link from 'next/link';
+import { features, inviteLink } from '@/constants';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import Features from '@/components/shared/features';
 
 const Page: NextPage = () => {
 	return (
 		<div className="min-h-screen bg-black text-white">
-			{/* Navbar */}
-			<header className="flex items-center justify-between px-8 py-4 bg-black border-b border-gray-700">
-				<h1 className="text-2xl font-bold">Pepper</h1>
-				<nav>
-					<ul className="flex space-x-6">
-						<li>
-							<a href="#features" className="hover:text-gray-400">
-								Features
-							</a>
-						</li>
-						<li>
-							<a href="#about" className="hover:text-gray-400">
-								About
-							</a>
-						</li>
-						<li>
-							<a href="#contact" className="hover:text-gray-400">
-								Contact
-							</a>
-						</li>
-					</ul>
-				</nav>
-				<Button
-					variant="default"
-					className="bg-white text-black hover:bg-gray-200"
-				>
-					Get Started
-				</Button>
-			</header>
-
-			{/* Hero Section */}
 			<section className="flex flex-col items-center justify-center text-center px-8 py-20 bg-black">
 				<h2 className="text-5xl font-extrabold mb-4 text-white">
 					Stream Music Effortlessly with Pepper
@@ -44,79 +18,42 @@ const Page: NextPage = () => {
 					Your ultimate music companion on Discord. Play, manage, and enjoy
 					music seamlessly.
 				</p>
-				<Button
-					variant="default"
-					className="bg-white text-black hover:bg-gray-200"
-					size="lg"
-				>
-					Add Pepper to Discord
-				</Button>
-				<div className="mt-10">
+				<Link href={inviteLink} target="_blank">
+					<GlobalButton>Add Pepper to Discord</GlobalButton>{' '}
+				</Link>
+				<div className="mt-10 flex justify-center">
 					<Image
-						src="/hero-image.png"
+						src="/images/pepper.png"
 						alt="Music Streaming"
 						width={600}
 						height={400}
-						className="rounded-lg shadow-lg"
+						className="rounded-l-lg rounded-r-none shadow-lg"
 					/>
+					<Card className="max-w-2xl bg-[var(--color-accent)] text-white border-0 rounded-r-lg rounded-l-none">
+						<CardContent className="text-justify my-auto p-10">
+							We're thrilled to have you on board. Pepper is here to bring the
+							power of music to your Discord server. Get ready to immerse
+							yourself in a world of melodies, beats, and rhythm that will
+							elevate your community interactions.
+							<br /> <br />
+							With Pepper, you can effortlessly play music from popular sources
+							like YouTube, Spotify, SoundCloud, and more. Create personalized
+							playlists, explore a vast music library, and share your favorite
+							tunes with friends and fellow community members.
+						</CardContent>
+					</Card>
 				</div>
 			</section>
-
-			{/* Features Section */}
-			<section id="features" className="px-8 py-16 bg-black">
+			<section>
 				<h3 className="text-3xl font-bold text-center mb-12 text-white">
 					Why Choose Pepper?
 				</h3>
-				<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-					<div className="text-center">
-						<Image
-							src="/feature1.png"
-							alt="Feature 1"
-							width={100}
-							height={100}
-						/>
-						<h4 className="text-xl font-bold mt-4 text-white">
-							High Quality Audio
-						</h4>
-						<p className="text-gray-400 mt-2">
-							Experience crystal-clear sound for all your favorite tracks.
-						</p>
-					</div>
-					<div className="text-center">
-						<Image
-							src="/feature2.png"
-							alt="Feature 2"
-							width={100}
-							height={100}
-						/>
-						<h4 className="text-xl font-bold mt-4 text-white">
-							Custom Playlists
-						</h4>
-						<p className="text-gray-400 mt-2">
-							Create and manage playlists directly on Discord.
-						</p>
-					</div>
-					<div className="text-center">
-						<Image
-							src="/feature3.png"
-							alt="Feature 3"
-							width={100}
-							height={100}
-						/>
-						<h4 className="text-xl font-bold mt-4 text-white">
-							24/7 Availability
-						</h4>
-						<p className="text-gray-400 mt-2">
-							Keep the music going anytime, anywhere.
-						</p>
-					</div>
+				<div className="flex flex-wrap justify-center">
+					{features.map((feature) => (
+						<Features feature={feature} key={feature.value} />
+					))}
 				</div>
 			</section>
-
-			{/* Footer */}
-			<footer className="px-8 py-6 bg-black text-center">
-				<p className="text-gray-400">2025 Pepper. All rights reserved.</p>
-			</footer>
 		</div>
 	);
 };
