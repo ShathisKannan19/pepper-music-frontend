@@ -6,11 +6,12 @@ import Link from 'next/link';
 import { features, inviteLink } from '@/constants';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import Features from '@/components/shared/features';
+import Uptime from '@/components/shared/uptime';
 
 const Page: NextPage = () => {
 	return (
 		<div className="min-h-screen bg-black text-white">
-			<section className="flex flex-col items-center justify-center text-center px-8 py-20 bg-black">
+			<section className="flex flex-col items-center justify-center text-center px-8 py-8 bg-black">
 				<h2 className="text-5xl font-extrabold mb-4 text-white">
 					Stream Music Effortlessly with Pepper
 				</h2>
@@ -44,15 +45,18 @@ const Page: NextPage = () => {
 					</Card>
 				</div>
 			</section>
-			<section>
-				<h3 className="text-3xl font-bold text-center mb-12 text-white">
+			<section className="py-8">
+				<h3 className="text-3xl font-bold text-center text-white">
 					Why Choose Pepper?
 				</h3>
-				<div className="flex flex-wrap justify-center">
+				<div className="flex flex-wrap justify-center py-6">
 					{features.map((feature) => (
 						<Features feature={feature} key={feature.value} />
 					))}
 				</div>
+			</section>
+			<section className="pb-8 px-8">
+				<Uptime />
 			</section>
 		</div>
 	);
