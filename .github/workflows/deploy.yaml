@@ -1,4 +1,4 @@
-name: Deploy to shadowctrl - K3s
+name: Deploy to K3s - Next.js App
 
 on:
   push:
@@ -8,7 +8,6 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -19,6 +18,15 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      # Create .env file from secrets
+      - name: Create .env file
+        run: |
+          echo "# Environment variables for Next.js" > .env
+          echo "NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}" >> .env"
+          echo "BACKEND_API_ENDPOINT=${{ secrets.BACKEND_API_ENDPOINT }}" >> .env
+          echo "BACKEND_API_SECRET=${{ secrets.BACKEND_API_SECRET }}" >> .env
+
+      # Build Docker image with environment variables
       - name: Build Docker image for ARM
         uses: docker/build-push-action@v5
         with:
@@ -28,6 +36,9 @@ jobs:
           outputs: type=docker,dest=image.tar
           build-args: |
             TARGETPLATFORM=linux/arm64
+            NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}
+            BACKEND_API_ENDPOINT=${{ secrets.BACKEND_API_ENDPOINT }}
+            BACKEND_API_SECRET=${{ secrets.BACKEND_API_ENDPOINT }}
 
       - name: Copy Docker image to K3s server
         uses: appleboy/scp-action@v0.1.4
@@ -64,7 +75,7 @@ jobs:
             # Load the Docker image into the local repository
             sudo docker load < /tmp/image.tar
 
-            # Get the actual image ID after loading - only grab the first line with grep
+            # Get the actual image ID after loading
             IMAGE_ID=$(sudo docker images --format "{{.Repository}}:{{.Tag}}" | grep "mrbot-frontend" | head -n 1)
             echo "Using image ID: $IMAGE_ID"
 
@@ -73,6 +84,21 @@ jobs:
 
             # Push to local registry
             sudo docker push 192.168.0.103:5000/mrbot-frontend:${{ github.sha }}
+
+            # Create ConfigMap for environment variables
+            cat << EOF > /home/${{ secrets.K3S_SERVER_USERNAME }}/k3s/nextjs-env-configmap.yaml
+            apiVersion: v1
+            kind: ConfigMap
+            metadata:
+              name: mrbotz-frontend-env-config
+            data:
+              NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}
+              BACKEND_API_ENDPOINT=${{ secrets.BACKEND_API_ENDPOINT }}
+              BACKEND_API_SECRET=${{ secrets.BACKEND_API_ENDPOINT }}
+            EOF
+
+            # Apply the ConfigMap
+            sudo kubectl apply -f /home/${{ secrets.K3S_SERVER_USERNAME }}/k3s/nextjs-env-configmap.yaml
 
             # Update the deployment.yaml with the new image tag
             sudo sed -i "s|\${DOCKER_IMAGE}:\${TAG}|192.168.0.103:5000/mrbot-frontend:${{ github.sha }}|g" /home/${{ secrets.K3S_SERVER_USERNAME }}/k3s/deployment.yaml
