@@ -37,6 +37,6 @@ COPY --from=builder --chown=nextjs:nodejs /app/next.config.ts ./next.config.ts
 # Switch to non-root user
 USER nextjs
 # Expose the application port
-EXPOSE 3000
+EXPOSE 30018
 # Use node to start your Next.js app instead of Bun
 CMD ["node", "node_modules/.bin/next", "start"]
