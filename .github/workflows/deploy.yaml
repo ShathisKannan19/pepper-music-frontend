@@ -38,7 +38,7 @@ jobs:
             TARGETPLATFORM=linux/arm64
             NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}
             BACKEND_API_ENDPOINT=${{ secrets.BACKEND_API_ENDPOINT }}
-            BACKEND_API_SECRET=${{ secrets.BACKEND_API_ENDPOINT }}
+            BACKEND_API_SECRET=${{ secrets.BACKEND_API_SECRET }}
 
       - name: Copy Docker image to K3s server
         uses: appleboy/scp-action@v0.1.4
@@ -60,6 +60,29 @@ jobs:
           source: 'k3s/*'
           target: '/home/${{ secrets.K3S_SERVER_USERNAME }}'
           strip_components: 1
+
+      - name: Create ConfigMap YAML
+        run: |
+          cat > nextjs-env-configmap.yaml << EOF
+          apiVersion: v1
+          kind: ConfigMap
+          metadata:
+            name: mrbotz-frontend-env-config
+          data:
+            NEXT_PUBLIC_BASE_URL: "${{ secrets.NEXT_PUBLIC_BASE_URL }}"
+            BACKEND_API_ENDPOINT: "${{ secrets.BACKEND_API_ENDPOINT }}"
+            BACKEND_API_SECRET: "${{ secrets.BACKEND_API_SECRET }}"
+          EOF
+
+      - name: Copy ConfigMap to K3s server
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.K3S_SERVER_HOST }}
+          username: ${{ secrets.K3S_SERVER_USERNAME }}
+          key: ${{ secrets.K3S_SERVER_SSH_KEY }}
+          port: ${{ secrets.K3S_SERVER_SSH_PORT }}
+          source: 'nextjs-env-configmap.yaml'
+          target: '/home/${{ secrets.K3S_SERVER_USERNAME }}/k3s/'
 
       - name: Deploy to K3s
         uses: appleboy/ssh-action@v1.0.0
@@ -84,18 +107,6 @@ jobs:
 
             # Push to local registry
             sudo docker push 192.168.0.103:5000/mrbot-frontend:latest
-
-            # Create ConfigMap for environment variables
-            cat << EOF > /home/${{ secrets.K3S_SERVER_USERNAME }}/k3s/nextjs-env-configmap.yaml
-            apiVersion: v1
-            kind: ConfigMap
-            metadata:
-              name: mrbotz-frontend-env-config
-            data:
-              NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}
-              BACKEND_API_ENDPOINT=${{ secrets.BACKEND_API_ENDPOINT }}
-              BACKEND_API_SECRET=${{ secrets.BACKEND_API_ENDPOINT }}
-            EOF
 
             # Apply the ConfigMap
             sudo kubectl apply -f /home/${{ secrets.K3S_SERVER_USERNAME }}/k3s/nextjs-env-configmap.yaml
