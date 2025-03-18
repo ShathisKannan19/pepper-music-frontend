@@ -1,4 +1,4 @@
-import { NextPage } from 'next';
+import { Metadata, NextPage } from 'next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -16,6 +16,12 @@ import {
 } from 'lucide-react';
 
 interface Props {}
+
+export const metadata: Metadata = {
+	title: 'Privacy Policy | Pepper Music Bot',
+	description:
+		'Read the privacy policy for Pepper Music Bot to understand how we collect, use, and protect your personal information.',
+};
 
 const PrivacyPolicy: NextPage<Props> = ({}) => {
 	return (

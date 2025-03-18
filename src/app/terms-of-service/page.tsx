@@ -1,9 +1,15 @@
-import { NextPage } from 'next';
+import { Metadata, NextPage } from 'next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface Props {}
+
+export const metadata: Metadata = {
+	title: 'Terms of Service | Pepper Music Bot',
+	description:
+		'Read the Terms of Service for Pepper Music Bot. By using Pepper, you agree to comply with these terms. Learn more about user conduct, privacy, intellectual property, and more.',
+};
 
 const TermsOfService: NextPage<Props> = ({}) => {
 	return (

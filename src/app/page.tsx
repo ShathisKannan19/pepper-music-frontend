@@ -1,4 +1,4 @@
-import { NextPage } from 'next';
+import { Metadata, NextPage } from 'next';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import GlobalButton from '@/components/shared/globalButton';
@@ -7,6 +7,12 @@ import { features, inviteLink } from '@/constants';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import Features from '@/components/shared/features';
 import Uptime from '@/components/shared/uptime';
+
+export const metadata: Metadata = {
+	title: 'Pepper | Stream Music Effortlessly on Discord',
+	description:
+		'Discover Pepper, your ultimate music companion on Discord. Play, manage, and enjoy music seamlessly with our powerful music bot. Add Pepper to your server today!',
+};
 
 const Page: NextPage = () => {
 	return (
