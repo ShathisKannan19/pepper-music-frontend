@@ -10,13 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@latest
+        uses: actions/checkout@v4
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@latest
+        uses: docker/setup-qemu-action@v2
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@latest
+        uses: docker/setup-buildx-action@v3
 
       # Create .env file from secrets
       - name: Create .env file
@@ -28,7 +28,7 @@ jobs:
 
       # Build Docker image with environment variables
       - name: Build Docker image for ARM
-        uses: docker/build-push-action@latest
+        uses: docker/build-push-action@v5
         with:
           context: .
           platforms: linux/arm64
@@ -41,7 +41,7 @@ jobs:
             BACKEND_API_SECRET=${{ secrets.BACKEND_API_ENDPOINT }}
 
       - name: Copy Docker image to K3s server
-        uses: appleboy/scp-action@latest
+        uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.K3S_SERVER_HOST }}
           username: ${{ secrets.K3S_SERVER_USERNAME }}
@@ -51,7 +51,7 @@ jobs:
           target: '/tmp'
 
       - name: Copy YAML files to K3s server
-        uses: appleboy/scp-action@latest
+        uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.K3S_SERVER_HOST }}
           username: ${{ secrets.K3S_SERVER_USERNAME }}
@@ -62,7 +62,7 @@ jobs:
           strip_components: 1
 
       - name: Deploy to K3s
-        uses: appleboy/ssh-action@latest
+        uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.K3S_SERVER_HOST }}
           username: ${{ secrets.K3S_SERVER_USERNAME }}
