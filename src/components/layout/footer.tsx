@@ -13,31 +13,33 @@ import {
 	discordServerLink,
 	githubLink,
 	inviteLink,
+	pepperLogoLink,
 	privacyLink,
 	termsLink,
 	twitterLink,
 } from '@/constants';
+import Image from 'next/image';
 
 interface Props {}
 
 const Footer: NextPage<Props> = ({}) => {
 	return (
 		<footer className="w-full">
-			{/* <div className="w-full bg-white py-1">
-				<div className="container mx-auto">
-					<div className="flex justify-center">
-						<Music className="h-6 w-6 text-black" />
-					</div>
-				</div>
-			</div> */}
 			<Separator className="bg-gray-800" />
 			<div className="w-full bg-black text-white">
 				<div className="container mx-auto px-4 py-12">
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 						{/* Column 1: About */}
 						<div className="space-y-4">
-							<div className="flex items-center">
-								<Music className="h-6 w-6 mr-2" />
+							<div className="flex items-center gap-1">
+								{/* <Music className="h-6 w-6 mr-2" /> */}
+								<Image
+									src={pepperLogoLink}
+									width={25}
+									height={100}
+									className="rounded-full"
+									alt="Pepper Logo"
+								/>
 								<h3 className="text-xl font-bold">Pepper</h3>
 							</div>
 							<p className="text-gray-400">
@@ -122,7 +124,7 @@ const Footer: NextPage<Props> = ({}) => {
 									href={termsLink}
 									className="text-gray-400 hover:text-white transition-colors"
 								>
-									Terms & Conditions
+									Terms of Service
 								</Link>
 								<Link
 									href={privacyLink}
