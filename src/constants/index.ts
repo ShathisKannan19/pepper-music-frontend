@@ -2,6 +2,7 @@ import { MenuItemType } from '@/types';
 
 export const menuItems: MenuItemType[] = [
 	{ name: 'Commands', value: '/commands' },
+	{ name: 'Stats', value: '/stats' },
 	{ name: 'About Us', value: '/about-us' },
 	{ name: 'Terms of Service', value: '/terms-of-service' },
 	{ name: 'Privacy Policy', value: '/privacy-policy' },
@@ -17,7 +18,7 @@ export const discordServerLink: string = 'https://discord.gg/XzE9hSbsNb';
 export const commandsLink = '/commands';
 export const termsLink = '/terms-of-service';
 export const privacyLink = '/privacy-policy';
-
+export const pepperLogoLink = '/images/pepperLogo.png';
 export const features = [
 	{
 		name: 'High Quality Audio',
