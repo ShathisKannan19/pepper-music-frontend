@@ -68,12 +68,12 @@ const CommandsPage: NextPage<Props> = async ({}) => {
 	const categorizedCommands = categorizeCommands(data.data.slash);
 
 	return (
-		<div className="min-h-screen bg-black py-8">
+		<div className="min-h-screen bg-black py-8 px-4">
 			<div className="max-w-4xl mx-auto text-center">
 				<h1 className="text-4xl font-bold text-white mb-2 ">
 					Pepper Bot Commands
 				</h1>
-				<p className="text-zinc-400 mb-8">
+				<p className="text-zinc-400 mb-8 text-balance">
 					Total commands: {data.count} • Last updated:{' '}
 					{formatTimestamp(data.timestamp)}
 				</p>
