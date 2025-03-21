@@ -17,18 +17,18 @@ export const metadata: Metadata = {
 const Page: NextPage = () => {
 	return (
 		<div className="min-h-screen bg-black text-white">
-			<section className="flex flex-col items-center justify-center text-center px-8 py-8 bg-black">
-				<h2 className="text-5xl font-extrabold mb-4 text-white">
+			<section className="flex flex-col items-center justify-center text-center px-4 md:px-8 py-8 bg-black">
+				<h2 className="text-3xl md:text-5xl font-extrabold mb-4 text-white">
 					Stream Music Effortlessly with Pepper
 				</h2>
-				<p className="text-lg text-gray-400 mb-6">
+				<p className="text-base md:text-lg text-gray-400 mb-6">
 					Your ultimate music companion on Discord. Play, manage, and enjoy
 					music seamlessly.
 				</p>
 				<Link href={inviteLink} target="_blank">
 					<GlobalButton>Add Pepper to Discord</GlobalButton>{' '}
 				</Link>
-				<div className="mt-10 flex justify-center">
+				<div className="mt-10 flex flex-col lg:flex-row justify-center">
 					<Image
 						src="/images/pepper.png"
 						alt="Music Streaming"
@@ -36,8 +36,8 @@ const Page: NextPage = () => {
 						height={400}
 						className="rounded-l-lg rounded-r-none shadow-lg"
 					/>
-					<Card className="max-w-2xl bg-[var(--color-accent)] text-white border-0 rounded-r-lg rounded-l-none">
-						<CardContent className="text-justify my-auto p-10">
+					<Card className="max-w-2xl bg-[var(--color-accent)] text-white border-0 rounded-lg lg:rounded-r-lg lg:rounded-l-none mt-0 lg:mt-0">
+						<CardContent className="text-justify my-auto p-6 md:p-10">
 							We're thrilled to have you on board. Pepper is here to bring the
 							power of music to your Discord server. Get ready to immerse
 							yourself in a world of melodies, beats, and rhythm that will
@@ -51,8 +51,8 @@ const Page: NextPage = () => {
 					</Card>
 				</div>
 			</section>
-			<section className="py-8">
-				<h3 className="text-3xl font-bold text-center text-white">
+			<section className="py-8 px-4 md:px-8">
+				<h3 className="text-2xl md:text-3xl font-bold text-center text-white">
 					Why Choose Pepper?
 				</h3>
 				<div className="flex flex-wrap justify-center py-6">
@@ -61,7 +61,7 @@ const Page: NextPage = () => {
 					))}
 				</div>
 			</section>
-			<section className="pb-8 px-8">
+			<section className="pb-8 px-4 md:px-8">
 				<Uptime />
 			</section>
 		</div>

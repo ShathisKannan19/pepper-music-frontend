@@ -7,7 +7,6 @@ export interface FeaturesType extends MenuItemType {
 	imgSrc: string;
 }
 
-
 export interface CommandOption {
 	type: number;
 	name: string;
@@ -37,7 +36,7 @@ export interface CommandsData {
 	data: {
 		slash: BotCommand[];
 		message: BotCommand[];
-  }
+	};
 }
 
 export interface StatsData {
@@ -50,4 +49,5 @@ export interface StatsData {
 		players: number;
 		guilds: number;
 		users: number;
+	};
 }

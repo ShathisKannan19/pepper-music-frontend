@@ -20,7 +20,7 @@ import { BotCommand, CommandsData } from '@/types';
 interface Props {}
 
 export const metadata = {
-	title: 'Pepper Bot Commands | Music Bot Dashboard',
+	title: 'Pepper Bot Commands | Pepper Music Bot',
 	description:
 		'Browse all available slash commands for Pepper Music Bot including music playback, queue management, and statistics features.',
 };
@@ -433,4 +433,5 @@ const CommandsPage: NextPage<Props> = async ({}) => {
 	);
 };
 
+export const dynamic = 'force-dynamic';
 export default CommandsPage;
