@@ -11,3 +11,18 @@ export const formatTimestamp = (timestamp: string) => {
 	const date = new Date(timestamp);
 	return date.toLocaleString();
 };
+
+export const getOptionTypeLabel = (type: number) => {
+	const types: Record<number, string> = {
+		1: 'Subcommand',
+		3: 'String',
+		4: 'Integer',
+		5: 'Boolean',
+		6: 'User',
+		7: 'Channel',
+		8: 'Role',
+		9: 'Mentionable',
+		10: 'Number',
+	};
+	return types[type] || 'Unknown';
+};
