@@ -433,4 +433,5 @@ const CommandsPage: NextPage<Props> = async ({}) => {
 	);
 };
 
+export const dynamic = 'force-dynamic';
 export default CommandsPage;
