@@ -1,8 +1,13 @@
+import { Settings } from 'lucide-react';
+
 export interface MenuItemType {
 	name: string;
 	value: string;
 }
 
+export interface SidebarItemType extends MenuItemType {
+	icon: typeof Settings;
+}
 export interface FeaturesType extends MenuItemType {
 	imgSrc: string;
 }
@@ -38,7 +43,6 @@ export interface CommandsData {
 		message: BotCommand[];
 	};
 }
-
 export interface StatsData {
 	status: string;
 	timestamp: string;
@@ -50,4 +54,75 @@ export interface StatsData {
 		guilds: number;
 		users: number;
 	};
+}
+
+export interface OauthToken {
+	access_token: string;
+	expires_in: number;
+}
+
+export interface DiscordUserData {
+	id: string;
+	username: string;
+	avatar: string;
+	discriminator: string;
+	public_flags: number;
+	flags: number;
+	banner: null;
+	accent_color: number;
+	global_name: string;
+	avatar_decoration_data: null;
+	collectibles: null;
+	banner_color: string;
+	clan: null;
+	primary_guild: null;
+}
+export interface DiscordData {
+	user?: DiscordUserData;
+}
+
+export interface Role {
+	id: string;
+	name: string;
+	description?: string | null;
+	permissions: string;
+	position: number;
+	color: number;
+	colors: {
+		primary_color: number;
+		secondary_color?: number | null;
+		tertiary_color?: number | null;
+	};
+	hoist: boolean;
+	managed: boolean;
+	mentionable: boolean;
+	icon?: string | null;
+	unicode_emoji?: string | null;
+	flags: number;
+	tags?: {
+		bot_id?: string;
+	};
+}
+
+export interface GuildData {
+	id: string;
+	name: string;
+	icon?: string | null;
+	description?: string | null;
+	home_header?: string | null;
+	splash?: string | null;
+	discovery_splash?: string | null;
+	features: string[];
+	banner?: string | null;
+	owner_id: string;
+	application_id?: string | null;
+	region: string;
+	afk_channel_id?: string | null;
+	afk_timeout: number;
+	system_channel_id?: string | null;
+	system_channel_flags: number;
+	widget_enabled: boolean;
+	widget_channel_id?: string | null;
+	verification_level: number;
+	roles: Role[];
 }
