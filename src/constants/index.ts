@@ -1,4 +1,5 @@
-import { MenuItemType } from '@/types';
+import { MenuItemType, SidebarItemType } from '@/types';
+import { ChartArea, Home, List, Settings } from 'lucide-react';
 
 export const menuItems: MenuItemType[] = [
 	{ name: 'Commands', value: '/commands' },
@@ -8,8 +9,26 @@ export const menuItems: MenuItemType[] = [
 	{ name: 'Privacy Policy', value: '/privacy-policy' },
 ];
 
-export const inviteLink: string =
-	'https://discord.com/api/oauth2/authorize?client_id=871808444502540379&permissions=275443600464&scope=bot%20applications.commands';
+export const SidebarServerItems: SidebarItemType[] = [
+	{
+		name: 'server list',
+		value: '/server-list',
+		icon: List,
+	},
+	{
+		name: 'analytics',
+		value: '/server-analytics',
+		icon: ChartArea,
+	},
+];
+export const commonRoutes = ['/auth', '/public', '/images'];
+
+export const client_id =
+	process.env.NODE_ENV === 'development'
+		? '1302023614735847597'
+		: '871808444502540379';
+
+export const inviteLink: string = `https://discord.com/api/oauth2/authorize?client_id=${client_id}&permissions=275443600464&scope=bot%20applications.commands`;
 export const githubLink: string =
 	'https://github.com/muralianand12345/Pepper-Bot';
 export const twitterLink: string = 'https://twitter.com';
@@ -19,6 +38,14 @@ export const commandsLink = '/commands';
 export const termsLink = '/terms-of-service';
 export const privacyLink = '/privacy-policy';
 export const pepperLogoLink = '/images/pepperLogo.png';
+
+export const oauth2RedirectUrl =
+	process.env.NODE_ENV === 'development'
+		? 'http://localhost:3000/api/callback'
+		: 'https://pepepr.mrbotz.com/api/callback';
+export const discordOauth2Scopes = 'identify+guilds+guilds.join+email';
+export const discordOauth2Url = `https://discord.com/oauth2/authorize?client_id=${client_id}&response_type=code&redirect_uri=${oauth2RedirectUrl}&scope=${discordOauth2Scopes}`;
+
 export const features = [
 	{
 		name: 'High Quality Audio',
@@ -36,3 +63,5 @@ export const features = [
 		imgSrc: '/images/247.jpg',
 	},
 ];
+
+export const discordOauth2ApiUrl = 'https://discord.com/api/v10';
