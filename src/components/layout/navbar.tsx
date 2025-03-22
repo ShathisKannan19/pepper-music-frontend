@@ -102,7 +102,10 @@ const Navbar: NextPage<Props> = ({}) => {
 			</nav>
 
 			<div className="hidden md:block">
-				<GlobalButton className="bg-none hover:bg-gray-800 transition-colors duration-300">
+				<GlobalButton
+					className="bg-none hover:bg-gray-800 transition-colors duration-300"
+					size="sm"
+				>
 					Get Started
 				</GlobalButton>
 			</div>
