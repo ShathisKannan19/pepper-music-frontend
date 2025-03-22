@@ -64,7 +64,7 @@ const Navbar: NextPage<Props> = ({}) => {
 	};
 
 	return (
-		<header className="flex items-center justify-between px-4 md:px-8 py-4 bg-black border-b border-gray-700 text-white sticky top-0 z-50">
+		<header className="flex items-center justify-between px-4 md:px-8 py-4 bg-black border-b border-gray-700 text-white top-0 z-50">
 			<Link href={'/'} className="flex items-center gap-1 z-10">
 				<Image
 					src={pepperLogoLink}
@@ -101,14 +101,11 @@ const Navbar: NextPage<Props> = ({}) => {
 				</ul>
 			</nav>
 
-			<div className="hidden md:block">
-				<GlobalButton
-					className="bg-none hover:bg-gray-800 transition-colors duration-300"
-					size="sm"
-				>
+			<Link href={'/auth/login'} className="hidden md:block">
+				<GlobalButton className="bg-none" size="sm">
 					Get Started
 				</GlobalButton>
-			</div>
+			</Link>
 
 			{/* Mobile Menu Button */}
 			<motion.button
@@ -188,12 +185,11 @@ const Navbar: NextPage<Props> = ({}) => {
 							whileHover={{ scale: 1.05 }}
 							whileTap={{ scale: 0.95 }}
 						>
-							<GlobalButton
-								className="bg-none hover:bg-gray-800 transition-colors duration-300"
-								onClick={toggleMenu}
-							>
-								Get Started
-							</GlobalButton>
+							<Link href={'/auth/login'}>
+								<GlobalButton className="bg-none hover:bg-gray-800 transition-colors duration-300">
+									Get Started
+								</GlobalButton>
+							</Link>
 						</motion.div>
 
 						<motion.div
