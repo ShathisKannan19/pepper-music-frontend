@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import { redirect } from 'next/navigation';
-import GuildDashboard from '@/components/shared/guildDashboard';
+import GuildDashboard from '@/components/shared/guild/guildDashboard';
 
 interface Props {
 	params: Promise<{
