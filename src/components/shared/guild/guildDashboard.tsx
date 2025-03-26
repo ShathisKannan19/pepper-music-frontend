@@ -20,6 +20,7 @@ import GuildSettings from './guildSettings';
 import { client_id } from '@/constants';
 import ServerNotFound from '../serverNotFound';
 import BotNotinGuild from '../botNotinGuild';
+import { getServerIcon } from '@/helpers';
 
 const GuildDashboard = ({ guildData }: { guildData: GuildData }) => {
 	const [botInstalled, setBotInstalled] = useState(true);
@@ -41,11 +42,11 @@ const GuildDashboard = ({ guildData }: { guildData: GuildData }) => {
 		return <BotNotinGuild />;
 	}
 
-	const serverIcon = guildData.icon
-		? `https://cdn.discordapp.com/icons/${guildData.id}/${guildData.icon}.webp?size=256`
-		: `https://ui-avatars.com/api/?name=${encodeURIComponent(
-				guildData.name,
-		  )}&background=000&color=fff&size=256`;
+	const serverIcon = getServerIcon(
+		guildData.id,
+		guildData.icon,
+		guildData.name,
+	);
 
 	const features = guildData.features.slice(0, 3);
 	const roleCount = guildData.roles.length;
