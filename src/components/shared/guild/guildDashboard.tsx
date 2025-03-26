@@ -18,6 +18,7 @@ import GuildMusic from '@/components/shared/guild/guildMusic';
 import GuildPermission from './guildPermission';
 import GuildSettings from './guildSettings';
 import { client_id } from '@/constants';
+import ServerNotFound from '../serverNotFound';
 
 const GuildDashboard = ({ guildData }: { guildData: GuildData }) => {
 	const [botInstalled, setBotInstalled] = useState(true);
@@ -32,27 +33,7 @@ const GuildDashboard = ({ guildData }: { guildData: GuildData }) => {
 	}, [guildData]);
 
 	if (!guildData) {
-		return (
-			<div className="flex items-center justify-center h-screen">
-				<div className="text-center">
-					<div className="w-20 h-20 bg-zinc-800 rounded-full flex items-center justify-center mx-auto mb-4">
-						<Shield className="w-10 h-10 text-white" />
-					</div>
-					<h1 className="text-2xl font-bold text-white mb-2">
-						Server not found
-					</h1>
-					<p className="text-zinc-400 mb-6">
-						The server you're looking for doesn't exist or you don't have access
-						to it.
-					</p>
-					<Link href="/dashboard/server-list">
-						<Button className="bg-white text-black hover:bg-zinc-200">
-							Return to Server List
-						</Button>
-					</Link>
-				</div>
-			</div>
-		);
+		return <ServerNotFound />;
 	}
 
 	if (!botInstalled) {
