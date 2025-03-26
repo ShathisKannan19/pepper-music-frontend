@@ -19,6 +19,7 @@ import GuildPermission from './guildPermission';
 import GuildSettings from './guildSettings';
 import { client_id } from '@/constants';
 import ServerNotFound from '../serverNotFound';
+import BotNotinGuild from '../botNotinGuild';
 
 const GuildDashboard = ({ guildData }: { guildData: GuildData }) => {
 	const [botInstalled, setBotInstalled] = useState(true);
@@ -37,25 +38,7 @@ const GuildDashboard = ({ guildData }: { guildData: GuildData }) => {
 	}
 
 	if (!botInstalled) {
-		return (
-			<div className="flex items-center justify-center h-screen">
-				<div className="text-center max-w-md">
-					<div className="w-20 h-20 bg-zinc-800 rounded-full flex items-center justify-center mx-auto mb-4">
-						<BotMessageSquare className="w-10 h-10 text-white" />
-					</div>
-					<h1 className="text-2xl font-bold text-white mb-2">
-						Bot Not Installed
-					</h1>
-					<p className="text-zinc-400 mb-6">
-						The bot needs to be added to "{guildData.name}" before you can
-						manage it.
-					</p>
-					<Button className="bg-white text-black hover:bg-zinc-200">
-						Add Bot to Server
-					</Button>
-				</div>
-			</div>
-		);
+		return <BotNotinGuild />;
 	}
 
 	const serverIcon = guildData.icon
