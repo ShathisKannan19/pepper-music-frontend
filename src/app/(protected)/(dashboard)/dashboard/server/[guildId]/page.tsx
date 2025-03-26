@@ -72,7 +72,7 @@ const Page: NextPage<Props> = async ({ params }) => {
 	const userHasPerms = hasManagePermission(userInGuildData.permissions);
 
 	if (!userHasPerms) return <ServerNotFound />;
-	console.log(userInGuildData);
+
 	return (
 		<GuildDashboard guildData={guildData} userGuildData={userInGuildData} />
 	);
