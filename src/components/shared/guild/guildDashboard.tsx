@@ -12,7 +12,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { GuildData } from '@/types';
+import { GuildData, UserGuildData } from '@/types';
 import Overview from '@/components/shared/guild/giuldOverview';
 import GuildMusic from '@/components/shared/guild/guildMusic';
 import GuildPermission from './guildPermission';
@@ -22,7 +22,13 @@ import ServerNotFound from '../serverNotFound';
 import BotNotinGuild from '../botNotinGuild';
 import { getServerIcon } from '@/helpers';
 
-const GuildDashboard = ({ guildData }: { guildData: GuildData }) => {
+const GuildDashboard = ({
+	guildData,
+	userGuildData,
+}: {
+	guildData: GuildData;
+	userGuildData: UserGuildData;
+}) => {
 	const [botInstalled, setBotInstalled] = useState(true);
 
 	useEffect(() => {
@@ -66,7 +72,7 @@ const GuildDashboard = ({ guildData }: { guildData: GuildData }) => {
 				<div>
 					<div className="flex items-center gap-2">
 						<h1 className="text-3xl font-bold text-white">{guildData.name}</h1>
-						{guildData.owner_id && (
+						{userGuildData.owner && (
 							<Badge className="bg-white text-black">Owner</Badge>
 						)}
 					</div>

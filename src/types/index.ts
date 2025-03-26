@@ -126,3 +126,7 @@ export interface GuildData {
 	verification_level: number;
 	roles: Role[];
 }
+
+export interface UserGuildData extends DiscordUserData {
+	owner: boolean;
+}

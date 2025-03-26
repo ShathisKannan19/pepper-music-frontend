@@ -13,17 +13,10 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import {
-	Settings,
-	Music,
-	Users,
-	Shield,
-	Star,
-	ChevronRight,
-} from 'lucide-react';
+import { Music, ChevronRight } from 'lucide-react';
 import { inviteLink } from '@/constants';
 import Link from 'next/link';
-import { hasManagePermission } from '@/helpers';
+import { getServerIcon, hasManagePermission } from '@/helpers';
 
 interface Guild {
 	id: string;
@@ -44,11 +37,7 @@ export default function ServerList({ guildData }: PageProps) {
 	const [searchQuery, setSearchQuery] = useState('');
 
 	const getIconUrl = (guild: Guild) => {
-		return guild.icon
-			? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp?size=128`
-			: `https://ui-avatars.com/api/?name=${encodeURIComponent(
-					guild.name,
-			  )}&background=000&color=fff`;
+		return getServerIcon(guild.id, guild.icon, guild.name);
 	};
 
 	const filteredGuilds = guildData?.filter((guild) =>
