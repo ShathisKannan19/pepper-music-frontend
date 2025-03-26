@@ -26,3 +26,8 @@ export const getOptionTypeLabel = (type: number) => {
 	};
 	return types[type] || 'Unknown';
 };
+
+export const hasManagePermission = (permissions: string) => {
+	const permNum = BigInt(permissions);
+	return (permNum & BigInt(0x20)) !== BigInt(0);
+};

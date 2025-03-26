@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { inviteLink } from '@/constants';
 import Link from 'next/link';
+import { hasManagePermission } from '@/helpers';
 
 interface Guild {
 	id: string;
@@ -53,11 +54,6 @@ export default function ServerList({ guildData }: PageProps) {
 	const filteredGuilds = guildData?.filter((guild) =>
 		guild.name.toLowerCase().includes(searchQuery.toLowerCase()),
 	);
-
-	const hasManagePermission = (permissions: string) => {
-		const permNum = BigInt(permissions);
-		return (permNum & BigInt(0x20)) !== BigInt(0);
-	};
 
 	return (
 		<div className="p-6 ">
