@@ -16,7 +16,8 @@ import { Badge } from '@/components/ui/badge';
 import { Music, ChevronRight } from 'lucide-react';
 import { inviteLink } from '@/constants';
 import Link from 'next/link';
-import { getServerIcon, hasManagePermission } from '@/helpers';
+import { getServerIcon, hasDiscordPermission } from '@/helpers';
+import { DiscordPermissions } from '@/enums';
 
 interface Guild {
 	id: string;
@@ -122,17 +123,30 @@ export default function ServerList({ guildData }: PageProps) {
 						<CardFooter className="pt-0">
 							<Button
 								className={`w-full ${
-									hasManagePermission(guild.permissions)
+									hasDiscordPermission(
+										guild.permissions,
+										DiscordPermissions.MANAGE_SERVER,
+									)
 										? 'bg-white text-black hover:bg-zinc-200 cursor-pointer'
 										: 'bg-zinc-800 text-zinc-400 cursor-not-allowed'
 								}`}
 								onClick={() =>
-									hasManagePermission(guild.permissions) &&
-									router.push(`/dashboard/server/${guild.id}`)
+									hasDiscordPermission(
+										guild.permissions,
+										DiscordPermissions.MANAGE_SERVER,
+									) && router.push(`/dashboard/server/${guild.id}`)
 								}
-								disabled={!hasManagePermission(guild.permissions)}
+								disabled={
+									!hasDiscordPermission(
+										guild.permissions,
+										DiscordPermissions.MANAGE_SERVER,
+									)
+								}
 							>
-								{hasManagePermission(guild.permissions)
+								{hasDiscordPermission(
+									guild.permissions,
+									DiscordPermissions.MANAGE_SERVER,
+								)
 									? 'Manage Bot'
 									: 'Missing Permissions'}
 								<ChevronRight className="w-4 h-4 ml-2" />

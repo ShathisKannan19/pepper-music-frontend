@@ -1,3 +1,5 @@
+import { DiscordPermissions } from '@/enums';
+
 export const formatUptime = (seconds: number) => {
 	const days = Math.floor(seconds / 86400);
 	const hours = Math.floor((seconds % 86400) / 3600);
@@ -27,9 +29,18 @@ export const getOptionTypeLabel = (type: number) => {
 	return types[type] || 'Unknown';
 };
 
-export const hasManagePermission = (permissions: string) => {
-	const permNum = BigInt(permissions);
-	return (permNum & BigInt(0x20)) !== BigInt(0);
+export const hasDiscordPermission = (
+	userPermissions: string,
+	requiredPermission: DiscordPermissions,
+): boolean => {
+	try {
+		const permNum = BigInt(userPermissions);
+		const permissionNum = BigInt(requiredPermission);
+		return (permNum & permissionNum) !== BigInt(0);
+	} catch (error) {
+		console.error('Error checking permissions:', error);
+		return false;
+	}
 };
 
 export const getServerIcon = (

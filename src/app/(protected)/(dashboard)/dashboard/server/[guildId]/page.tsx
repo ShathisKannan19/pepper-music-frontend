@@ -3,8 +3,9 @@ import { redirect } from 'next/navigation';
 import GuildDashboard from '@/components/shared/guild/guildDashboard';
 import { getSession } from '@/lib/session';
 import { GuildData } from '@/types';
-import { hasManagePermission } from '@/helpers';
+import { hasDiscordPermission } from '@/helpers';
 import ServerNotFound from '@/components/shared/serverNotFound';
+import { DiscordPermissions } from '@/enums';
 
 interface Props {
 	params: Promise<{
@@ -69,7 +70,10 @@ const Page: NextPage<Props> = async ({ params }) => {
 
 	if (!userInGuildData) return <ServerNotFound />;
 
-	const userHasPerms = hasManagePermission(userInGuildData.permissions);
+	const userHasPerms = hasDiscordPermission(
+		userInGuildData.permissions,
+		DiscordPermissions.MANAGE_SERVER,
+	);
 
 	if (!userHasPerms) return <ServerNotFound />;
 
