@@ -1,3 +1,4 @@
+import { HealthAPIStatus } from '@/enums';
 import { Settings } from 'lucide-react';
 
 export interface MenuItemType {
@@ -129,4 +130,64 @@ export interface GuildData {
 
 export interface UserGuildData extends DiscordUserData {
 	owner: boolean;
+}
+
+export interface HealthAPIData {
+	status: HealthAPIStatus.SUCCESS;
+	timestamp: Date;
+	uptime: number;
+	system: {
+		platform: 'linux';
+		cpuLoad: number;
+		memoryUsage: number;
+		nodeVersion: string;
+	};
+}
+
+export interface GuildCommandHistoryData {
+	status: string;
+	timestamp: Date;
+	pagination: {
+		page: number;
+		pageSize: number;
+		total: number;
+		totalPages: number;
+	};
+	data: [
+		{
+			title: string;
+			author: string;
+			sourceName: string;
+			uri: string;
+			playCount: number;
+			lastPlayed: Date;
+			artworkUrl: string;
+		},
+	];
+}
+
+export interface MusicTrack {
+	title: 'string';
+	author: 'string';
+	duration: number;
+	position: number;
+	uri: 'string';
+	sourceName: 'string';
+	artworkUrl: 'string';
+}
+export interface MusicPlayersData {
+	status: string;
+	timestamp: Date;
+	data: {
+		guildId: string;
+		guildName: string;
+		playing: boolean;
+		paused: boolean;
+		volume: number;
+		trackRepeat: boolean;
+		queueRepeat: boolean;
+		currentTrack: MusicTrack;
+		queueSize: number;
+		queue: MusicTrack[];
+	};
 }

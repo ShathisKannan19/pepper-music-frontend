@@ -10,3 +10,7 @@ export enum DiscordPermissions {
 	BAN_MEMBERS = 0x4,
 	ADMINISTRATOR = 0x8,
 }
+
+export enum HealthAPIStatus {
+	SUCCESS = 'healthy',
+}

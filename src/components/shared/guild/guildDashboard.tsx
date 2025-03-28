@@ -2,8 +2,14 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { GuildData, UserGuildData } from '@/types';
-import Overview from '@/components/shared/guild/giuldOverview';
+import {
+	GuildCommandHistoryData,
+	GuildData,
+	HealthAPIData,
+	MusicPlayersData,
+	UserGuildData,
+} from '@/types';
+import Overview from '@/components/shared/guild/guildOverview';
 import GuildMusic from '@/components/shared/guild/guildMusic';
 import GuildPermission from './guildPermission';
 import GuildSettings from './guildSettings';
@@ -41,9 +47,15 @@ type TabKey = keyof typeof tabComponents;
 const GuildDashboard = ({
 	guildData,
 	userGuildData,
+	healthData,
+	guildCommandHistory,
+	guildPlayers,
 }: {
 	guildData: GuildData;
 	userGuildData: UserGuildData;
+	healthData: HealthAPIData;
+	guildCommandHistory: GuildCommandHistoryData;
+	guildPlayers: MusicPlayersData;
 }) => {
 	const [activeTab, setActiveTab] = useState<TabKey>('overview');
 	const [botInstalled, setBotInstalled] = useState(true);
@@ -152,7 +164,12 @@ const GuildDashboard = ({
 						transition={tabMotionVariants.transition}
 						className="pt-6"
 					>
-						<ActiveComponent guildData={guildData} />
+						<ActiveComponent
+							guildData={guildData}
+							healthData={healthData}
+							guildCommandHistory={guildCommandHistory}
+							guildPlayers={guildPlayers}
+						/>
 					</motion.div>
 				</AnimatePresence>
 			</Tabs>

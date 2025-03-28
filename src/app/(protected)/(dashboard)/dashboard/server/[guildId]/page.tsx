@@ -45,6 +45,41 @@ const fetchGuild = async (guildId: string) => {
 	}
 };
 
+const fetchHealthAPI = async () => {
+	try {
+		const response = await fetch(
+			process.env.NEXT_PUBLIC_BASE_URL + '/api/health',
+		);
+		const data = await response.json();
+		return data;
+	} catch {
+		return null;
+	}
+};
+
+const guildCommandHistory = async (guildId: string) => {
+	try {
+		const response = await fetch(
+			process.env.NEXT_PUBLIC_BASE_URL + '/api/guild/' + guildId + '/history',
+		);
+		const data = await response.json();
+		return data;
+	} catch {
+		return null;
+	}
+};
+
+const guildPlayers = async (guildId: string) => {
+	try {
+		const response = await fetch(
+			process.env.NEXT_PUBLIC_BASE_URL + '/api/guild/' + guildId + '/players',
+		);
+		const data = await response.json();
+		return data;
+	} catch {
+		return null;
+	}
+};
 const Page: NextPage<Props> = async ({ params }) => {
 	const { guildId } = await params;
 	if (!guildId) redirect('/dashboard/server-list');
@@ -77,8 +112,17 @@ const Page: NextPage<Props> = async ({ params }) => {
 
 	if (!userHasPerms) return <ServerNotFound />;
 
+	const healthAPIData = await fetchHealthAPI();
+	const guildCommandHistoryData = await guildCommandHistory(guildId);
+	const guildPlayersData = await guildPlayers(guildId);
 	return (
-		<GuildDashboard guildData={guildData} userGuildData={userInGuildData} />
+		<GuildDashboard
+			guildData={guildData}
+			userGuildData={userInGuildData}
+			healthData={healthAPIData}
+			guildCommandHistory={guildCommandHistoryData}
+			guildPlayers={guildPlayersData}
+		/>
 	);
 };
 
