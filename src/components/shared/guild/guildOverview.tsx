@@ -15,6 +15,12 @@ import {
 } from '@/types';
 import { HealthAPIStatus } from '@/enums';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
+import { RecentTracksLoadingSkeleton } from '@/components/skeletons/recentTracksLoadingSkeleton';
+const RecentTracks = dynamic(
+	() => import('../recentTracks').then((comp) => comp.RecentTracks),
+	{ ssr: false, loading: () => <RecentTracksLoadingSkeleton /> },
+);
 
 const Overview = ({
 	guildData,
@@ -131,46 +137,7 @@ const Overview = ({
 			</div>
 
 			<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-				<Card className="bg-black border-zinc-800 text-white">
-					<CardHeader>
-						<CardTitle className="flex items-center">
-							<ListMusic className="w-5 h-5 mr-2" />
-							Recent Tracks
-						</CardTitle>
-						<CardDescription className="text-zinc-400">
-							Recently played music in your server
-						</CardDescription>
-					</CardHeader>
-					<CardContent>
-						<div className="space-y-3">
-							{[1, 2, 3, 4].map((i) => (
-								<div
-									key={i}
-									className="flex items-center p-2 hover:bg-zinc-800 rounded-md transition-colors"
-								>
-									<div className="w-10 h-10 bg-zinc-800 rounded-md flex items-center justify-center mr-3">
-										<Music className="w-5 h-5 text-zinc-400" />
-									</div>
-									<div className="flex-1 min-w-0">
-										<p className="text-white font-medium truncate">
-											Song Title Example {i}
-										</p>
-										<p className="text-zinc-400 text-sm truncate">
-											Artist Name
-										</p>
-									</div>
-									<div className="text-zinc-500 text-sm">3:45</div>
-								</div>
-							))}
-						</div>
-						<Button
-							variant="outline"
-							className="w-full mt-4 bg-zinc-900 border-zinc-900 text-white hover:bg-black hover:text-white cursor-pointer"
-						>
-							View All History
-						</Button>
-					</CardContent>
-				</Card>
+				<RecentTracks guildId={guildData.id} />
 
 				<Card className="bg-black border-zinc-800 text-white">
 					<CardHeader>
