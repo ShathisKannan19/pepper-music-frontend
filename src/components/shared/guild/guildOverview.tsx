@@ -6,7 +6,14 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card';
-import { ListMusic, Music, PlusCircle, Users } from 'lucide-react';
+import {
+	LineChart,
+	ListMusic,
+	Music,
+	PlusCircle,
+	Rocket,
+	Users,
+} from 'lucide-react';
 import {
 	GuildCommandHistoryData,
 	GuildData,
@@ -139,7 +146,7 @@ const Overview = ({
 			<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 				<RecentTracks guildId={guildData.id} />
 
-				<Card className="bg-black border-zinc-800 text-white">
+				{/* <Card className="bg-black border-zinc-800 text-white">
 					<CardHeader>
 						<CardTitle className="flex items-center">
 							<Users className="w-5 h-5 mr-2" />
@@ -179,6 +186,20 @@ const Overview = ({
 							<PlusCircle className="w-4 h-4 mr-2" />
 							Add DJ Role
 						</Button>
+					</CardContent>
+				</Card> */}
+				<Card className="bg-black border-zinc-900 text-white">
+					<CardHeader>
+						<CardTitle className="flex items-center">
+							<Users className="w-5 h-5 mr-2" />
+							DJ Roles
+						</CardTitle>
+						<p className="text-zinc-400 text-sm">
+							Roles that can control the music bot
+						</p>
+					</CardHeader>
+					<CardContent className="h-full flex items-center justify-center bg-zinc-900 rounded-lg">
+						<span className="text-zinc-500">coming soon</span>
 					</CardContent>
 				</Card>
 			</div>
