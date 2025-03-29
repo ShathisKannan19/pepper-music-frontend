@@ -23,10 +23,20 @@ import { RecentTracksLoadingSkeleton } from '../skeletons/recentTracksLoadingSke
 import { TrackHistoryLoadingSkeleton } from '../skeletons/trackHistoryLoadingSkeleton';
 
 interface RecentTracksProps {
-	guildId: string;
+	entityId: string;
+	entityType: 'guild' | 'user' | 'topsongs';
+	endpointPath?: string;
+	title?: string;
+	description?: string;
 }
 
-export const RecentTracks: React.FC<RecentTracksProps> = ({ guildId }) => {
+export const RecentTracks: React.FC<RecentTracksProps> = ({
+	entityId,
+	entityType,
+	endpointPath = 'history',
+	title = 'Recent Tracks',
+	description = 'Recently played music',
+}) => {
 	const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [initialTracks, setInitialTracks] = useState<
@@ -40,18 +50,18 @@ export const RecentTracks: React.FC<RecentTracksProps> = ({ guildId }) => {
 			artworkUrl: string;
 		}[]
 	>([]);
-	const [guildCommandHistory, setGuildCommandHistory] =
+	const [commandHistory, setCommandHistory] =
 		useState<GuildCommandHistoryData | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
-	const fetchGuildCommandHistory = useCallback(
+	const fetchCommandHistory = useCallback(
 		async (page: number) => {
 			setIsLoading(true);
 			setError(null);
 			try {
 				const response = await fetch(
-					`${process.env.NEXT_PUBLIC_BASE_URL}/api/guild/${guildId}/history?page=${page}&pageSize=10`,
+					`${process.env.NEXT_PUBLIC_BASE_URL}/api/${entityType}/${entityId}/${endpointPath}?page=${page}&pageSize=10`,
 					{
 						next: {
 							revalidate: 60,
@@ -60,7 +70,7 @@ export const RecentTracks: React.FC<RecentTracksProps> = ({ guildId }) => {
 				);
 
 				if (!response.ok) {
-					throw new Error('Failed to fetch guild command history');
+					throw new Error(`Failed to fetch ${entityType} command history`);
 				}
 
 				const data: GuildCommandHistoryData = await response.json();
@@ -70,31 +80,31 @@ export const RecentTracks: React.FC<RecentTracksProps> = ({ guildId }) => {
 					setInitialTracks(data.data.slice(0, 4));
 				}
 
-				setGuildCommandHistory(data);
+				setCommandHistory(data);
 			} catch (err) {
 				setError(
 					err instanceof Error ? err.message : 'An unknown error occurred',
 				);
-				setGuildCommandHistory(null);
+				setCommandHistory(null);
 			} finally {
 				setIsLoading(false);
 			}
 		},
-		[guildId],
+		[entityId, entityType],
 	);
 
 	useEffect(() => {
-		fetchGuildCommandHistory(currentPage);
-	}, [fetchGuildCommandHistory, currentPage]);
+		fetchCommandHistory(currentPage);
+	}, [fetchCommandHistory, currentPage]);
 
 	const paginatedHistoryTracks = useMemo(
-		() => guildCommandHistory?.data.slice() || [],
-		[guildCommandHistory],
+		() => commandHistory?.data.slice() || [],
+		[commandHistory],
 	);
 
 	const totalPages = useMemo(
-		() => guildCommandHistory?.pagination.totalPages || 0,
-		[guildCommandHistory],
+		() => commandHistory?.pagination.totalPages || 0,
+		[commandHistory],
 	);
 
 	const handlePreviousPage = useCallback(() => {
@@ -145,6 +155,8 @@ export const RecentTracks: React.FC<RecentTracksProps> = ({ guildId }) => {
 		[],
 	);
 
+	const entityDescription = entityType === 'guild' ? 'in your server' : '';
+
 	return (
 		<>
 			{initialTracks.length <= 0 && isLoading ? (
@@ -154,10 +166,10 @@ export const RecentTracks: React.FC<RecentTracksProps> = ({ guildId }) => {
 					<CardHeader>
 						<CardTitle className="flex items-center">
 							<ListMusic className="w-5 h-5 mr-2" />
-							Recent Tracks
+							{title}
 						</CardTitle>
 						<CardDescription className="text-zinc-400">
-							Recently played music in your server
+							{description} {entityDescription}
 						</CardDescription>
 					</CardHeader>
 					<CardContent>
