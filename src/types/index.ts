@@ -62,6 +62,10 @@ export interface OauthToken {
 	expires_in: number;
 }
 
+export interface Session {
+	name: string;
+	value: string;
+}
 export interface DiscordUserData {
 	id: string;
 	username: string;
@@ -130,6 +134,7 @@ export interface GuildData {
 
 export interface UserGuildData extends DiscordUserData {
 	owner: boolean;
+	icon: string;
 }
 
 export interface HealthAPIData {
@@ -167,27 +172,29 @@ export interface GuildCommandHistoryData {
 }
 
 export interface MusicTrack {
-	title: 'string';
-	author: 'string';
+	title: string;
+	author: string;
 	duration: number;
 	position: number;
-	uri: 'string';
-	sourceName: 'string';
-	artworkUrl: 'string';
+	uri: string;
+	sourceName: string;
+	artworkUrl: string;
 }
 export interface MusicPlayersData {
 	status: string;
 	timestamp: Date;
-	data: {
-		guildId: string;
-		guildName: string;
-		playing: boolean;
-		paused: boolean;
-		volume: number;
-		trackRepeat: boolean;
-		queueRepeat: boolean;
-		currentTrack: MusicTrack;
-		queueSize: number;
-		queue: MusicTrack[];
-	};
+	data: [
+		{
+			guildId: string;
+			guildName: string;
+			playing: boolean;
+			paused: boolean;
+			volume: number;
+			trackRepeat: boolean;
+			queueRepeat: boolean;
+			currentTrack: MusicTrack;
+			queueSize: number;
+			queue: MusicTrack[];
+		},
+	];
 }
