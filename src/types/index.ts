@@ -135,6 +135,7 @@ export interface GuildData {
 export interface UserGuildData extends DiscordUserData {
 	owner: boolean;
 	icon: string;
+	name: string;
 }
 
 export interface HealthAPIData {
