@@ -43,9 +43,9 @@ const Overview = ({
 	let healthDate;
 	if (healthData) {
 		healthDate =
-			new Date(healthData?.timestamp).toLocaleDateString() +
+			new Date(healthData?.timestamp).toLocaleDateString('en-GB') +
 			' ' +
-			new Date(healthData.timestamp).toLocaleTimeString();
+			new Date(healthData.timestamp).toLocaleTimeString('en-GB');
 	}
 	return (
 		<div>
