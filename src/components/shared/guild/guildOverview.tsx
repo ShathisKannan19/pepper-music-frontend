@@ -144,7 +144,7 @@ const Overview = ({
 			</div>
 
 			<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-				<RecentTracks guildId={guildData.id} />
+				<RecentTracks entityId={guildData.id} entityType="guild" />
 
 				{/* <Card className="bg-black border-zinc-800 text-white">
 					<CardHeader>
