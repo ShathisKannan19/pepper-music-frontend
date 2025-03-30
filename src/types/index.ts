@@ -184,18 +184,26 @@ export interface MusicTrack {
 export interface MusicPlayersData {
 	status: string;
 	timestamp: Date;
-	data: [
-		{
-			guildId: string;
-			guildName: string;
-			playing: boolean;
-			paused: boolean;
-			volume: number;
-			trackRepeat: boolean;
-			queueRepeat: boolean;
-			currentTrack: MusicTrack;
-			queueSize: number;
-			queue: MusicTrack[];
-		},
-	];
+	data: {
+		guildId: string;
+		guildName: string;
+		playing: boolean;
+		paused: boolean;
+		volume: number;
+		trackRepeat: boolean;
+		queueRepeat: boolean;
+		currentTrack: MusicTrack;
+		queueSize: number;
+		queue: MusicTrack[];
+	};
+}
+
+export interface ErrorComponentProps {
+	title?: string;
+	message?: string;
+	retryAction?: () => void;
+	customAction?: {
+		label: string;
+		onClick: () => void;
+	};
 }
