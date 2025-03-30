@@ -8,6 +8,13 @@ export interface MenuItemType {
 
 export interface SidebarItemType extends MenuItemType {
 	icon: typeof Settings;
+	children: [
+		{
+			name: string;
+			value: string;
+			icon: typeof Settings;
+		},
+	];
 }
 export interface FeaturesType extends MenuItemType {
 	imgSrc: string;
