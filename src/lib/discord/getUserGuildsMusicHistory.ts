@@ -15,7 +15,6 @@ const getUserGuildsMusicHistory = async () => {
 		const guildHistoryPromises = userGuildData.map(async (guild) => {
 			const response = await fetch(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/api/guild/${guild.id}/history?page=1&pageSize=10`,
-				{ cache: 'force-cache' },
 			);
 
 			const guildHistory: GuildCommandHistoryData = await response.json();

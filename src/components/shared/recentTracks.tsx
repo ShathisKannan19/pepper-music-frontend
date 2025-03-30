@@ -62,11 +62,7 @@ export const RecentTracks: React.FC<RecentTracksProps> = ({
 			try {
 				const response = await fetch(
 					`${process.env.NEXT_PUBLIC_BASE_URL}/api/${entityType}/${entityId}/${endpointPath}?page=${page}&pageSize=10`,
-					{
-						next: {
-							revalidate: 60,
-						},
-					},
+					{ cache: 'no-store' },
 				);
 
 				if (!response.ok) {
