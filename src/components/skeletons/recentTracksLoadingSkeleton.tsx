@@ -7,7 +7,6 @@ import {
 	CardDescription,
 } from '@/components/ui/card';
 import { ListMusic } from 'lucide-react';
-import { Skeleton } from '@/components/ui/skeleton';
 
 export const RecentTracksLoadingSkeleton: React.FC = () => {
 	return (
@@ -24,18 +23,23 @@ export const RecentTracksLoadingSkeleton: React.FC = () => {
 			<CardContent>
 				<div className="space-y-3">
 					{[1, 2, 3, 4].map((item) => (
-						<div key={item} className="flex items-center space-x-4">
-							<Skeleton className="h-10 w-10 rounded-md" />
+						<div
+							key={item}
+							className="flex items-center space-x-4 animate-pulse"
+						>
+							<div className="h-10 w-10 bg-zinc-800 rounded-md"></div>
 							<div className="space-y-2 flex-1">
-								<Skeleton className="h-4 w-3/4" />
-								<Skeleton className="h-3 w-1/2" />
+								<div className="h-4 bg-zinc-800 rounded w-3/4"></div>
+								<div className="h-3 bg-zinc-800 rounded w-1/2"></div>
 							</div>
-							<Skeleton className="h-4 w-16" />
+							<div className="h-4 bg-zinc-800 rounded w-16"></div>
 						</div>
 					))}
 				</div>
-				<Skeleton className="w-full h-10 mt-4" />
+				<div className="h-10 bg-zinc-800 rounded w-full mt-4"></div>
 			</CardContent>
 		</Card>
 	);
 };
+
+export default RecentTracksLoadingSkeleton;
