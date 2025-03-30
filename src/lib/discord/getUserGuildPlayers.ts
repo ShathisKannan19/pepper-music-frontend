@@ -21,18 +21,20 @@ const GetUserGuildPlayers = async () => {
 		const activePlayersData: MusicPlayersData = await activePlayers.json();
 
 		// Match players with guilds and attach the icon
-		const userActivePlayers = activePlayersData.data
-			.map((player) => {
-				const guild = userGuilds.find((g) => g.id === player.guildId);
-				if (guild) {
-					return {
-						...player,
-						icon: guild.icon,
-					};
-				}
-				return null;
-			})
-			.filter(Boolean);
+		const userActivePlayers =
+			Array.isArray(activePlayersData.data) &&
+			activePlayersData.data
+				.map((player) => {
+					const guild = userGuilds.find((g) => g.id === player.guildId);
+					if (guild) {
+						return {
+							...player,
+							icon: guild.icon,
+						};
+					}
+					return null;
+				})
+				.filter(Boolean);
 
 		return userActivePlayers;
 	} catch (error) {
