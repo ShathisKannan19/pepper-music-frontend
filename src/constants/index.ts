@@ -11,14 +11,16 @@ export const menuItems: MenuItemType[] = [
 
 export const SidebarServerItems: SidebarItemType[] = [
 	{
-		name: 'server list',
-		value: '/server-list',
+		name: 'Server Management',
+		value: '/server-management',
 		icon: List,
-	},
-	{
-		name: 'analytics',
-		value: '/server-analytics',
-		icon: ChartArea,
+		children: [
+			{
+				name: 'server list',
+				value: '/server-list',
+				icon: List,
+			},
+		],
 	},
 ];
 export const commonRoutes = ['/auth', '/public', '/images'];
