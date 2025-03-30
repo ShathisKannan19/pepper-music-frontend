@@ -10,6 +10,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Activity, Cpu, MemoryStick, Server, Clock } from 'lucide-react';
 import { formatTimestamp, formatUptime } from '@/helpers';
+import { ErrorComponent } from './errorComponent';
 
 interface HealthData {
 	status: string;
@@ -26,15 +27,21 @@ interface HealthData {
 interface Props {}
 
 const fetchAPI = async () => {
-	const response = await fetch(
-		process.env.NEXT_PUBLIC_BASE_URL + '/api/health',
-	);
-	const data = await response.json();
-	return data;
+	try {
+		const response = await fetch(
+			process.env.NEXT_PUBLIC_BASE_URL + '/api/health',
+		);
+		if (!response.ok) return null;
+		const data = await response.json();
+		return data;
+	} catch {
+		return null;
+	}
 };
 
 const Uptime: NextPage<Props> = async ({}) => {
 	const data: HealthData = await fetchAPI();
+	if (!data) return <ErrorComponent />;
 
 	return (
 		<div className="w-full mx-auto p-4">

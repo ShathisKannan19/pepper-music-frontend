@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Activity, Server, Users, Music, Clock } from 'lucide-react';
 import { formatTimestamp, formatUptime } from '@/helpers';
 import { StatsData } from '@/types';
+import { ErrorComponent } from '@/components/shared/errorComponent';
 
 export const metadata = {
 	title: 'Pepper Bot Stats | Pepper Music Bot',
@@ -21,14 +22,21 @@ export const metadata = {
 interface Props {}
 
 const fetchAPI = async () => {
-	const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/api/stats');
-	const data = await response.json();
-	return data;
+	try {
+		const response = await fetch(
+			process.env.NEXT_PUBLIC_BASE_URL + '/api/stats',
+		);
+		if (!response.ok) return null;
+		const data = await response.json();
+		return data;
+	} catch {
+		return null;
+	}
 };
 
 const StatsPage: NextPage<Props> = async ({}) => {
 	const data: StatsData = await fetchAPI();
-
+	if (!data) return <ErrorComponent />;
 	return (
 		<div className="min-h-screen bg-black py-8">
 			<div className="max-w-6xl mx-auto">
