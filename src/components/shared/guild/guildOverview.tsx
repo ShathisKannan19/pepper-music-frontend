@@ -94,52 +94,55 @@ const Overview = ({
 							Music Activity
 						</CardTitle>
 					</CardHeader>
-					<CardContent>
-						{guildPlayers?.status === 'success' && guildPlayers.data.playing ? (
-							<div className="flex items-center">
-								<div className="mr-4 flex-shrink-0">
-									{guildPlayers.data.currentTrack.artworkUrl ? (
-										<Image
-											src={guildPlayers.data.currentTrack.artworkUrl}
-											width={50}
-											height={50}
-											alt="Track Artwork"
-											className="rounded-md object-cover"
-										/>
-									) : (
-										<div className="w-12 h-12 bg-zinc-800 rounded-md flex items-center justify-center">
-											<Music className="w-6 h-6 text-zinc-400" />
-										</div>
-									)}
-								</div>
-								<div className="flex-1 min-w-0">
-									<p className="text-xl font-bold truncate">
-										{guildPlayers.data.currentTrack.title}
-									</p>
-									<div className="flex justify-between items-center text-zinc-400 text-sm">
-										<span className="truncate">
-											{guildPlayers.data.currentTrack.author}
-										</span>
-										<div className="flex items-center space-x-2">
-											<div className="flex items-center space-x-1">
-												<div className="w-2 h-2 rounded-full bg-green-500"></div>
-												<span>
-													{guildPlayers.data.paused ? 'Paused' : 'Playing'}
-												</span>
+					{!Array.isArray(guildPlayers?.data) && (
+						<CardContent>
+							{guildPlayers?.status === 'success' &&
+							guildPlayers.data.playing ? (
+								<div className="flex items-center">
+									<div className="mr-4 flex-shrink-0">
+										{guildPlayers.data.currentTrack.artworkUrl ? (
+											<Image
+												src={guildPlayers.data.currentTrack.artworkUrl}
+												width={50}
+												height={50}
+												alt="Track Artwork"
+												className="rounded-md object-cover"
+											/>
+										) : (
+											<div className="w-12 h-12 bg-zinc-800 rounded-md flex items-center justify-center">
+												<Music className="w-6 h-6 text-zinc-400" />
 											</div>
-											<span>•</span>
-											<span>{guildPlayers.data.volume}%</span>
+										)}
+									</div>
+									<div className="flex-1 min-w-0">
+										<p className="text-xl font-bold truncate">
+											{guildPlayers.data.currentTrack.title}
+										</p>
+										<div className="flex justify-between items-center text-zinc-400 text-sm">
+											<span className="truncate">
+												{guildPlayers.data.currentTrack.author}
+											</span>
+											<div className="flex items-center space-x-2">
+												<div className="flex items-center space-x-1">
+													<div className="w-2 h-2 rounded-full bg-green-500"></div>
+													<span>
+														{guildPlayers.data.paused ? 'Paused' : 'Playing'}
+													</span>
+												</div>
+												<span>•</span>
+												<span>{guildPlayers.data.volume}%</span>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-						) : (
-							<div>
-								<p className="text-2xl font-bold">No Music</p>
-								<p className="text-zinc-400 text-sm">Currently Idle</p>
-							</div>
-						)}
-					</CardContent>
+							) : (
+								<div>
+									<p className="text-2xl font-bold">No Music</p>
+									<p className="text-zinc-400 text-sm">Currently Idle</p>
+								</div>
+							)}
+						</CardContent>
+					)}
 				</Card>
 			</div>
 
