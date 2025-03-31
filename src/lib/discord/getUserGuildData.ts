@@ -16,7 +16,7 @@ const GetUserGuildData = async (token: string) => {
 		const userGuildDataJson = await userGuildData.json();
 		return userGuildDataJson;
 	} catch (error) {
-		return { message: 'Error Occured', error };
+		return [];
 	}
 };
 
