@@ -8,12 +8,8 @@ import {
 	SidebarGroupLabel,
 	SidebarHeader,
 	SidebarMenu,
-	SidebarMenuAction,
 	SidebarMenuButton,
 	SidebarMenuItem,
-	SidebarMenuSub,
-	SidebarMenuSubButton,
-	SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
 import { pepperLogoLink, SidebarServerItems } from '@/constants';
 import Link from 'next/link';
@@ -64,7 +60,7 @@ export function DashboardSidebar({
 					<h1 className="text-xl md:text-2xl font-bold">Pepper</h1>
 				</Link>
 			</SidebarHeader>
-			<SidebarContent>
+			<SidebarContent className="gap-0">
 				{SidebarServerItems.map((item) => (
 					<SidebarGroup key={item.name}>
 						<SidebarGroupLabel
