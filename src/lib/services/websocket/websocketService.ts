@@ -169,6 +169,7 @@ export class WebsocketService {
 	 */
 	disconnect(): void {
 		if (this.ws) {
+			console.log('Disconnected from Websocket');
 			this.autoReconnect = false; // Prevent auto reconnection
 			this.ws.close();
 			this.ws = null;
