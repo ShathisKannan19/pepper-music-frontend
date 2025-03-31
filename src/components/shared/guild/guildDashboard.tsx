@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
+	DiscordUserData,
 	GuildCommandHistoryData,
 	GuildData,
 	HealthAPIData,
@@ -46,12 +47,14 @@ type TabKey = keyof typeof tabComponents;
 
 const GuildDashboard = ({
 	guildData,
+	userData,
 	userGuildData,
 	healthData,
 	guildCommandHistory,
 	guildPlayers,
 }: {
 	guildData: GuildData;
+	userData: DiscordUserData;
 	userGuildData: UserGuildData;
 	healthData: HealthAPIData;
 	guildCommandHistory: GuildCommandHistoryData;
@@ -166,6 +169,7 @@ const GuildDashboard = ({
 					>
 						<ActiveComponent
 							guildData={guildData}
+							userData={userData}
 							healthData={healthData}
 							guildCommandHistory={guildCommandHistory}
 							guildPlayers={guildPlayers}
