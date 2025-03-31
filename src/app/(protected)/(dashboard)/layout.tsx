@@ -1,4 +1,4 @@
-import { logout } from '@/actions/auth';
+import { logout } from '@/app/actions/auth';
 import { DashboardSidebar } from '@/components/shared/dashboard-sidebar';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { getSession } from '@/lib/session';
