@@ -19,7 +19,6 @@ export class WebsocketService {
 	 * Create a new Pepper Music WebSocket client
 	 *
 	 * @param serverUrl - The WebSocket server URL
-	 * @param apiKey - Your Pepper Music API key
 	 * @param autoReconnect - Whether to automatically attempt reconnection
 	 */
 	constructor(serverUrl: string, autoReconnect: boolean = true) {
