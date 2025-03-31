@@ -14,6 +14,7 @@ export class WebsocketService {
 	private maxReconnectAttempts: number = 5;
 	private reconnectDelay: number = 2000;
 	private eventListeners: Record<string, ((data: any) => void)[]> = {};
+	private messageHandler: ((message: any) => void) | null = null;
 
 	/**
 	 * Create a new Pepper Music WebSocket client
@@ -25,6 +26,13 @@ export class WebsocketService {
 		this.serverUrl = serverUrl;
 		this.apiKey = `${process.env.BACKEND_API_SECRET}`;
 		this.autoReconnect = autoReconnect;
+	}
+
+	/**
+	 * Set a global message handler for this WebSocket
+	 */
+	setMessageHandler(handler: (message: any) => void) {
+		this.messageHandler = handler;
 	}
 
 	/**
@@ -110,6 +118,11 @@ export class WebsocketService {
 	private handleMessage(event: MessageEvent): void {
 		try {
 			const message = JSON.parse(event.data);
+
+			// Use the global message handler if set
+			if (this.messageHandler) {
+				this.messageHandler(message);
+			}
 
 			// Trigger any registered event listeners
 			if (message.type && this.eventListeners[message.type]) {
@@ -226,8 +239,8 @@ export class WebsocketService {
 	/**
 	 * Play a song in the specified guild
 	 */
-	playSong(guildId: string, query: string): void {
-		this.send('play', { guildId, query });
+	playSong(guildId: string, userId: string, query: string): void {
+		this.send('play', { guildId, userId, query });
 	}
 
 	/**
@@ -256,5 +269,12 @@ export class WebsocketService {
 	 */
 	stop(guildId: string): void {
 		this.send('stop', { guildId });
+	}
+
+	/**
+	 * Set Volume for a Guild Player
+	 */
+	setVolume(guildId: string, volume: number): void {
+		this.send('volume', { guildId, volume });
 	}
 }
