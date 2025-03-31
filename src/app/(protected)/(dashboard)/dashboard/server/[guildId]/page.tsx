@@ -6,6 +6,7 @@ import { GuildData } from '@/types';
 import { hasDiscordPermission } from '@/helpers';
 import ServerNotFound from '@/components/shared/serverNotFound';
 import { DiscordPermissions } from '@/enums';
+import { GetUserData } from '@/lib/discord';
 
 interface Props {
 	params: Promise<{
@@ -115,9 +116,12 @@ const Page: NextPage<Props> = async ({ params }) => {
 	const healthAPIData = await fetchHealthAPI();
 	const guildCommandHistoryData = await guildCommandHistory(guildId);
 	const guildPlayersData = await guildPlayers(guildId);
+	const userData = await GetUserData(session.value);
+
 	return (
 		<GuildDashboard
 			guildData={guildData}
+			userData={userData.user}
 			userGuildData={userInGuildData}
 			healthData={healthAPIData}
 			guildCommandHistory={guildCommandHistoryData}
