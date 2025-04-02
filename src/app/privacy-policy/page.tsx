@@ -116,6 +116,19 @@ const PrivacyPolicy: NextPage<Props> = ({}) => {
 												added to a guild. The data we collect here is solely
 												used for debugging and upgrade purposes.
 											</li>
+											<li>
+												<span className="font-semibold">Autoplay Data:</span>
+												We collect listening history from Spotify (if connected
+												and activity sharing is enabled) and Pepper to
+												personalize autoplay recommendations.
+											</li>
+											<li>
+												<span className="font-semibold">
+													Opt-in & Opt-out Tracking:
+												</span>
+												Users can enable or disable Spotify activity tracking
+												using the /spotify config enabled command.
+											</li>
 										</ul>
 									</div>
 								</div>
@@ -148,6 +161,10 @@ const PrivacyPolicy: NextPage<Props> = ({}) => {
 												Troubleshooting and fixing bugs reported by users.
 											</li>
 											<li>Complying with legal obligations.</li>
+											<li>
+												Autoplay recommendations are generated based on stored
+												listening history, ensuring a tailored user experience.
+											</li>
 										</ul>
 									</div>
 								</div>
@@ -217,6 +234,11 @@ const PrivacyPolicy: NextPage<Props> = ({}) => {
 											<li>
 												Compliance with applicable laws, regulations, or legal
 												processes.
+											</li>
+											<li>
+												We do not share user data with Lavalink servers or any
+												third-party music service. Autoplay is powered by our
+												own music algorithm developed specifically for Pepper.
 											</li>
 										</ul>
 									</div>
