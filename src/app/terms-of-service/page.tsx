@@ -19,7 +19,7 @@ const TermsOfService: NextPage<Props> = ({}) => {
 					{/* Header */}
 					<div className="mb-8 text-center">
 						<h1 className="text-4xl font-bold mb-4">Terms of Service</h1>
-						<p className="text-gray-400">Last updated: March 16, 2025</p>
+						<p className="text-gray-400">Last updated: April 2, 2025</p>
 					</div>
 
 					<Card className="shadow-lg bg-black py-0 my-6">
