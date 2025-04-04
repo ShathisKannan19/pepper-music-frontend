@@ -1,4 +1,3 @@
-import { sseStore } from './sse/store';
 import { WebsocketService } from './websocketService';
 
 let wsService: WebsocketService | null = null;
@@ -12,7 +11,6 @@ export function handleWebSocketMessage(message: any) {
 	// Process the message
 	switch (type) {
 		case 'track_start':
-			sseStore.sendEventToGuild(data.guildId, 'track_start', data);
 			break;
 	}
 }
