@@ -1,5 +1,5 @@
 import { MenuItemType, SidebarItemType } from '@/types';
-import { ChartArea, Home, List, Settings } from 'lucide-react';
+import { ChartArea, Home, HomeIcon, List, Settings } from 'lucide-react';
 
 export const menuItems: MenuItemType[] = [
 	{ name: 'Commands', value: '/commands' },
@@ -11,14 +11,28 @@ export const menuItems: MenuItemType[] = [
 
 export const SidebarServerItems: SidebarItemType[] = [
 	{
-		name: 'server list',
-		value: '/server-list',
+		name: 'Overview',
+		value: '/dashboard',
 		icon: List,
+		children: [
+			{
+				name: 'Dashboard Home',
+				value: '/',
+				icon: Home,
+			},
+		],
 	},
 	{
-		name: 'analytics',
-		value: '/server-analytics',
-		icon: ChartArea,
+		name: 'Server Management',
+		value: '/server-management',
+		icon: List,
+		children: [
+			{
+				name: 'server list',
+				value: '/server-list',
+				icon: List,
+			},
+		],
 	},
 ];
 export const commonRoutes = ['/auth', '/public', '/images'];

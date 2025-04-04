@@ -13,16 +13,11 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import {
-	Settings,
-	Music,
-	Users,
-	Shield,
-	Star,
-	ChevronRight,
-} from 'lucide-react';
+import { Music, ChevronRight } from 'lucide-react';
 import { inviteLink } from '@/constants';
 import Link from 'next/link';
+import { getServerIcon, hasDiscordPermission } from '@/helpers';
+import { DiscordPermissions } from '@/enums';
 
 interface Guild {
 	id: string;
@@ -43,21 +38,12 @@ export default function ServerList({ guildData }: PageProps) {
 	const [searchQuery, setSearchQuery] = useState('');
 
 	const getIconUrl = (guild: Guild) => {
-		return guild.icon
-			? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp?size=128`
-			: `https://ui-avatars.com/api/?name=${encodeURIComponent(
-					guild.name,
-			  )}&background=000&color=fff`;
+		return getServerIcon(guild.id, guild.icon, guild.name);
 	};
 
 	const filteredGuilds = guildData?.filter((guild) =>
 		guild.name.toLowerCase().includes(searchQuery.toLowerCase()),
 	);
-
-	const hasManagePermission = (permissions: string) => {
-		const permNum = BigInt(permissions);
-		return (permNum & BigInt(0x20)) !== BigInt(0);
-	};
 
 	return (
 		<div className="p-6 ">
@@ -137,17 +123,30 @@ export default function ServerList({ guildData }: PageProps) {
 						<CardFooter className="pt-0">
 							<Button
 								className={`w-full ${
-									hasManagePermission(guild.permissions)
+									hasDiscordPermission(
+										guild.permissions,
+										DiscordPermissions.MANAGE_SERVER,
+									)
 										? 'bg-white text-black hover:bg-zinc-200 cursor-pointer'
 										: 'bg-zinc-800 text-zinc-400 cursor-not-allowed'
 								}`}
 								onClick={() =>
-									hasManagePermission(guild.permissions) &&
-									router.push(`/dashboard/server/${guild.id}`)
+									hasDiscordPermission(
+										guild.permissions,
+										DiscordPermissions.MANAGE_SERVER,
+									) && router.push(`/dashboard/server/${guild.id}`)
 								}
-								disabled={!hasManagePermission(guild.permissions)}
+								disabled={
+									!hasDiscordPermission(
+										guild.permissions,
+										DiscordPermissions.MANAGE_SERVER,
+									)
+								}
 							>
-								{hasManagePermission(guild.permissions)
+								{hasDiscordPermission(
+									guild.permissions,
+									DiscordPermissions.MANAGE_SERVER,
+								)
 									? 'Manage Bot'
 									: 'Missing Permissions'}
 								<ChevronRight className="w-4 h-4 ml-2" />
