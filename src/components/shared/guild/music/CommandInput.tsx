@@ -75,7 +75,7 @@ const CommandInput = ({
 					<Button
 						type="submit"
 						disabled={isLoading}
-						className="bg-white text-black hover:bg-zinc-200"
+						className="bg-white text-black hover:bg-zinc-200 cursor-pointer"
 					>
 						{isLoading ? 'Loading...' : 'Submit'}
 					</Button>
