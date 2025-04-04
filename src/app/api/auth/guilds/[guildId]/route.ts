@@ -17,7 +17,6 @@ export const GET = async (
 
 		return Response.json(data, { status: response.status });
 	} catch (err) {
-		console.log('err', err);
 		return Response.json(err);
 	}
 };
