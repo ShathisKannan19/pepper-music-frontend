@@ -53,3 +53,4 @@ const Layout: NextPage<Props> = async ({ children }) => {
 };
 
 export default Layout;
+export const dynamic = 'force-dynamic';
