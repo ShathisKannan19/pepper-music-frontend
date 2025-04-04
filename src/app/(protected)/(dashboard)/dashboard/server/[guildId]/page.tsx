@@ -1,6 +1,5 @@
 import { NextPage } from 'next';
 import { redirect } from 'next/navigation';
-import GuildDashboard from '@/components/shared/guild/guildDashboard';
 import { getSession } from '@/lib/session';
 import { GuildData } from '@/types';
 import { hasDiscordPermission } from '@/helpers';
@@ -9,6 +8,7 @@ import { DiscordPermissions } from '@/enums';
 import { GetUserData } from '@/lib/discord';
 import { client_id } from '@/constants';
 import BotNotinGuild from '@/components/shared/botNotinGuild';
+import GuildWrapper from '@/components/shared/guild/guildWrapper';
 
 interface Props {
 	params: Promise<{
@@ -128,7 +128,7 @@ const Page: NextPage<Props> = async ({ params }) => {
 	const userData = await GetUserData(session.value);
 
 	return (
-		<GuildDashboard
+		<GuildWrapper
 			guildData={guildData}
 			userData={userData.user}
 			userGuildData={userInGuildData}
