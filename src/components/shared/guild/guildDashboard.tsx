@@ -1,21 +1,20 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
+	DiscordUserData,
 	GuildCommandHistoryData,
 	GuildData,
 	HealthAPIData,
 	MusicPlayersData,
+	MusicState,
 	UserGuildData,
 } from '@/types';
 import Overview from '@/components/shared/guild/guildOverview';
 import GuildMusic from '@/components/shared/guild/guildMusic';
 import GuildPermission from './guildPermission';
 import GuildSettings from './guildSettings';
-import { client_id } from '@/constants';
-import ServerNotFound from '../serverNotFound';
-import BotNotinGuild from '../botNotinGuild';
 import { getServerIcon } from '@/helpers';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
@@ -27,6 +26,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 const tabMotionVariants = {
 	initial: { x: 10 },
@@ -46,32 +46,23 @@ type TabKey = keyof typeof tabComponents;
 
 const GuildDashboard = ({
 	guildData,
+	userData,
 	userGuildData,
 	healthData,
 	guildCommandHistory,
 	guildPlayers,
+	musicState,
 }: {
 	guildData: GuildData;
+	userData: DiscordUserData;
 	userGuildData: UserGuildData;
 	healthData: HealthAPIData;
 	guildCommandHistory: GuildCommandHistoryData;
 	guildPlayers: MusicPlayersData;
+	musicState: MusicState;
 }) => {
 	const [activeTab, setActiveTab] = useState<TabKey>('overview');
-	const [botInstalled, setBotInstalled] = useState(true);
-
-	useEffect(() => {
-		if (guildData) {
-			const shadowXBot = guildData.roles.find(
-				(role) => role.tags?.bot_id === client_id,
-			);
-			setBotInstalled(!!shadowXBot);
-		}
-	}, [guildData]);
-
-	if (!guildData) return <ServerNotFound />;
-	if (!botInstalled) return <BotNotinGuild />;
-
+	const [currentPosition, setCurrentPosition] = useState(0);
 	const ActiveComponent = tabComponents[activeTab];
 
 	const serverIcon = getServerIcon(
@@ -82,8 +73,12 @@ const GuildDashboard = ({
 
 	const features = guildData.features.slice(0, 3);
 	const roleCount = guildData.roles.length;
-	const botRoles = guildData.roles.filter((role) => role.tags?.bot_id).length;
 
+	const ComingSoonTag = () => (
+		<span className="text-xs text-zinc-400 bg-zinc-700 px-2 py-0.5 rounded-md ml-2">
+			Coming Soon
+		</span>
+	);
 	return (
 		<div className="p-6">
 			<div className="mb-8 flex flex-col md:flex-row items-start md:items-center gap-6">
@@ -121,18 +116,20 @@ const GuildDashboard = ({
 						<DropdownMenuTrigger asChild>
 							<Button
 								variant="outline"
-								className="bg-zinc-800 border-zinc-700 text-white hover:bg-black hover:text-white cursor-pointer"
+								className="bg-black border-zinc-800 text-white hover:bg-black hover:text-white cursor-pointer"
 							>
 								<Settings className="w-4 h-4 mr-2" />
 								Server Options
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent className="bg-black border-zinc-800 text-white">
-							<DropdownMenuItem className="hover:bg-zinc-800 cursor-pointer">
-								View in Discord
-							</DropdownMenuItem>
-							<DropdownMenuItem className="hover:bg-zinc-800 cursor-pointer">
-								Reset Bot Settings
+							<DropdownMenuItem className=" hover:bg-zinc-800 cursor-pointer">
+								<Link
+									href={`https://discord.com/channels/${guildData.id}`}
+									target="_blank"
+								>
+									View in Discord
+								</Link>
 							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
@@ -149,8 +146,11 @@ const GuildDashboard = ({
 							key={tab}
 							value={tab}
 							className="px-6 py-3 data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-white text-white data-[state=active]:shadow-none rounded-lg cursor-pointer"
+							disabled={tab === 'permissions' || tab === 'settings'}
 						>
-							{tab.charAt(0).toUpperCase() + tab.slice(1)}
+							{tab.charAt(0).toUpperCase() + tab.slice(1)}{' '}
+							{tab === 'permissions' && <ComingSoonTag />}
+							{tab === 'settings' && <ComingSoonTag />}
 						</TabsTrigger>
 					))}
 				</TabsList>
@@ -166,9 +166,11 @@ const GuildDashboard = ({
 					>
 						<ActiveComponent
 							guildData={guildData}
+							userData={userData}
 							healthData={healthData}
 							guildCommandHistory={guildCommandHistory}
 							guildPlayers={guildPlayers}
+							musicState={musicState}
 						/>
 					</motion.div>
 				</AnimatePresence>

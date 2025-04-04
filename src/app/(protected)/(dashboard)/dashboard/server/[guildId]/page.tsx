@@ -1,11 +1,14 @@
 import { NextPage } from 'next';
 import { redirect } from 'next/navigation';
-import GuildDashboard from '@/components/shared/guild/guildDashboard';
 import { getSession } from '@/lib/session';
 import { GuildData } from '@/types';
 import { hasDiscordPermission } from '@/helpers';
 import ServerNotFound from '@/components/shared/serverNotFound';
 import { DiscordPermissions } from '@/enums';
+import { GetUserData } from '@/lib/discord';
+import { client_id } from '@/constants';
+import BotNotinGuild from '@/components/shared/botNotinGuild';
+import GuildWrapper from '@/components/shared/guild/guildWrapper';
 
 interface Props {
 	params: Promise<{
@@ -105,6 +108,13 @@ const Page: NextPage<Props> = async ({ params }) => {
 
 	if (!userInGuildData) return <ServerNotFound />;
 
+	//check if bot is present in that guild
+	const Bot = guildData.roles.find(
+		(role: any) => role.tags?.bot_id === client_id,
+	);
+
+	if (!Bot) return <BotNotinGuild />;
+
 	const userHasPerms = hasDiscordPermission(
 		userInGuildData.permissions,
 		DiscordPermissions.MANAGE_SERVER,
@@ -115,9 +125,12 @@ const Page: NextPage<Props> = async ({ params }) => {
 	const healthAPIData = await fetchHealthAPI();
 	const guildCommandHistoryData = await guildCommandHistory(guildId);
 	const guildPlayersData = await guildPlayers(guildId);
+	const userData = await GetUserData(session.value);
+
 	return (
-		<GuildDashboard
+		<GuildWrapper
 			guildData={guildData}
+			userData={userData.user}
 			userGuildData={userInGuildData}
 			healthData={healthAPIData}
 			guildCommandHistory={guildCommandHistoryData}

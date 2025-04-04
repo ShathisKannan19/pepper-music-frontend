@@ -227,3 +227,11 @@ export interface ErrorComponentProps {
 		onClick: () => void;
 	};
 }
+
+export interface MusicState {
+	currentTrack: MusicTrack | null;
+	playing: boolean;
+	paused: boolean;
+	volume?: number;
+	queue: MusicTrack[];
+}

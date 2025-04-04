@@ -12,6 +12,7 @@ const getUserGuildsMusicHistory = async () => {
 		const userGuildData: UserGuildData[] = await GetUserGuildData(token);
 
 		// Fetch history for each guild
+		if (!Array.isArray(userGuildData)) return [];
 		const guildHistoryPromises = userGuildData.map(async (guild) => {
 			const response = await fetch(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/api/guild/${guild.id}/history?page=1&pageSize=10`,
