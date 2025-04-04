@@ -277,4 +277,8 @@ export class WebsocketService {
 	setVolume(guildId: string, volume: number): void {
 		this.send('volume', { guildId, volume });
 	}
+
+	getVolume(guildId: string): void {
+		this.send('volume', { guildId });
+	}
 }
