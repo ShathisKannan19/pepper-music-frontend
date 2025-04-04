@@ -1,20 +1,57 @@
-'use client';
 import Link from 'next/link';
 import Image from 'next/image';
 import { menuItems, pepperLogoLink } from '@/constants';
 import { MenuItemType } from '@/types';
 import GlobalButton from '../shared/globalButton';
-import { Menu, X } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { NextPage } from 'next';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
+import { Menu, X } from 'lucide-react'; // or any icon library
 
 interface Props {}
 
-const Navbar: NextPage<Props> = ({}) => {
+const menuVariants = {
+	open: {
+		opacity: 1,
+		y: 0,
+		transition: {
+			staggerChildren: 0.1,
+		},
+	},
+	closed: {
+		opacity: 0,
+		y: '-100%',
+		transition: {
+			staggerChildren: 0.05,
+			staggerDirection: -1,
+		},
+	},
+};
+
+const itemVariants = {
+	open: {
+		opacity: 1,
+		y: 0,
+		transition: { type: 'spring', stiffness: 300, damping: 24 },
+	},
+	closed: {
+		opacity: 0,
+		y: 20,
+		transition: { duration: 0.2 },
+	},
+};
+
+const Navbar: NextPage<Props> = () => {
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const [activeItem, setActiveItem] = useState<string | null>(null);
+
+	const toggleMenu = () => {
+		setIsMenuOpen((prev) => !prev);
+	};
+
 	return (
 		<header className="flex items-center justify-between px-4 md:px-8 py-4 bg-black border-b border-gray-700 text-white top-0 z-50">
-			<Link href={'/'} className="flex items-center gap-1 z-10">
+			<Link href="/" className="flex items-center gap-1 z-10">
 				<Image
 					src={pepperLogoLink}
 					width={25}
@@ -32,7 +69,10 @@ const Navbar: NextPage<Props> = ({}) => {
 						<li key={item.value}>
 							<Link
 								href={item.value}
-								className="hover:text-gray-400 text-gray-300"
+								className={`hover:text-gray-400 ${
+									activeItem === item.value ? 'text-white' : 'text-gray-300'
+								}`}
+								onClick={() => setActiveItem(item.value)}
 							>
 								{item.name}
 							</Link>
@@ -41,11 +81,7 @@ const Navbar: NextPage<Props> = ({}) => {
 				</ul>
 			</nav>
 
-			<Link
-				href={'/auth/login'}
-				className="hidden md:block"
-				onClick={() => setIsMenuOpen(false)}
-			>
+			<Link href="/auth/login" className="hidden md:block">
 				<GlobalButton className="bg-none" size="sm">
 					Get Started
 				</GlobalButton>
@@ -83,6 +119,7 @@ const Navbar: NextPage<Props> = ({}) => {
 				</AnimatePresence>
 			</motion.button>
 
+			{/* Mobile Nav */}
 			<AnimatePresence>
 				{isMenuOpen && (
 					<motion.div
@@ -109,7 +146,10 @@ const Navbar: NextPage<Props> = ({}) => {
 													? 'bg-gray-800 bg-opacity-50 rounded-lg'
 													: ''
 											}`}
-											onClick={toggleMenu}
+											onClick={() => {
+												toggleMenu();
+												setActiveItem(item.value);
+											}}
 										>
 											<motion.div
 												initial={{ x: -10, opacity: 0 }}
@@ -129,7 +169,7 @@ const Navbar: NextPage<Props> = ({}) => {
 							whileHover={{ scale: 1.05 }}
 							whileTap={{ scale: 0.95 }}
 						>
-							<Link href={'/auth/login'}>
+							<Link href="/auth/login" onClick={() => setIsMenuOpen(false)}>
 								<GlobalButton className="bg-none hover:bg-gray-800 transition-colors duration-300">
 									Get Started
 								</GlobalButton>
