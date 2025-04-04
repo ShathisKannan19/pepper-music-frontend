@@ -77,6 +77,33 @@ export const setGuildVolume = async (
 	}
 };
 
+export const getGuildVolume = async (
+	guildId: string,
+): Promise<{ success: boolean; message: string }> => {
+	try {
+		if (!webSocketInstance) {
+			return { success: false, message: 'WebSocket is not connected' };
+		}
+
+		webSocketInstance.getVolume(guildId);
+
+		// Revalidate the path to update any server components
+		revalidatePath(`/guilds/${guildId}`);
+
+		return {
+			success: true,
+			message: `Volume for guild ${guildId}`,
+		};
+	} catch (error) {
+		return {
+			success: false,
+			message: `Failed to get volume: ${
+				error instanceof Error ? error.message : String(error)
+			}`,
+		};
+	}
+};
+
 // Play a song or playlist
 export const playSong = async (
 	guildId: string,
