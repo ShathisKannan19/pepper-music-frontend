@@ -1,4 +1,4 @@
-import { logout } from '@/actions/auth';
+import { logout } from '@/app/actions/auth';
 import ServerList from '@/components/shared/serverList';
 import { getSession } from '@/lib/session';
 import { NextPage } from 'next';

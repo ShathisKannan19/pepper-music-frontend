@@ -11,7 +11,7 @@ export async function GET() {
 		);
 
 		if (!response.ok) {
-			throw new Error('Failed to fetch health data');
+			throw new Error('Failed to fetch commands data');
 		}
 
 		const data = await response.json();
@@ -19,7 +19,7 @@ export async function GET() {
 	} catch (error) {
 		console.error('Error fetching commands data:', error);
 		return Response.json(
-			{ status: 'error', message: 'Failed to fetch health data' },
+			{ status: 'error', message: 'Failed to fetch commands data' },
 			{ status: 500 },
 		);
 	}

@@ -11,7 +11,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 		| 'secondary'
 		| 'ghost'
 		| null;
-	size?: 'sm' | 'lg';
+	size?: 'sm' | 'lg' | 'icon';
 	children: React.ReactNode;
 }
 
