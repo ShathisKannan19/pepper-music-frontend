@@ -42,7 +42,7 @@ const ActivePlayers: NextPage = async () => {
 				{playersData.length > 0 ? (
 					playersData.map((player: PlayersData) => (
 						<Link
-							href={`https://discord.com/channels/${player.guildId}`}
+							href={`${process.env.NEXT_PUBLIC_BASE_URL}/dashboard/server/${player.guildId}`}
 							target="_blank"
 							key={player.guildId}
 						>
