@@ -56,7 +56,7 @@ export const pepperLogoLink = '/images/pepperLogo.png';
 export const oauth2RedirectUrl =
 	process.env.NODE_ENV === 'development'
 		? 'http://localhost:3000/api/callback'
-		: 'https://pepepr.mrbotz.com/api/callback';
+		: 'https://pepper.mrbotz.com/api/callback';
 export const discordOauth2Scopes = 'identify+guilds+guilds.join+email';
 export const discordOauth2Url = `https://discord.com/oauth2/authorize?client_id=${client_id}&response_type=code&redirect_uri=${oauth2RedirectUrl}&scope=${discordOauth2Scopes}`;
 
