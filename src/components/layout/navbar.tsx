@@ -93,7 +93,11 @@ const Navbar: NextPage<Props> = ({}) => {
 				</ul>
 			</nav>
 
-			<Link href={'/auth/login'} className="hidden md:block">
+			<Link
+				href={'/auth/login'}
+				className="hidden md:block"
+				onClick={() => setIsMenuOpen(false)}
+			>
 				<GlobalButton className="bg-none" size="sm">
 					Get Started
 				</GlobalButton>
