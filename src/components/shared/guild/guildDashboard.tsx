@@ -61,19 +61,6 @@ const GuildDashboard = ({
 	guildPlayers: MusicPlayersData;
 }) => {
 	const [activeTab, setActiveTab] = useState<TabKey>('overview');
-	const [botInstalled, setBotInstalled] = useState(true);
-
-	useEffect(() => {
-		if (guildData) {
-			const shadowXBot = guildData.roles.find(
-				(role) => role.tags?.bot_id === client_id,
-			);
-			setBotInstalled(!!shadowXBot);
-		}
-	}, [guildData]);
-
-	if (!guildData) return <ServerNotFound />;
-	if (!botInstalled) return <BotNotinGuild />;
 
 	const ActiveComponent = tabComponents[activeTab];
 

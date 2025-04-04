@@ -7,6 +7,8 @@ import { hasDiscordPermission } from '@/helpers';
 import ServerNotFound from '@/components/shared/serverNotFound';
 import { DiscordPermissions } from '@/enums';
 import { GetUserData } from '@/lib/discord';
+import { client_id } from '@/constants';
+import BotNotinGuild from '@/components/shared/botNotinGuild';
 
 interface Props {
 	params: Promise<{
@@ -105,6 +107,13 @@ const Page: NextPage<Props> = async ({ params }) => {
 	);
 
 	if (!userInGuildData) return <ServerNotFound />;
+
+	//check if bot is present in that guild
+	const Bot = guildData.roles.find(
+		(role: any) => role.tags?.bot_id === client_id,
+	);
+
+	if (!Bot) return <BotNotinGuild />;
 
 	const userHasPerms = hasDiscordPermission(
 		userInGuildData.permissions,
