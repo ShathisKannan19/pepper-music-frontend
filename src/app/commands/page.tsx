@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/collapsible';
 import { formatTimestamp, getOptionTypeLabel } from '@/helpers';
 import { BotCommand, CommandsData } from '@/types';
+import { ErrorComponent } from '@/components/shared/errorComponent';
 
 interface Props {}
 
@@ -26,15 +27,21 @@ export const metadata = {
 };
 
 const fetchAPI = async () => {
-	const response = await fetch(
-		process.env.NEXT_PUBLIC_BASE_URL + '/api/commands',
-	);
-	const data = await response.json();
-	return data;
+	try {
+		const response = await fetch(
+			process.env.NEXT_PUBLIC_BASE_URL + '/api/commands',
+		);
+		if (!response.ok) return null;
+		const data = await response.json();
+		return data;
+	} catch {
+		return null;
+	}
 };
 
 const CommandsPage: NextPage<Props> = async ({}) => {
 	const data: CommandsData = await fetchAPI();
+	if (!data) return <ErrorComponent />;
 
 	const categories = {
 		music: ['play', 'queue', 'skip', 'stop'],

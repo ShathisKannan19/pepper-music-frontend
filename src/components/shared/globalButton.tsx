@@ -11,6 +11,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 		| 'secondary'
 		| 'ghost'
 		| null;
+	size?: 'sm' | 'lg' | 'icon';
 	children: React.ReactNode;
 }
 
@@ -18,13 +19,14 @@ const GlobalButton: NextPage<Props> = ({
 	children,
 	variant,
 	className,
+	size,
 	...props
 }) => {
 	return (
 		<Button
 			variant={variant}
 			className={`bg-white text-black hover:bg-gray-200 cursor-pointer ${className}`}
-			size="lg"
+			size={size ? size : 'lg'}
 			{...props}
 		>
 			{children}
