@@ -19,7 +19,7 @@ const TermsOfService: NextPage<Props> = ({}) => {
 					{/* Header */}
 					<div className="mb-8 text-center">
 						<h1 className="text-4xl font-bold mb-4">Terms of Service</h1>
-						<p className="text-gray-400">Last updated: March 16, 2025</p>
+						<p className="text-gray-400">Last updated: April 2, 2025</p>
 					</div>
 
 					<Card className="shadow-lg bg-black py-0 my-6">
@@ -62,6 +62,11 @@ const TermsOfService: NextPage<Props> = ({}) => {
 											which may result in temporary unavailability. We strive to
 											minimize disruptions and will provide notice when
 											feasible.
+										</p>
+										<p>
+											The Bot now includes an autoplay feature that recommends
+											and plays music based on users’ past listening activity
+											from Spotify and Pepper.
 										</p>
 									</div>
 								</div>
@@ -159,6 +164,12 @@ const TermsOfService: NextPage<Props> = ({}) => {
 											incidental, consequential, or punitive damages arising out
 											of or in connection with the use of the Bot, including but
 											not limited to loss of data, revenue, or profits.
+										</p>
+										<p>
+											We do not share user data with Lavalink or any third-party
+											music services. Instead, we have developed our own custom
+											music algorithm for the autoplay feature, ensuring
+											complete control over data privacy.
 										</p>
 									</div>
 								</div>

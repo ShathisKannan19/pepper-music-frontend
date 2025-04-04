@@ -1,14 +1,12 @@
-'use client';
-import { NextPage } from 'next';
-import { Button } from '../ui/button';
-import { menuItems, pepperLogoLink } from '@/constants';
 import Link from 'next/link';
+import Image from 'next/image';
+import { menuItems, pepperLogoLink } from '@/constants';
 import { MenuItemType } from '@/types';
 import GlobalButton from '../shared/globalButton';
-import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { NextPage } from 'next';
 
 interface Props {}
 
@@ -69,14 +67,14 @@ const Navbar: NextPage<Props> = ({}) => {
 				<Image
 					src={pepperLogoLink}
 					width={25}
-					height={100}
+					height={25}
 					className="rounded-full"
 					alt="Pepper Logo"
+					priority
 				/>
 				<h1 className="text-xl md:text-2xl font-bold">Pepper</h1>
 			</Link>
 
-			{/* Desktop Navigation */}
 			<nav className="hidden md:block">
 				<ul className="flex space-x-6">
 					{menuItems.map((item: MenuItemType) => (
@@ -88,13 +86,6 @@ const Navbar: NextPage<Props> = ({}) => {
 								}`}
 							>
 								{item.name}
-								{activeItem === item.value && (
-									<motion.span
-										className="absolute bottom-0 left-0 h-0.5 bg-white"
-										layoutId="underline"
-										style={{ width: '100%' }}
-									/>
-								)}
 							</Link>
 						</li>
 					))}
