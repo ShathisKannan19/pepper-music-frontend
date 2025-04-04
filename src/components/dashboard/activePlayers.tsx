@@ -43,7 +43,6 @@ const ActivePlayers: NextPage = async () => {
 					playersData.map((player: PlayersData) => (
 						<Link
 							href={`${process.env.NEXT_PUBLIC_BASE_URL}/dashboard/server/${player.guildId}`}
-							target="_blank"
 							key={player.guildId}
 						>
 							<Card className="bg-black border-zinc-800 border-2 text-white overflow-hidden hover:bg-zinc-900/20 hover:scale-101 transition-all">
