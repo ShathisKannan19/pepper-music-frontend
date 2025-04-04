@@ -8,6 +8,7 @@ import {
 	GuildData,
 	HealthAPIData,
 	MusicPlayersData,
+	MusicState,
 	UserGuildData,
 } from '@/types';
 import Overview from '@/components/shared/guild/guildOverview';
@@ -25,6 +26,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 const tabMotionVariants = {
 	initial: { x: 10 },
@@ -49,6 +51,7 @@ const GuildDashboard = ({
 	healthData,
 	guildCommandHistory,
 	guildPlayers,
+	musicState,
 }: {
 	guildData: GuildData;
 	userData: DiscordUserData;
@@ -56,9 +59,10 @@ const GuildDashboard = ({
 	healthData: HealthAPIData;
 	guildCommandHistory: GuildCommandHistoryData;
 	guildPlayers: MusicPlayersData;
+	musicState: MusicState;
 }) => {
 	const [activeTab, setActiveTab] = useState<TabKey>('overview');
-
+	const [currentPosition, setCurrentPosition] = useState(0);
 	const ActiveComponent = tabComponents[activeTab];
 
 	const serverIcon = getServerIcon(
@@ -70,6 +74,11 @@ const GuildDashboard = ({
 	const features = guildData.features.slice(0, 3);
 	const roleCount = guildData.roles.length;
 
+	const ComingSoonTag = () => (
+		<span className="text-xs text-zinc-400 bg-zinc-700 px-2 py-0.5 rounded-md ml-2">
+			Coming Soon
+		</span>
+	);
 	return (
 		<div className="p-6">
 			<div className="mb-8 flex flex-col md:flex-row items-start md:items-center gap-6">
@@ -107,18 +116,20 @@ const GuildDashboard = ({
 						<DropdownMenuTrigger asChild>
 							<Button
 								variant="outline"
-								className="bg-zinc-800 border-zinc-700 text-white hover:bg-black hover:text-white cursor-pointer"
+								className="bg-black border-zinc-800 text-white hover:bg-black hover:text-white cursor-pointer"
 							>
 								<Settings className="w-4 h-4 mr-2" />
 								Server Options
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent className="bg-black border-zinc-800 text-white">
-							<DropdownMenuItem className="hover:bg-zinc-800 cursor-pointer">
-								View in Discord
-							</DropdownMenuItem>
-							<DropdownMenuItem className="hover:bg-zinc-800 cursor-pointer">
-								Reset Bot Settings
+							<DropdownMenuItem className=" hover:bg-zinc-800 cursor-pointer">
+								<Link
+									href={`https://discord.com/channels/${guildData.id}`}
+									target="_blank"
+								>
+									View in Discord
+								</Link>
 							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
@@ -135,8 +146,11 @@ const GuildDashboard = ({
 							key={tab}
 							value={tab}
 							className="px-6 py-3 data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-white text-white data-[state=active]:shadow-none rounded-lg cursor-pointer"
+							disabled={tab === 'permissions' || tab === 'settings'}
 						>
-							{tab.charAt(0).toUpperCase() + tab.slice(1)}
+							{tab.charAt(0).toUpperCase() + tab.slice(1)}{' '}
+							{tab === 'permissions' && <ComingSoonTag />}
+							{tab === 'settings' && <ComingSoonTag />}
 						</TabsTrigger>
 					))}
 				</TabsList>
@@ -156,6 +170,7 @@ const GuildDashboard = ({
 							healthData={healthData}
 							guildCommandHistory={guildCommandHistory}
 							guildPlayers={guildPlayers}
+							musicState={musicState}
 						/>
 					</motion.div>
 				</AnimatePresence>
