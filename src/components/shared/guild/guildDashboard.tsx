@@ -1,7 +1,7 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
 	DiscordUserData,
 	GuildCommandHistoryData,
@@ -14,9 +14,6 @@ import Overview from '@/components/shared/guild/guildOverview';
 import GuildMusic from '@/components/shared/guild/guildMusic';
 import GuildPermission from './guildPermission';
 import GuildSettings from './guildSettings';
-import { client_id } from '@/constants';
-import ServerNotFound from '../serverNotFound';
-import BotNotinGuild from '../botNotinGuild';
 import { getServerIcon } from '@/helpers';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
@@ -72,7 +69,6 @@ const GuildDashboard = ({
 
 	const features = guildData.features.slice(0, 3);
 	const roleCount = guildData.roles.length;
-	const botRoles = guildData.roles.filter((role) => role.tags?.bot_id).length;
 
 	return (
 		<div className="p-6">
