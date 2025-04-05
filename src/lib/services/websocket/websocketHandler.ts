@@ -24,6 +24,10 @@ export function handleWebSocketMessage(message: any) {
 	}
 
 	switch (type) {
+		case 'now_playing':
+			musicState[guildId].currentTrack = data.track || null;
+			musicState[guildId].playing = data.playing || false;
+			musicState[guildId].paused = data.paused || false;
 		case 'track_start':
 			musicState[guildId].currentTrack = data.track || null;
 			musicState[guildId].queue = data.queue || [];
