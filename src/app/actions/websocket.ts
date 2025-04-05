@@ -273,3 +273,29 @@ export const getQueue = async (
 		};
 	}
 };
+
+export const getNowPlaying = async (
+	guildId: string,
+): Promise<{ success: boolean; message: string }> => {
+	try {
+		if (!webSocketInstance) {
+			return { success: false, message: 'WebSocket is not connected' };
+		}
+
+		webSocketInstance.send('now_playing', { guildId });
+
+		revalidatePath(`/guilds/${guildId}`);
+
+		return {
+			success: true,
+			message: `Now playing data for guild ${guildId}`,
+		};
+	} catch (error) {
+		return {
+			success: false,
+			message: `Failed to get now playing: ${
+				error instanceof Error ? error.message : String(error)
+			}`,
+		};
+	}
+};
