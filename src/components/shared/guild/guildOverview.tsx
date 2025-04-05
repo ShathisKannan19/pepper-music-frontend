@@ -82,7 +82,9 @@ const Overview = ({
 					</CardHeader>
 					<CardContent>
 						<p className="text-2xl font-bold">
-							{guildCommandHistory?.pagination.total}
+							{guildCommandHistory?.pagination
+								? guildCommandHistory.pagination.total
+								: 0}
 						</p>
 						<p className="text-zinc-400 text-sm">Overall</p>
 					</CardContent>
