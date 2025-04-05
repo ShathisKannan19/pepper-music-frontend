@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Pause, Play, SkipForward, StopCircle, Repeat } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
+	getNowPlaying,
 	pausePlayback,
 	resumePlayback,
 	skipSong,
@@ -21,7 +22,7 @@ interface CurrentSongPlayerProps {
 const CurrentSongPlayer = ({ guildId, musicState }: CurrentSongPlayerProps) => {
 	const [isLooping, setIsLooping] = useState(false);
 	const [currentPosition, setCurrentPosition] = useState<number>(0);
-	const { currentTrack, playing } = musicState;
+	const { currentTrack, playing, paused } = musicState;
 
 	useEffect(() => {
 		if (currentTrack) {
@@ -30,28 +31,35 @@ const CurrentSongPlayer = ({ guildId, musicState }: CurrentSongPlayerProps) => {
 	}, [currentTrack?.uri]);
 
 	useEffect(() => {
-		let interval: NodeJS.Timeout;
+		let dataFetchInterval: NodeJS.Timeout;
+		let smoothUpdateInterval: NodeJS.Timeout;
 
-		if (currentTrack && playing) {
-			interval = setInterval(() => {
+		dataFetchInterval = setInterval(async () => {
+			await getNowPlaying(guildId);
+			if (currentTrack) {
+				setCurrentPosition(currentTrack.position);
+			}
+		}, 10000);
+
+		if (currentTrack && playing && !paused) {
+			smoothUpdateInterval = setInterval(() => {
 				setCurrentPosition((prev: number) => {
 					const newPosition = prev + 100;
 
 					if (newPosition >= currentTrack.duration) {
-						clearInterval(interval);
 						return currentTrack.duration;
 					}
 
-					if (currentTrack.position) currentTrack.position = newPosition; //adds latest position to the currentTrack object, which makes persistent across tabs switch
 					return newPosition;
 				});
 			}, 100);
 		}
 
 		return () => {
-			if (interval) clearInterval(interval);
+			if (dataFetchInterval) clearInterval(dataFetchInterval);
+			if (smoothUpdateInterval) clearInterval(smoothUpdateInterval);
 		};
-	}, [currentTrack, playing]);
+	}, [currentTrack, playing, paused, guildId]);
 
 	const setToast = (title: string, description?: string) => {
 		toast.success(title, {
