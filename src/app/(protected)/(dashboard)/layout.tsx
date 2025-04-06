@@ -16,7 +16,7 @@ const fetchUserData = async (sessionToken: string) => {
 			{
 				method: 'POST',
 				body: JSON.stringify({ token: sessionToken }),
-				cache: 'no-store',
+				next: { revalidate: 10000 },
 			},
 		);
 
@@ -53,6 +53,3 @@ const Layout: NextPage<Props> = async ({ children }) => {
 };
 
 export default Layout;
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
-export const fetchCache = 'force-no-store';

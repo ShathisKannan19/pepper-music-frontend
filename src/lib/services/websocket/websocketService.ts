@@ -130,21 +130,6 @@ export class WebsocketService {
 					callback(message.data);
 				});
 			}
-
-			// Default logging based on message type
-			switch (message.type) {
-				case 'error':
-					console.error(
-						`Error: ${message.data.message} (${message.data.code})`,
-					);
-					break;
-
-				case 'track_start':
-					console.log(
-						`Now playing: ${message.data.track.title} by ${message.data.track.author}`,
-					);
-					break;
-			}
 		} catch (error) {
 			console.error('Error handling WebSocket message:', error);
 		}

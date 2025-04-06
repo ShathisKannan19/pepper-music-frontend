@@ -6,25 +6,20 @@ import { revalidatePath } from 'next/cache';
 // Global instance of the WebSocket service
 let webSocketInstance: WebsocketService | null = null;
 
-// Connect to the WebSocket server
-export const connectWebsocket = async () => {
-	try {
-		if (webSocketInstance && webSocketInstance.isConnected()) {
-			return {
-				success: true,
-				message: 'Already connected to WebSocket server',
-			};
-		}
-
+const ensureWebSocketConnection = async () => {
+	if (!webSocketInstance || !webSocketInstance.isConnected()) {
 		webSocketInstance = new WebsocketService(
 			`${process.env.BACKEND_MUSIC_ENDPOINT}`,
 		);
-
-		// Initialize our handler before connecting
 		initializeWebSocketHandler(webSocketInstance);
-
 		await webSocketInstance.connect();
+	}
+};
 
+// Connect to the WebSocket server
+export const connectWebsocket = async () => {
+	try {
+		await ensureWebSocketConnection();
 		return { success: true, message: 'Connected to WebSocket server' };
 	} catch (error) {
 		return {
@@ -54,11 +49,9 @@ export const setGuildVolume = async (
 	volume: number,
 ): Promise<{ success: boolean; message: string }> => {
 	try {
-		if (!webSocketInstance) {
-			return { success: false, message: 'WebSocket is not connected' };
-		}
+		await ensureWebSocketConnection();
 
-		webSocketInstance.setVolume(guildId, volume);
+		webSocketInstance!.setVolume(guildId, volume);
 
 		// Revalidate the path to update any server components
 		revalidatePath(`/guilds/${guildId}`);
@@ -81,14 +74,9 @@ export const getGuildVolume = async (
 	guildId: string,
 ): Promise<{ success: boolean; message: string }> => {
 	try {
-		if (!webSocketInstance) {
-			return { success: false, message: 'WebSocket is not connected' };
-		}
+		await ensureWebSocketConnection();
 
-		webSocketInstance.getVolume(guildId);
-
-		// Revalidate the path to update any server components
-		revalidatePath(`/guilds/${guildId}`);
+		webSocketInstance!.getVolume(guildId);
 
 		return {
 			success: true,
@@ -111,14 +99,12 @@ export const playSong = async (
 	query: string,
 ): Promise<{ success: boolean; message: string }> => {
 	try {
-		if (!webSocketInstance) {
-			return { success: false, message: 'WebSocket is not connected' };
-		}
+		await ensureWebSocketConnection();
 
-		webSocketInstance.playSong(guildId, userId, query);
+		webSocketInstance!.playSong(guildId, userId, query);
 
 		// Revalidate the path to update any server components
-		revalidatePath(`/guilds/${guildId}`);
+		revalidatePath(`/dashboard/server/${guildId}`);
 
 		return {
 			success: true,
@@ -139,14 +125,9 @@ export const pausePlayback = async (
 	guildId: string,
 ): Promise<{ success: boolean; message: string }> => {
 	try {
-		if (!webSocketInstance) {
-			return { success: false, message: 'WebSocket is not connected' };
-		}
+		await ensureWebSocketConnection();
 
-		webSocketInstance.pause(guildId);
-
-		// Revalidate the path to update any server components
-		revalidatePath(`/guilds/${guildId}`);
+		webSocketInstance!.pause(guildId);
 
 		return {
 			success: true,
@@ -167,14 +148,9 @@ export const resumePlayback = async (
 	guildId: string,
 ): Promise<{ success: boolean; message: string }> => {
 	try {
-		if (!webSocketInstance) {
-			return { success: false, message: 'WebSocket is not connected' };
-		}
+		await ensureWebSocketConnection();
 
-		webSocketInstance.resume(guildId);
-
-		// Revalidate the path to update any server components
-		revalidatePath(`/guilds/${guildId}`);
+		webSocketInstance!.resume(guildId);
 
 		return {
 			success: true,
@@ -195,14 +171,12 @@ export const skipSong = async (
 	guildId: string,
 ): Promise<{ success: boolean; message: string }> => {
 	try {
-		if (!webSocketInstance) {
-			return { success: false, message: 'WebSocket is not connected' };
-		}
+		await ensureWebSocketConnection();
 
-		webSocketInstance.skip(guildId);
+		webSocketInstance!.skip(guildId);
 
 		// Revalidate the path to update any server components
-		revalidatePath(`/guilds/${guildId}`);
+		revalidatePath(`/dashboard/server/${guildId}`);
 
 		return {
 			success: true,
@@ -223,14 +197,12 @@ export const stopPlayback = async (
 	guildId: string,
 ): Promise<{ success: boolean; message: string }> => {
 	try {
-		if (!webSocketInstance) {
-			return { success: false, message: 'WebSocket is not connected' };
-		}
+		await ensureWebSocketConnection();
 
-		webSocketInstance.stop(guildId);
+		webSocketInstance!.stop(guildId);
 
 		// Revalidate the path to update any server components
-		revalidatePath(`/guilds/${guildId}`);
+		revalidatePath(`/dashboard/server/${guildId}`);
 
 		return {
 			success: true,
@@ -251,14 +223,12 @@ export const getQueue = async (
 	guildId: string,
 ): Promise<{ success: boolean; message: string }> => {
 	try {
-		if (!webSocketInstance) {
-			return { success: false, message: 'WebSocket is not connected' };
-		}
+		await ensureWebSocketConnection();
 
-		webSocketInstance.send('queue', { guildId });
+		webSocketInstance!.send('queue', { guildId });
 
 		// Revalidate the path to update any server components
-		revalidatePath(`/guilds/${guildId}`);
+		revalidatePath(`/dashboard/server/${guildId}`);
 
 		return {
 			success: true,
@@ -268,6 +238,30 @@ export const getQueue = async (
 		return {
 			success: false,
 			message: `Failed to get queue: ${
+				error instanceof Error ? error.message : String(error)
+			}`,
+		};
+	}
+};
+
+export const getNowPlaying = async (
+	guildId: string,
+): Promise<{ success: boolean; message: string }> => {
+	try {
+		await ensureWebSocketConnection();
+
+		webSocketInstance!.send('now_playing', { guildId });
+
+		revalidatePath(`/dashboard/server/${guildId}`);
+
+		return {
+			success: true,
+			message: `Now playing data for guild ${guildId}`,
+		};
+	} catch (error) {
+		return {
+			success: false,
+			message: `Failed to get now playing: ${
 				error instanceof Error ? error.message : String(error)
 			}`,
 		};

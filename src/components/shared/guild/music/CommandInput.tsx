@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { playSong, skipSong } from '@/app/actions/websocket';
-import { toast } from 'sonner';
+import { playSong } from '@/app/actions/websocket';
+import { showToast } from '@/utils/toast';
 
 interface CommandInputProps {
 	guildId: string;
@@ -28,35 +28,33 @@ const CommandInput = ({
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
+
 		if (!input.trim()) return;
 
 		setIsLoading(true);
+
 		try {
 			let result;
 
 			// Handle different commands
-			if (command === '/play') {
-				result = await playSong(guildId, userId, input);
-			} else {
-				// Add other command handlers here
-				result = { success: false, message: 'Command not implemented' };
+			switch (command) {
+				case '/play':
+					result = await playSong(guildId, userId, input);
+					break;
+				default:
+					result = { success: false, message: 'Command not implemented' };
 			}
 
 			if (result.success) {
-				toast(description, {
-					description: `${command} ${input}`,
-				});
+				showToast(description, `${command} ${input}`);
 				setInput('');
 				if (onSuccess) onSuccess();
 			} else {
-				toast('Command Failed', {
-					description: result.message,
-				});
+				showToast('Command Failed', result.message, { type: 'error' });
 			}
 		} catch (error) {
-			toast('Error', {
-				description: `An unexpected error occurred`,
-			});
+			console.error(`Error executing command ${command}:`, error);
+			showToast('Error', 'An unexpected error occurred', { type: 'error' });
 		} finally {
 			setIsLoading(false);
 		}
@@ -71,6 +69,7 @@ const CommandInput = ({
 						onChange={(e) => setInput(e.target.value)}
 						placeholder={placeholder}
 						className="bg-zinc-700 border-zinc-600 text-white"
+						disabled={isLoading}
 					/>
 					<Button
 						type="submit"

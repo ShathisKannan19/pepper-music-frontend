@@ -11,13 +11,11 @@ import {
 	Play,
 	SkipForward,
 	Pause,
-	Play as Resume,
 	StopCircle,
 	List,
 	Shuffle,
 } from 'lucide-react';
 import CommandInput from './CommandInput';
-import { toast } from 'sonner';
 import {
 	getQueue,
 	pausePlayback,
@@ -25,6 +23,15 @@ import {
 	skipSong,
 	stopPlayback,
 } from '@/app/actions/websocket';
+import { showToast } from '@/utils/toast';
+
+interface Command {
+	cmd: string;
+	desc: string;
+	icon: React.ReactNode;
+	placeholder?: string;
+	needsInput?: boolean;
+}
 
 interface InteractiveCommandsProps {
 	guildId: string;
@@ -34,12 +41,13 @@ interface InteractiveCommandsProps {
 const InteractiveCommands = ({ guildId, userId }: InteractiveCommandsProps) => {
 	const [activeCommand, setActiveCommand] = useState<string | null>(null);
 
-	const commands = [
+	const commands: Command[] = [
 		{
 			cmd: '/play',
 			desc: 'Play a song',
 			icon: <Play className="h-4 w-4 mr-2 text-green-400" />,
 			placeholder: 'Enter song name or URL',
+			needsInput: true,
 		},
 		{
 			cmd: '/skip',
@@ -54,34 +62,35 @@ const InteractiveCommands = ({ guildId, userId }: InteractiveCommandsProps) => {
 		{
 			cmd: '/resume',
 			desc: 'Resume playback',
-			icon: <Resume className="h-4 w-4 mr-2 text-green-400" />,
+			icon: <Play className="h-4 w-4 mr-2 text-green-400" />,
 		},
 		{
 			cmd: '/stop',
 			desc: 'Stop playback',
 			icon: <StopCircle className="h-4 w-4 mr-2 text-red-400" />,
 		},
-		// {
-		// 	cmd: '/queue',
-		// 	desc: 'Show current queue',
-		// 	icon: <List className="h-4 w-4 mr-2 text-purple-400" />,
-		// },
+		{
+			cmd: '/queue',
+			desc: 'Show current queue',
+			icon: <List className="h-4 w-4 mr-2 text-purple-400" />,
+		},
 	];
 
 	const handleCommandClick = (cmd: string) => {
+		const command = commands.find((c) => c.cmd === cmd);
+
+		if (!command) return;
+
 		// For commands that need input like /play, show the input field
-		if (cmd === '/play') {
-			if (activeCommand === cmd) {
-				setActiveCommand(null);
-			} else {
-				setActiveCommand(cmd);
-			}
+		if (command.needsInput) {
+			setActiveCommand(activeCommand === cmd ? null : cmd);
 			return;
 		}
 
 		// For commands that don't need input, execute them directly
 		executeCommand(cmd);
 	};
+
 	const executeCommand = async (cmd: string) => {
 		try {
 			let result;
@@ -110,18 +119,13 @@ const InteractiveCommands = ({ guildId, userId }: InteractiveCommandsProps) => {
 			}
 
 			if (result.success) {
-				toast(cmd.substring(1), {
-					description: `Command executed successfully`,
-				});
+				showToast(cmd.substring(1), 'Command executed successfully');
 			} else {
-				toast('Command Failed', {
-					description: result.message,
-				});
+				showToast('Command Failed', result.message, { type: 'error' });
 			}
 		} catch (error) {
-			toast('Error', {
-				description: `An unexpected error occurred`,
-			});
+			console.error(`Error executing command ${cmd}:`, error);
+			showToast('Error', 'An unexpected error occurred', { type: 'error' });
 		}
 	};
 
@@ -134,35 +138,65 @@ const InteractiveCommands = ({ guildId, userId }: InteractiveCommandsProps) => {
 				</CardDescription>
 			</CardHeader>
 			<CardContent className="space-y-3">
-				{commands.map((cmd) => (
-					<div key={cmd.cmd}>
-						<div
-							className="p-2 bg-zinc-900 rounded-md cursor-pointer hover:bg-zinc-700 transition-colors"
-							onClick={() => handleCommandClick(cmd.cmd)}
-						>
-							<div className="flex items-center">
-								{cmd.icon}
-								<code className="font-mono text-white">{cmd.cmd}</code>
-							</div>
-							<p className="text-sm text-zinc-400 mt-1">{cmd.desc}</p>
-						</div>
-
-						{activeCommand === cmd.cmd && cmd.cmd === '/play' && (
-							<div className="mt-2">
-								<CommandInput
-									guildId={guildId}
-									userId={userId}
-									command={cmd.cmd}
-									description={cmd.desc}
-									placeholder={cmd.placeholder || ''}
-									onSuccess={() => setActiveCommand(null)}
-								/>
-							</div>
-						)}
-					</div>
+				{commands.map((command) => (
+					<CommandItem
+						key={command.cmd}
+						command={command}
+						isActive={activeCommand === command.cmd}
+						onClick={() => handleCommandClick(command.cmd)}
+						guildId={guildId}
+						userId={userId}
+						onSuccess={() => setActiveCommand(null)}
+					/>
 				))}
 			</CardContent>
 		</Card>
+	);
+};
+
+interface CommandItemProps {
+	command: Command;
+	isActive: boolean;
+	onClick: () => void;
+	guildId: string;
+	userId: string;
+	onSuccess: () => void;
+}
+
+const CommandItem = ({
+	command,
+	isActive,
+	onClick,
+	guildId,
+	userId,
+	onSuccess,
+}: CommandItemProps) => {
+	return (
+		<div>
+			<div
+				className="p-2 bg-zinc-900 rounded-md cursor-pointer hover:bg-zinc-700 transition-colors"
+				onClick={onClick}
+			>
+				<div className="flex items-center">
+					{command.icon}
+					<code className="font-mono text-white">{command.cmd}</code>
+				</div>
+				<p className="text-sm text-zinc-400 mt-1">{command.desc}</p>
+			</div>
+
+			{isActive && command.needsInput && (
+				<div className="mt-2">
+					<CommandInput
+						guildId={guildId}
+						userId={userId}
+						command={command.cmd}
+						description={command.desc}
+						placeholder={command.placeholder || ''}
+						onSuccess={onSuccess}
+					/>
+				</div>
+			)}
+		</div>
 	);
 };
 

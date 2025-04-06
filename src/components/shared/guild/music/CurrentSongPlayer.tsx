@@ -1,17 +1,19 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Pause, Play, SkipForward, StopCircle, Repeat } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import {
+	connectWebsocket,
+	getNowPlaying,
 	pausePlayback,
 	resumePlayback,
 	skipSong,
 	stopPlayback,
 } from '@/app/actions/websocket';
-import { Progress } from '@/components/ui/progress';
-import { toast } from 'sonner';
 import { MusicState } from '@/types';
+import { showToast } from '@/utils/toast';
+import { formatTime } from '@/utils/format';
+import ProgressBar from '@/components/shared/player/progressBar';
+import PlayerControls from '@/components/shared/player/playerControls';
 
 interface CurrentSongPlayerProps {
 	guildId: string;
@@ -19,101 +21,137 @@ interface CurrentSongPlayerProps {
 }
 
 const CurrentSongPlayer = ({ guildId, musicState }: CurrentSongPlayerProps) => {
-	const [isLooping, setIsLooping] = useState(false);
+	const [localMusicState, setLocalMusicState] = useState(musicState);
 	const [currentPosition, setCurrentPosition] = useState<number>(0);
-	const { currentTrack, playing } = musicState;
 
+	// Update local state when props change
 	useEffect(() => {
-		if (currentTrack) {
-			setCurrentPosition(currentTrack.position || 0);
+		setLocalMusicState(musicState);
+		if (musicState.currentTrack) {
+			setCurrentPosition(musicState.currentTrack.position || 0);
 		}
-	}, [currentTrack?.uri]);
+	}, [musicState]);
 
+	// Data fetching and position updating
 	useEffect(() => {
-		let interval: NodeJS.Timeout;
+		let dataFetchInterval: NodeJS.Timeout;
+		let smoothUpdateInterval: NodeJS.Timeout;
 
-		if (currentTrack && playing) {
-			interval = setInterval(() => {
+		const fetchData = async () => {
+			try {
+				await connectWebsocket();
+				await getNowPlaying(guildId);
+			} catch (error) {
+				console.error('Error fetching current playback:', error);
+			}
+		};
+
+		dataFetchInterval = setInterval(fetchData, 10000);
+
+		if (
+			localMusicState.currentTrack &&
+			localMusicState.playing &&
+			!localMusicState.paused
+		) {
+			smoothUpdateInterval = setInterval(() => {
 				setCurrentPosition((prev: number) => {
+					if (!localMusicState.currentTrack) return prev;
+
 					const newPosition = prev + 100;
-
-					if (newPosition >= currentTrack.duration) {
-						clearInterval(interval);
-						return currentTrack.duration;
-					}
-
-					if (currentTrack.position) currentTrack.position = newPosition; //adds latest position to the currentTrack object, which makes persistent across tabs switch
-					return newPosition;
+					return newPosition >= localMusicState.currentTrack.duration
+						? localMusicState.currentTrack.duration
+						: newPosition;
 				});
 			}, 100);
 		}
 
 		return () => {
-			if (interval) clearInterval(interval);
+			clearInterval(dataFetchInterval);
+			clearInterval(smoothUpdateInterval);
 		};
-	}, [currentTrack, playing]);
+	}, [localMusicState, guildId]);
 
-	const setToast = (title: string, description?: string) => {
-		toast.success(title, {
-			description: description,
-		});
-	};
-
+	// Playback control handlers
 	const handlePlayPause = async () => {
-		if (!currentTrack) {
-			setToast('No song is currently playing');
+		if (!localMusicState.currentTrack) {
+			showToast('No song is currently playing', undefined, { type: 'info' });
 			return;
 		}
 
-		if (playing) {
-			const result = await pausePlayback(guildId);
-			if (result.success) {
-				setToast('Playback paused');
+		try {
+			if (localMusicState.playing) {
+				const result = await pausePlayback(guildId);
+				if (result.success) {
+					setLocalMusicState((prev) => ({
+						...prev,
+						playing: false,
+						paused: true,
+					}));
+					showToast('Playback paused');
+				} else {
+					showToast('Failed to pause', result.message, { type: 'error' });
+				}
 			} else {
-				setToast('Failed to pause', result.message);
+				const result = await resumePlayback(guildId);
+				if (result.success) {
+					setLocalMusicState((prev) => ({
+						...prev,
+						playing: true,
+						paused: false,
+					}));
+					showToast('Playback resumed');
+				} else {
+					showToast('Failed to resume', result.message, { type: 'error' });
+				}
 			}
-		} else {
-			const result = await resumePlayback(guildId);
-			if (result.success) {
-				setToast('Playback resumed');
-			} else {
-				setToast('Failed to resume', result.message);
-			}
+		} catch (error) {
+			console.error('Error controlling playback:', error);
+			showToast('An error occurred', 'Please try again later', {
+				type: 'error',
+			});
 		}
 	};
 
 	const handleSkip = async () => {
-		const result = await skipSong(guildId);
-		if (result.success) {
-			setToast('Skipped to next song');
-		} else {
-			setToast('Failed to skip', result.message);
+		try {
+			const result = await skipSong(guildId);
+			if (result.success) {
+				showToast('Skipped to next song');
+			} else {
+				showToast('Failed to skip', result.message, { type: 'error' });
+			}
+		} catch (error) {
+			console.error('Error skipping song:', error);
+			showToast('An error occurred', 'Please try again later', {
+				type: 'error',
+			});
 		}
 	};
 
 	const handleStop = async () => {
-		const result = await stopPlayback(guildId);
-		if (result.success) {
-			setToast('Playback stopped');
-		} else {
-			setToast('Failed to stop', result.message);
+		try {
+			setLocalMusicState((prev) => ({
+				...prev,
+				currentTrack: null,
+				playing: false,
+				paused: false,
+			}));
+
+			const result = await stopPlayback(guildId);
+			if (result.success) {
+				showToast('Playback stopped');
+			} else {
+				showToast('Failed to stop', result.message, { type: 'error' });
+			}
+		} catch (error) {
+			console.error('Error stopping playback:', error);
+			showToast('An error occurred', 'Please try again later', {
+				type: 'error',
+			});
 		}
 	};
 
-	const handleLoop = () => {
-		setIsLooping(!isLooping);
-		setToast(isLooping ? 'Loop disabled' : 'Loop enabled');
-	};
-
-	const formatTime = (milliseconds: number) => {
-		if (!milliseconds && milliseconds !== 0) return '0:00';
-		const seconds = milliseconds / 1000;
-		const mins = Math.floor(seconds / 60);
-		const secs = Math.floor(seconds % 60);
-		return `${mins}:${secs.toString().padStart(2, '0')}`;
-	};
-
-	return currentTrack ? (
+	return localMusicState.currentTrack ? (
 		<Card className="bg-black border-zinc-800 text-white">
 			<CardHeader>
 				<CardTitle>Now Playing</CardTitle>
@@ -122,71 +160,37 @@ const CurrentSongPlayer = ({ guildId, musicState }: CurrentSongPlayerProps) => {
 				<div className="flex flex-col md:flex-row gap-4 items-center">
 					<div className="flex-shrink-0">
 						<img
-							src={currentTrack.artworkUrl || '/api/placeholder/120/120'}
+							src={
+								localMusicState.currentTrack.artworkUrl ||
+								'/api/placeholder/120/120'
+							}
 							alt="Song thumbnail"
 							className="w-24 h-24 rounded-md"
 						/>
 					</div>
 
 					<div className="flex-grow">
-						<h3 className="font-semibold text-lg">{currentTrack.title}</h3>
-						<p className="text-zinc-400 text-sm mb-2">{currentTrack.author}</p>
+						<h3 className="font-semibold text-lg">
+							{localMusicState.currentTrack.title}
+						</h3>
+						<p className="text-zinc-400 text-sm mb-2">
+							{localMusicState.currentTrack.author}
+						</p>
 
-						<div className="mb-2">
-							<Progress
-								value={(currentPosition / currentTrack.duration) * 100 || 0}
-								className="h-1 bg-zinc-700"
+						{localMusicState.currentTrack && (
+							<ProgressBar
+								currentPosition={currentPosition}
+								duration={localMusicState.currentTrack.duration}
+								formatTime={formatTime}
 							/>
+						)}
 
-							<div className="flex justify-between text-xs text-zinc-500 mt-1">
-								<span>{formatTime(currentPosition)}</span>
-								<span>{formatTime(currentTrack.duration)}</span>
-							</div>
-						</div>
-
-						<div className="flex justify-center space-x-2 mt-4">
-							<Button
-								variant="outline"
-								size="icon"
-								className="rounded-full bg-black border-zinc-800 hover:bg-zinc-700 cursor-pointer"
-								onClick={handlePlayPause}
-							>
-								{playing ? (
-									<Pause className="h-5 w-5" color="white" />
-								) : (
-									<Play className="h-5 w-5" color="white" />
-								)}
-							</Button>
-
-							<Button
-								variant="outline"
-								size="icon"
-								className="rounded-full bg-black border-zinc-800 hover:bg-zinc-700 cursor-pointer"
-								onClick={handleSkip}
-							>
-								<SkipForward className="h-5 w-5" color="white" />
-							</Button>
-
-							<Button
-								variant="outline"
-								size="icon"
-								className="rounded-full bg-black border-zinc-800 hover:bg-zinc-700 cursor-pointer"
-								onClick={handleStop}
-							>
-								<StopCircle className="h-5 w-5" color="white" />
-							</Button>
-
-							{/* <Button
-								variant="outline"
-								size="icon"
-								className={`rounded-full bg-black border-zinc-800 hover:bg-zinc-700 cursor-pointer ${
-									isLooping ? 'text-green-400' : ''
-								}`}
-								onClick={handleLoop}
-							>
-								<Repeat className="h-5 w-5 " color="white" />
-							</Button> */}
-						</div>
+						<PlayerControls
+							isPlaying={localMusicState.playing}
+							onPlayPause={handlePlayPause}
+							onSkip={handleSkip}
+							onStop={handleStop}
+						/>
 					</div>
 				</div>
 			</CardContent>
