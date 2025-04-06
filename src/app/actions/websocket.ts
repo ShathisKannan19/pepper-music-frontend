@@ -252,7 +252,7 @@ export const getNowPlaying = async (
 
 		webSocketInstance!.send('now_playing', { guildId });
 
-		// revalidatePath(`/dashboard/server/${guildId}`);
+		revalidatePath(`/dashboard/server/${guildId}`);
 
 		return {
 			success: true,
