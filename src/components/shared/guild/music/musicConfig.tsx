@@ -8,12 +8,10 @@ import {
 import { Filter, List, Play, Volume2 } from 'lucide-react';
 import { NextPage } from 'next';
 import GlobalButton from '../../globalButton';
-import { useEffect, useState } from 'react';
-import { WebsocketService } from '@/lib/services/websocket/websocketService';
-import { toast } from 'sonner';
-import { getGuildVolume, setGuildVolume } from '@/app/actions/websocket';
-import { get } from 'http';
+import { useState } from 'react';
+import { setGuildVolume } from '@/app/actions/websocket';
 import { MusicState } from '@/types';
+import { showToast } from '@/utils/toast';
 
 interface Props {
 	guildId: string;
@@ -24,18 +22,13 @@ const MusicConfig: NextPage<Props> = ({ guildId, musicState }) => {
 	const [volume, setVolume] = useState<string>(
 		musicState?.volume?.toString() || '50',
 	);
-	const setToast = (title: string, description?: string) => {
-		toast(title, {
-			description: description,
-		});
-	};
 
 	const handleVolume = async (volume: number) => {
 		const result = await setGuildVolume(guildId, volume);
 		if (!result.success) {
-			setToast('Volume Update Failed', result.message);
+			showToast('Volume Update Failed', result.message, { type: 'error' });
 		} else {
-			setToast('Volume Updated successfully');
+			showToast('Volume Updated successfully');
 		}
 	};
 
