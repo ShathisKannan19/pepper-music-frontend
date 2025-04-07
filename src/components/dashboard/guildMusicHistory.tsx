@@ -8,7 +8,7 @@ import {
 import { ScrollArea } from '../ui/scroll-area';
 import { Disc } from 'lucide-react';
 import { Badge } from '../ui/badge';
-import getUserGuildsMusicHistory from '@/lib/discord/getUserGuildsMusicHistory';
+import { BaseTrackData, GuildCommandHistoryData } from '@/types';
 
 const getRelativeTime = (dateString: Date) => {
 	const date = new Date(dateString);
@@ -25,29 +25,33 @@ const getRelativeTime = (dateString: Date) => {
 	return `${diffDays}d ago`;
 };
 
-const UserGuildsMusicHistory = async () => {
+interface MusicHistoryData extends BaseTrackData {
+	guildId: string;
+	guildName: string;
+}
+
+export interface ExtendedGuildCommandHistoryData
+	extends Omit<GuildCommandHistoryData, 'data'> {
+	data: MusicHistoryData[];
+}
+
+const fetchGuildMusicHistory = async (userId: string) => {
 	try {
-		const response = await getUserGuildsMusicHistory();
-		if ('message' in response) {
-			throw new Error(response.message as string);
-		}
-
-		const allTracks = response.flatMap((guild) => {
-			if (!guild.history || !guild.history.data) {
-				return [];
-			}
-			return guild.history.data.map((track) => ({
-				...track,
-				guildName: guild.guildName,
-				guildId: guild.guildId,
-			}));
-		});
-
-		const sortedTracks = allTracks.sort(
-			(a, b) =>
-				new Date(b.lastPlayed).getTime() - new Date(a.lastPlayed).getTime(),
+		const response = await fetch(
+			`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/${userId}/history/guilds?page=1&pageSize=10`,
 		);
 
+		if (!response.ok) return null;
+		const data: ExtendedGuildCommandHistoryData = await response.json();
+		return data;
+	} catch (error) {
+		return null;
+	}
+};
+const UserGuildsMusicHistory = async ({ userId }: { userId: string }) => {
+	const data = await fetchGuildMusicHistory(userId);
+
+	try {
 		return (
 			<Card className="bg-black border-zinc-800 text-white">
 				<CardHeader>
@@ -59,14 +63,14 @@ const UserGuildsMusicHistory = async () => {
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
-					{sortedTracks.length === 0 ? (
+					{!data || !data.data.length ? (
 						<div className="h-48 flex items-center justify-center">
 							<p className="text-zinc-400">No music history found</p>
 						</div>
 					) : (
 						<ScrollArea className="h-80">
 							<div className="space-y-3">
-								{sortedTracks.map((track, index) => (
+								{data.data.map((track, index) => (
 									<div
 										key={`${track.guildId}-${track.uri}-${index}`}
 										className="flex items-center p-2 hover:bg-zinc-800 rounded-md"
@@ -88,7 +92,7 @@ const UserGuildsMusicHistory = async () => {
 													{track.title}
 												</p>
 												<p className="text-xs text-zinc-400 ml-2">
-													{getRelativeTime(track.lastPlayed)}
+													{/* {getRelativeTime(track.lastPlayed)} */}
 												</p>
 											</div>
 											<div className="flex items-center">

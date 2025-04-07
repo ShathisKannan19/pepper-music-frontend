@@ -46,7 +46,7 @@ export default async function Dashboard() {
 				<ActivePlayers />
 
 				{/* Guild Music History */}
-				<UserGuildsMusicHistory />
+				<UserGuildsMusicHistory userId={userData.user.id} />
 				{/* User History and Top Songs */}
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 					{/* User History */}

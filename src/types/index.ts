@@ -157,6 +157,16 @@ export interface HealthAPIData {
 	};
 }
 
+export interface BaseTrackData {
+	title: string;
+	author: string;
+	sourceName: string;
+	uri: string;
+	playCount: number;
+	lastPlayed: Date;
+	artworkUrl: string;
+}
+
 export interface GuildCommandHistoryData {
 	status: string;
 	timestamp: Date;
@@ -166,17 +176,7 @@ export interface GuildCommandHistoryData {
 		total: number;
 		totalPages: number;
 	};
-	data: [
-		{
-			title: string;
-			author: string;
-			sourceName: string;
-			uri: string;
-			playCount: number;
-			lastPlayed: Date;
-			artworkUrl: string;
-		},
-	];
+	data: BaseTrackData[];
 }
 
 export interface MusicTrack {
