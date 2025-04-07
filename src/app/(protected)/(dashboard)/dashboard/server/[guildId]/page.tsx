@@ -91,7 +91,7 @@ const guildPlayers = async (guildId: string) => {
 };
 const Page: NextPage<Props> = async ({ params }) => {
 	const { guildId } = await params;
-	if (!guildId) redirect('/dashboard/server-list');
+	if (!guildId) redirect('/dashboard/server');
 
 	const session = await getSession();
 

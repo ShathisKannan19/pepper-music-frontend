@@ -29,7 +29,7 @@ export const SidebarServerItems: SidebarItemType[] = [
 		children: [
 			{
 				name: 'server list',
-				value: '/server-list',
+				value: '/server',
 				icon: List,
 			},
 		],

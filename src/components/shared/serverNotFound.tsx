@@ -17,7 +17,7 @@ const ServerNotFound: NextPage<Props> = ({}) => {
 					The server you're looking for doesn't exist or you don't have access
 					to it.
 				</p>
-				<Link href="/dashboard/server-list">
+				<Link href="/dashboard/server">
 					<Button className="bg-white text-black hover:bg-zinc-200 cursor-pointer">
 						Return to Server List
 					</Button>
