@@ -121,12 +121,12 @@ export function DashboardSidebar({
 								side="top"
 								className="bg-black text-white border-zinc-800 w-[15rem]"
 							>
-								<DropdownMenuItem className="cursor-pointer">
+								{/* <DropdownMenuItem className="cursor-pointer">
 									<span>Account</span>
 								</DropdownMenuItem>
 								<DropdownMenuItem className="cursor-pointer">
 									<span>Billing</span>
-								</DropdownMenuItem>
+								</DropdownMenuItem> */}
 								<DropdownMenuItem
 									className="cursor-pointer"
 									onClick={handleLogout}

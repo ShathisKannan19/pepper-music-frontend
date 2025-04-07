@@ -35,7 +35,7 @@ export default async function Dashboard() {
 				<div className="flex flex-col space-y-2 py-6">
 					<h1 className="text-3xl font-bold text-white">
 						Hey {userData.user.username}!{' '}
-						<span className="text-zinc-700">Welcome to Pepper</span>
+						<span className="text-zinc-600">Welcome to Pepper</span>
 					</h1>
 					<p className="text-zinc-400 text-lg">
 						Control your music seamlessly across all your Discord servers
