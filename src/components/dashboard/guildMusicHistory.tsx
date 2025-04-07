@@ -9,6 +9,7 @@ import { ScrollArea } from '../ui/scroll-area';
 import { Disc } from 'lucide-react';
 import { Badge } from '../ui/badge';
 import { BaseTrackData, GuildCommandHistoryData } from '@/types';
+import { cache } from 'react';
 
 const getRelativeTime = (dateString: Date) => {
 	const date = new Date(dateString);
@@ -39,6 +40,9 @@ const fetchGuildMusicHistory = async (userId: string) => {
 	try {
 		const response = await fetch(
 			`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/${userId}/history/guilds?page=1&pageSize=10`,
+			{
+				cache: 'no-store',
+			},
 		);
 
 		if (!response.ok) return null;
