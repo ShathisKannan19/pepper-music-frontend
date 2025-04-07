@@ -62,7 +62,7 @@ export default async function Dashboard() {
 						entityType="user"
 						entityId={userData.user.id}
 						endpointPath="topsongs"
-						title="Your Top Songs"
+						title="Your Top Plays"
 						description="Most played tracks across all servers"
 					/>
 				</div>
