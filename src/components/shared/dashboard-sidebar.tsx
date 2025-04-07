@@ -58,7 +58,11 @@ export function DashboardSidebar({
 			</SidebarHeader>
 			<SidebarContent className="gap-0">
 				{SidebarServerItems.map((item) => (
-					<Collapsible key={item.name} className="group/collapsible">
+					<Collapsible
+						key={item.name}
+						className="group/collapsible"
+						defaultOpen={true}
+					>
 						<SidebarGroup>
 							<SidebarGroupLabel asChild>
 								<CollapsibleTrigger className="flex items-center w-full cursor-pointer">
