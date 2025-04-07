@@ -6,7 +6,7 @@ const menuRoutes = menuItems.map((item) => item.value);
 const publicRoutes = commonRoutes.concat(menuRoutes);
 
 export async function middleware(request: NextRequest) {
-	const { pathname } = new URL(request.url);
+	const { pathname, search } = new URL(request.url);
 
 	const isPublicRoute = publicRoutes.some(
 		(route) => pathname.startsWith(route) || pathname === '/',
@@ -19,7 +19,11 @@ export async function middleware(request: NextRequest) {
 	const token = request.cookies.get('session')?.value;
 
 	if (!token) {
-		return NextResponse.redirect(new URL('/auth/login', request.url));
+		// Encode the current URL to use as the redirect destination after login
+		const currentUrl = encodeURIComponent(pathname + search);
+		return NextResponse.redirect(
+			new URL(`/auth/login?redirect=${currentUrl}`, request.url),
+		);
 	}
 
 	return NextResponse.next();

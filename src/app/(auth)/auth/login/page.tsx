@@ -21,12 +21,22 @@ const checkSession = async () => {
 	return data;
 };
 
-const Page: NextPage = async () => {
+const Page = async ({
+	searchParams,
+}: {
+	searchParams: { redirect?: string };
+}) => {
 	const data = await checkSession();
+	const redirectPath = searchParams.redirect || '/dashboard'; // Default fallback
 
 	if (data) {
-		return <RedirectWithDelay />;
+		return <RedirectWithDelay redirectUri={redirectPath} />;
 	}
+
+	// Append the redirect to the Discord OAuth URL
+	const enhancedDiscordUrl = `${discordOauth2Url}${
+		discordOauth2Url.includes('?') ? '&' : '?'
+	}redirect_after_login=${encodeURIComponent(redirectPath)}`;
 
 	return (
 		<div className="bg-black text-white flex justify-center p-4 py-24 min-h-screen">
@@ -50,7 +60,7 @@ const Page: NextPage = async () => {
 				</CardHeader>
 				<CardContent>
 					<div className="space-y-4">
-						<Link href={discordOauth2Url} className="w-full block">
+						<Link href={enhancedDiscordUrl} className="w-full block">
 							<GlobalButton
 								className="cursor-pointer w-full bg-[#5865F2] hover:bg-[#4752C4] text-white flex items-center justify-center gap-2"
 								size="sm"
