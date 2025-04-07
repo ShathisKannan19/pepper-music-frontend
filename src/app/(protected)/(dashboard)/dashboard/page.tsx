@@ -29,7 +29,7 @@ export default async function Dashboard() {
 	if (!session) return;
 
 	const userData = await GetUserData(session.value);
-	console.log(userData);
+
 	return (
 		<div className="flex flex-col min-h-screen ">
 			<main className="flex-1 p-6 space-y-6">
