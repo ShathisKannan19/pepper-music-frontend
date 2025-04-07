@@ -23,6 +23,7 @@ const fetchGuilds = async (token: string) => {
 			{
 				method: 'POST',
 				body: JSON.stringify({ token }),
+				cache: 'force-cache',
 				next: { revalidate: 10000 },
 			},
 		);
@@ -38,9 +39,7 @@ const fetchGuild = async (guildId: string) => {
 	try {
 		const response = await fetch(
 			process.env.NEXT_PUBLIC_BASE_URL + '/api/auth/guilds/' + guildId,
-			{
-				next: { revalidate: 10000 },
-			},
+			{ cache: 'force-cache', next: { revalidate: 10000 } },
 		);
 
 		if (!response.ok) return null;
@@ -56,9 +55,7 @@ const fetchHealthAPI = async () => {
 	try {
 		const response = await fetch(
 			process.env.NEXT_PUBLIC_BASE_URL + '/api/health',
-			{
-				next: { revalidate: 10000 },
-			},
+			{ cache: 'force-cache', next: { revalidate: 10000 } },
 		);
 		const data = await response.json();
 		return data;
@@ -71,9 +68,7 @@ const guildCommandHistory = async (guildId: string) => {
 	try {
 		const response = await fetch(
 			process.env.NEXT_PUBLIC_BASE_URL + '/api/guild/' + guildId + '/history',
-			{
-				next: { revalidate: 10000 },
-			},
+			{ cache: 'force-cache', next: { revalidate: 10000 } },
 		);
 		const data = await response.json();
 		return data;
@@ -86,9 +81,7 @@ const guildPlayers = async (guildId: string) => {
 	try {
 		const response = await fetch(
 			process.env.NEXT_PUBLIC_BASE_URL + '/api/guild/' + guildId + '/players',
-			{
-				next: { revalidate: 10000 },
-			},
+			{ cache: 'force-cache', next: { revalidate: 10000 } },
 		);
 		const data = await response.json();
 		return data;
