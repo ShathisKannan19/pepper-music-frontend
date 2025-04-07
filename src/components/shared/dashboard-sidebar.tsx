@@ -24,7 +24,11 @@ import { redirect } from 'next/navigation';
 import { DiscordData } from '@/types';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
-import { useState } from 'react';
+import {
+	Collapsible,
+	CollapsibleContent,
+	CollapsibleTrigger,
+} from '@/components/ui/collapsible';
 
 const handleLogout = async () => {
 	await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/api/auth/logout');
@@ -37,14 +41,6 @@ export function DashboardSidebar({
 	userData: DiscordData;
 }) {
 	const pathname = usePathname();
-	const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
-
-	const toggleGroup = (name: string) => {
-		setOpenGroups((prev) => ({
-			...prev,
-			[name]: !prev[name],
-		}));
-	};
 
 	return (
 		<Sidebar>
@@ -62,49 +58,52 @@ export function DashboardSidebar({
 			</SidebarHeader>
 			<SidebarContent className="gap-0">
 				{SidebarServerItems.map((item) => (
-					<SidebarGroup key={item.name}>
-						<SidebarGroupLabel
-							className="flex items-center cursor-pointer"
-							onClick={() => toggleGroup(item.name)}
-						>
-							{item.name}
-							{item.children && (
-								<span className="ml-auto">
-									{openGroups[item.name] ? (
-										<ChevronUp size={16} />
-									) : (
-										<ChevronDown size={16} />
+					<Collapsible
+						key={item.name}
+						className="group/collapsible"
+						defaultOpen={true}
+					>
+						<SidebarGroup>
+							<SidebarGroupLabel asChild>
+								<CollapsibleTrigger className="flex items-center w-full cursor-pointer">
+									{item.name}
+									{item.children && (
+										<ChevronDown
+											className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180"
+											size={16}
+										/>
 									)}
-								</span>
-							)}
-						</SidebarGroupLabel>
-						<SidebarGroupContent
-							className={openGroups[item.name] ? '' : 'hidden'}
-						>
-							<SidebarMenu>
-								{item.children &&
-									item.children.map((child) => {
-										const isActive = pathname === '/dashboard' + child.value;
+								</CollapsibleTrigger>
+							</SidebarGroupLabel>
+							<CollapsibleContent>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										{item.children &&
+											item.children.map((child) => {
+												const isActive =
+													pathname === '/dashboard' + child.value;
 
-										return (
-											<SidebarMenuItem key={child.name}>
-												<SidebarMenuButton
-													className={isActive ? 'bg-white text-black' : ''}
-												>
-													<Link
-														href={'/dashboard' + child.value}
-														className="flex gap-2 items-center leading-tight w-full"
-													>
-														<child.icon size={'20'} />
-														<span className="capitalize">{child.name}</span>
-													</Link>
-												</SidebarMenuButton>
-											</SidebarMenuItem>
-										);
-									})}
-							</SidebarMenu>
-						</SidebarGroupContent>
-					</SidebarGroup>
+												return (
+													<SidebarMenuItem key={child.name}>
+														<SidebarMenuButton
+															className={isActive ? 'bg-white text-black' : ''}
+														>
+															<Link
+																href={'/dashboard' + child.value}
+																className="flex gap-2 items-center leading-tight w-full"
+															>
+																<child.icon size={'20'} />
+																<span className="capitalize">{child.name}</span>
+															</Link>
+														</SidebarMenuButton>
+													</SidebarMenuItem>
+												);
+											})}
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</CollapsibleContent>
+						</SidebarGroup>
+					</Collapsible>
 				))}
 			</SidebarContent>
 			<SidebarFooter>
@@ -121,12 +120,6 @@ export function DashboardSidebar({
 								side="top"
 								className="bg-black text-white border-zinc-800 w-[15rem]"
 							>
-								{/* <DropdownMenuItem className="cursor-pointer">
-									<span>Account</span>
-								</DropdownMenuItem>
-								<DropdownMenuItem className="cursor-pointer">
-									<span>Billing</span>
-								</DropdownMenuItem> */}
 								<DropdownMenuItem
 									className="cursor-pointer"
 									onClick={handleLogout}

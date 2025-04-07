@@ -42,7 +42,7 @@ const Layout: NextPage<Props> = async ({ children }) => {
 	}
 
 	return (
-		<SidebarProvider defaultOpen={false} className="bg-black">
+		<SidebarProvider defaultOpen={true} className="bg-black">
 			<DashboardSidebar userData={userData} />
 			<section className="w-full">
 				<SidebarTrigger className="text-white cursor-pointer" />
