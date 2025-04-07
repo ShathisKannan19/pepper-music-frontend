@@ -9,6 +9,8 @@ import { GetUserData } from '@/lib/discord';
 import { client_id } from '@/constants';
 import BotNotinGuild from '@/components/shared/botNotinGuild';
 import GuildWrapper from '@/components/shared/guild/guildWrapper';
+import { useCallback } from 'react';
+import { debounce } from '@/utils/debounce';
 
 interface Props {
 	params: Promise<{
@@ -16,7 +18,8 @@ interface Props {
 	}>;
 }
 
-const fetchGuilds = async (token: string) => {
+const DEBOUNCE_WAIT = 1000;
+const fetchGuilds = debounce(async (token: string) => {
 	try {
 		const response = await fetch(
 			process.env.NEXT_PUBLIC_BASE_URL + '/api/auth/user/guilds',
@@ -33,9 +36,9 @@ const fetchGuilds = async (token: string) => {
 	} catch {
 		return null;
 	}
-};
+}, DEBOUNCE_WAIT);
 
-const fetchGuild = async (guildId: string) => {
+const fetchGuild = debounce(async (guildId: string) => {
 	try {
 		const response = await fetch(
 			process.env.NEXT_PUBLIC_BASE_URL + '/api/auth/guilds/' + guildId,
@@ -49,9 +52,9 @@ const fetchGuild = async (guildId: string) => {
 	} catch {
 		return null;
 	}
-};
+}, DEBOUNCE_WAIT);
 
-const fetchHealthAPI = async () => {
+const fetchHealthAPI = debounce(async () => {
 	try {
 		const response = await fetch(
 			process.env.NEXT_PUBLIC_BASE_URL + '/api/health',
@@ -62,9 +65,9 @@ const fetchHealthAPI = async () => {
 	} catch {
 		return null;
 	}
-};
+}, DEBOUNCE_WAIT);
 
-const guildCommandHistory = async (guildId: string) => {
+const guildCommandHistory = debounce(async (guildId: string) => {
 	try {
 		const response = await fetch(
 			process.env.NEXT_PUBLIC_BASE_URL + '/api/guild/' + guildId + '/history',
@@ -75,9 +78,9 @@ const guildCommandHistory = async (guildId: string) => {
 	} catch {
 		return null;
 	}
-};
+}, DEBOUNCE_WAIT);
 
-const guildPlayers = async (guildId: string) => {
+const guildPlayers = debounce(async (guildId: string) => {
 	try {
 		const response = await fetch(
 			process.env.NEXT_PUBLIC_BASE_URL + '/api/guild/' + guildId + '/players',
@@ -88,7 +91,8 @@ const guildPlayers = async (guildId: string) => {
 	} catch {
 		return null;
 	}
-};
+}, DEBOUNCE_WAIT);
+
 const Page: NextPage<Props> = async ({ params }) => {
 	const { guildId } = await params;
 	if (!guildId) redirect('/dashboard/server');
@@ -128,10 +132,14 @@ const Page: NextPage<Props> = async ({ params }) => {
 
 	if (!userHasPerms) return <ServerNotFound />;
 
-	const healthAPIData = await fetchHealthAPI();
-	const guildCommandHistoryData = await guildCommandHistory(guildId);
-	const guildPlayersData = await guildPlayers(guildId);
-	const userData = await GetUserData(session.value);
+	// Using Promise.all to parallelize API calls while maintaining debouncing
+	const [healthAPIData, guildCommandHistoryData, guildPlayersData, userData] =
+		await Promise.all([
+			fetchHealthAPI(),
+			guildCommandHistory(guildId),
+			guildPlayers(guildId),
+			GetUserData(session.value),
+		]);
 
 	return (
 		<GuildWrapper
