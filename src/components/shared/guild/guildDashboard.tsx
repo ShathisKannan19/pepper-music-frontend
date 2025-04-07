@@ -62,7 +62,6 @@ const GuildDashboard = ({
 	musicState: MusicState;
 }) => {
 	const [activeTab, setActiveTab] = useState<TabKey>('overview');
-	const [currentPosition, setCurrentPosition] = useState(0);
 	const ActiveComponent = tabComponents[activeTab];
 
 	const serverIcon = getServerIcon(
