@@ -35,14 +35,23 @@ export interface ExtendedGuildCommandHistoryData
 	data: MusicHistoryData[];
 }
 
-const UserGuildsMusicHistory = async ({ userId }: { userId: string }) => {
+const fetchGuildMusicHistory = async (userId: string) => {
 	try {
 		const response = await fetch(
 			`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/${userId}/history/guilds?page=1&pageSize=10`,
 		);
 
+		if (!response.ok) return null;
 		const data: ExtendedGuildCommandHistoryData = await response.json();
+		return data;
+	} catch (error) {
+		return null;
+	}
+};
+const UserGuildsMusicHistory = async ({ userId }: { userId: string }) => {
+	const data = await fetchGuildMusicHistory(userId);
 
+	try {
 		return (
 			<Card className="bg-black border-zinc-800 text-white">
 				<CardHeader>
@@ -54,7 +63,7 @@ const UserGuildsMusicHistory = async ({ userId }: { userId: string }) => {
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
-					{!data.data.length ? (
+					{!data || !data.data.length ? (
 						<div className="h-48 flex items-center justify-center">
 							<p className="text-zinc-400">No music history found</p>
 						</div>
