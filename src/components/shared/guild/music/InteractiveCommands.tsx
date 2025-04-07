@@ -69,11 +69,11 @@ const InteractiveCommands = ({ guildId, userId }: InteractiveCommandsProps) => {
 			desc: 'Stop playback',
 			icon: <StopCircle className="h-4 w-4 mr-2 text-red-400" />,
 		},
-		{
-			cmd: '/queue',
-			desc: 'Show current queue',
-			icon: <List className="h-4 w-4 mr-2 text-purple-400" />,
-		},
+		// {
+		// 	cmd: '/queue',
+		// 	desc: 'Show current queue',
+		// 	icon: <List className="h-4 w-4 mr-2 text-purple-400" />,
+		// },
 	];
 
 	const handleCommandClick = (cmd: string) => {
