@@ -1,10 +1,17 @@
 import { logout } from '@/app/actions/auth';
 import ServerList from '@/components/shared/serverList';
 import { getSession } from '@/lib/session';
-import { NextPage } from 'next';
+import { Metadata, NextPage } from 'next';
 import { redirect } from 'next/navigation';
 
 interface Props {}
+
+export const metadata: Metadata = {
+	title:
+		'Server List | Pepper Dashboard | Control your music seamlessly across all your Discord servers',
+	description:
+		'Discover Pepper, your ultimate music companion on Discord. Play, manage, and enjoy music seamlessly with our powerful music bot. Add Pepper to your server today!',
+};
 
 const fetchGuilds = async (token: string) => {
 	try {

@@ -2,12 +2,19 @@ import { logout } from '@/app/actions/auth';
 import { DashboardSidebar } from '@/components/shared/dashboard-sidebar';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { getSession } from '@/lib/session';
-import { NextPage } from 'next';
+import { Metadata, NextPage } from 'next';
 import { redirect } from 'next/navigation';
 
 interface Props {
 	children: React.ReactNode;
 }
+
+export const metadata: Metadata = {
+	title:
+		'Dashboard Pepper | Control your music seamlessly across all your Discord servers',
+	description:
+		'Discover Pepper, your ultimate music companion on Discord. Play, manage, and enjoy music seamlessly with our powerful music bot. Add Pepper to your server today!',
+};
 
 const fetchUserData = async (sessionToken: string) => {
 	try {
