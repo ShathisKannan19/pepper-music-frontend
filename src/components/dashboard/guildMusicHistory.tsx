@@ -96,7 +96,7 @@ const UserGuildsMusicHistory = async ({ userId }: { userId: string }) => {
 													{track.title}
 												</p>
 												<p className="text-xs text-zinc-400 ml-2">
-													{getRelativeTime(track.lastPlayed)}
+													{getRelativeTime(track.timestamp)}
 												</p>
 											</div>
 											<div className="flex items-center">
@@ -109,12 +109,12 @@ const UserGuildsMusicHistory = async ({ userId }: { userId: string }) => {
 												>
 													{track.guildName}
 												</Badge>
-												{track.playCount > 1 && (
+												{track.played_number > 1 && (
 													<Badge
 														variant="outline"
 														className="ml-2 h-5 bg-zinc-900 text-zinc-400 text-xs border-zinc-700"
 													>
-														Played {track.playCount}x
+														Played {track.played_number}x
 													</Badge>
 												)}
 											</div>

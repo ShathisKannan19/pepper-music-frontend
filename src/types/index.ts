@@ -162,8 +162,8 @@ export interface BaseTrackData {
 	author: string;
 	sourceName: string;
 	uri: string;
-	playCount: number;
-	lastPlayed: Date;
+	played_number: number;
+	timestamp: Date;
 	artworkUrl: string;
 }
 

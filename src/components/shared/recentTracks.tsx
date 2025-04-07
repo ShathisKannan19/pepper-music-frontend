@@ -45,8 +45,8 @@ export const RecentTracks: React.FC<RecentTracksProps> = ({
 			author: string;
 			sourceName: string;
 			uri: string;
-			playCount: number;
-			lastPlayed: Date;
+			played_number: number;
+			timestamp: Date;
 			artworkUrl: string;
 		}[]
 	>([]);
@@ -142,9 +142,9 @@ export const RecentTracks: React.FC<RecentTracksProps> = ({
 					<p className="text-zinc-400 text-sm truncate">{track.author}</p>
 				</div>
 				<div className="text-zinc-500 text-sm space-x-2">
-					<span>{track.playCount} plays</span>
+					<span>{track.played_number} plays</span>
 					<span>•</span>
-					<span>{new Date(track.lastPlayed).toLocaleDateString()}</span>
+					<span>{new Date(track.timestamp).toLocaleDateString()}</span>
 				</div>
 			</div>
 		),
