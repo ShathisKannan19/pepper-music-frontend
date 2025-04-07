@@ -29,12 +29,13 @@ export default async function Dashboard() {
 	if (!session) return;
 
 	const userData = await GetUserData(session.value);
+	console.log(userData);
 	return (
 		<div className="flex flex-col min-h-screen ">
 			<main className="flex-1 p-6 space-y-6">
 				<div className="flex flex-col space-y-2 py-6">
 					<h1 className="text-3xl font-bold text-white">
-						Hey {userData.user.username}!{' '}
+						Hey {userData.user.global_name}!{' '}
 						<span className="text-zinc-600">Welcome to Pepper</span>
 					</h1>
 					<p className="text-zinc-400 text-lg">
