@@ -7,7 +7,6 @@ import { FaDiscord } from 'react-icons/fa';
 import Image from 'next/image';
 import GlobalButton from '@/components/shared/globalButton';
 import { getSession } from '@/lib/session';
-import { redirect } from 'next/navigation';
 import RedirectWithDelay from '@/components/shared/redirectWithDelay';
 
 export const metadata: Metadata = {
@@ -24,16 +23,16 @@ const checkSession = async () => {
 const Page = async ({
 	searchParams,
 }: {
-	searchParams: { redirect?: string };
+	searchParams: Promise<{ redirect?: string }>;
 }) => {
 	const data = await checkSession();
-	const redirectPath = searchParams.redirect || '/dashboard'; // Default fallback
+	const searchParamsData = await searchParams;
+	const redirectPath = searchParamsData.redirect || '/dashboard';
 
 	if (data) {
 		return <RedirectWithDelay redirectUri={redirectPath} />;
 	}
 
-	// Append the redirect to the Discord OAuth URL
 	const enhancedDiscordUrl = `${discordOauth2Url}${
 		discordOauth2Url.includes('?') ? '&' : '?'
 	}redirect_after_login=${encodeURIComponent(redirectPath)}`;
