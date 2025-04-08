@@ -31,6 +31,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
 	matcher: [
-		'/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|api/health|api/stats|api/commands|api/callback|api/auth/user|api/auth/logout|api/auth/user/guilds|api/auth/guilds|api/guild|api/players|api/user|api/events).*)',
+		'/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|api/health|api/stats|api/commands|api/callback|api/auth/user|api/auth/logout|api/auth/user/guilds|api/auth/guilds|api/guild|api/players|api/user|api/events|sitemap).*)',
 	],
 };
