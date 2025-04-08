@@ -1,5 +1,4 @@
-name: Deploy to K3s - Next.js App
-
+name: Deploy to K3s
 on:
   push:
     branches:
@@ -25,6 +24,9 @@ jobs:
           echo "NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}" >> .env
           echo "BACKEND_API_ENDPOINT=${{ secrets.BACKEND_API_ENDPOINT }}" >> .env
           echo "BACKEND_API_SECRET=${{ secrets.BACKEND_API_SECRET }}" >> .env
+          echo "BACKEND_MUSIC_ENDPOINT=${{ secrets.BACKEND_MUSIC_ENDPOINT }}" >> .env
+          echo "CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}" >> .env
+          echo "BOT_TOKEN=${{ secrets.BOT_TOKEN }}" >> .env
 
       # Build Docker image with environment variables
       - name: Build Docker image for ARM
