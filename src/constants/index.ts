@@ -35,7 +35,7 @@ export const SidebarServerItems: SidebarItemType[] = [
 		],
 	},
 ];
-export const commonRoutes = ['/auth', '/public', '/images'];
+export const commonRoutes = ['/auth', '/public', '/images', '/dashboard'];
 
 export const client_id =
 	process.env.NODE_ENV === 'development'

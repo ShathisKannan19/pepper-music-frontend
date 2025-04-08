@@ -1,4 +1,5 @@
 import { logout } from '@/app/actions/auth';
+import DashboardSEO from '@/components/dashboard/dashboardPublic';
 import { DashboardSidebar } from '@/components/shared/dashboard-sidebar';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { getSession } from '@/lib/session';
@@ -39,7 +40,7 @@ const Layout: NextPage<Props> = async ({ children }) => {
 	const session = await getSession();
 
 	if (!session) {
-		redirect('/auth/login');
+		return <DashboardSEO />;
 	}
 
 	const userData = await fetchUserData(session?.value);
