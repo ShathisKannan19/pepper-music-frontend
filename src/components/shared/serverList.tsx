@@ -121,8 +121,16 @@ export default function ServerList({ guildData }: PageProps) {
 							</CardContent>
 						</div>
 						<CardFooter className="pt-0">
-							<Button
-								className={`w-full ${
+							<Link
+								href={
+									hasDiscordPermission(
+										guild.permissions,
+										DiscordPermissions.MANAGE_SERVER,
+									)
+										? `/dashboard/server/${guild.id}`
+										: '#'
+								}
+								className={`w-full flex items-center justify-center px-4 py-2 rounded ${
 									hasDiscordPermission(
 										guild.permissions,
 										DiscordPermissions.MANAGE_SERVER,
@@ -130,17 +138,11 @@ export default function ServerList({ guildData }: PageProps) {
 										? 'bg-white text-black hover:bg-zinc-200 cursor-pointer'
 										: 'bg-zinc-800 text-zinc-400 cursor-not-allowed'
 								}`}
-								onClick={() =>
-									hasDiscordPermission(
-										guild.permissions,
-										DiscordPermissions.MANAGE_SERVER,
-									) && router.push(`/dashboard/server/${guild.id}`)
-								}
-								disabled={
+								onClick={(e) =>
 									!hasDiscordPermission(
 										guild.permissions,
 										DiscordPermissions.MANAGE_SERVER,
-									)
+									) && e.preventDefault()
 								}
 							>
 								{hasDiscordPermission(
@@ -150,7 +152,7 @@ export default function ServerList({ guildData }: PageProps) {
 									? 'Manage Bot'
 									: 'Missing Permissions'}
 								<ChevronRight className="w-4 h-4 ml-2" />
-							</Button>
+							</Link>
 						</CardFooter>
 					</Card>
 				))}
