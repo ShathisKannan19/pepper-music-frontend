@@ -6,9 +6,20 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 interface Props {}
 
 export const metadata: Metadata = {
-	title: 'Terms of Service | Pepper Music Bot',
+	title: 'Terms of Service | Use Guidelines for Pepper Music Bot',
 	description:
-		'Read the Terms of Service for Pepper Music Bot. By using Pepper, you agree to comply with these terms. Learn more about user conduct, privacy, intellectual property, and more.',
+		'Review the Terms of Service for Pepper Music Bot. Understand the rules for using Pepper, including user conduct, data usage, intellectual property, and compliance with Discord’s guidelines.',
+	keywords: [
+		'Pepper Terms of Service',
+		'Pepper bot TOS',
+		'Discord bot terms',
+		'Pepper user agreement',
+		'Pepper bot rules',
+		'Discord bot usage policy',
+		'intellectual property Pepper bot',
+		'user conduct Pepper Music Bot',
+		'Pepper Discord compliance',
+	],
 };
 
 const TermsOfService: NextPage<Props> = ({}) => {

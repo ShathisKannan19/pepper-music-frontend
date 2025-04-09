@@ -11,10 +11,20 @@ interface Props {
 }
 
 export const metadata: Metadata = {
-	title:
-		'Dashboard Pepper | Control your music seamlessly across all your Discord servers',
+	title: 'Pepper Dashboard | Manage Music Playback Across Your Discord Servers',
 	description:
-		'Discover Pepper, your ultimate music companion on Discord. Play, manage, and enjoy music seamlessly with our powerful music bot. Add Pepper to your server today!',
+		'Access the Pepper dashboard to control music playback, manage queues and playlists, adjust volume, and customize settings across all your Discord servers. Seamless control, powerful features.',
+	keywords: [
+		'Pepper dashboard',
+		'Discord bot dashboard',
+		'manage Discord music bot',
+		'music bot control panel',
+		'Discord playlist manager',
+		'volume control Discord bot',
+		'Pepper music bot settings',
+		'queue management Discord bot',
+		'Lavalink Discord dashboard',
+	],
 };
 
 const fetchUserData = async (sessionToken: string) => {

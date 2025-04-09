@@ -21,9 +21,20 @@ import { ErrorComponent } from '@/components/shared/errorComponent';
 interface Props {}
 
 export const metadata = {
-	title: 'Pepper Bot Commands | Pepper Music Bot',
+	title: 'Pepper Bot Commands | Full List of Discord Music Bot Slash Commands',
 	description:
-		'Browse all available slash commands for Pepper Music Bot including music playback, queue management, and statistics features.',
+		'Explore all available slash commands for Pepper Music Bot. Control music playback, manage queues, adjust volume, and access bot stats with simple, easy-to-use commands on your Discord server.',
+	keywords: [
+		'Pepper bot commands',
+		'Discord music bot commands',
+		'slash commands Discord bot',
+		'Pepper music playback commands',
+		'Discord bot volume control',
+		'queue management commands',
+		'Discord music bot help',
+		'Pepper bot help',
+		'Pepper slash commands list',
+	],
 };
 
 const fetchAPI = async () => {

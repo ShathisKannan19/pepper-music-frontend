@@ -18,9 +18,20 @@ import { discordServerLink, inviteLink } from '@/constants';
 interface Props {}
 
 export const metadata: Metadata = {
-	title: 'About Us - Pepper Music Bot for Discord',
+	title: 'About Pepper | Premium Discord Music Bot with Crystal-Clear Playback',
 	description:
-		"Discover Pepper, the ultimate music companion for your Discord server. Learn about its features, community benefits, and how it can elevate your server's music experience.",
+		'Learn more about Pepper, a high-performance Discord music bot powered by Lavalink. Explore our story, features, and commitment to delivering seamless, high-quality music streaming to communities worldwide.',
+	keywords: [
+		'About Pepper',
+		'Pepper music bot',
+		'Discord music bot story',
+		'premium Discord music bot',
+		'Lavalink music bot',
+		'Pepper bot features',
+		'Pepper bot community',
+		'Discord bot with dashboard',
+		'music streaming on Discord',
+	],
 };
 
 const AboutUs: NextPage<Props> = ({}) => {
