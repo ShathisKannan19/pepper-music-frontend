@@ -9,9 +9,20 @@ import Features from '@/components/shared/features';
 import Uptime from '@/components/shared/uptime';
 
 export const metadata: Metadata = {
-	title: 'Pepper | Stream Music Effortlessly on Discord',
+	title: 'Pepper | Best Discord Music Bot for Seamless Streaming',
 	description:
-		'Discover Pepper, your ultimate music companion on Discord. Play, manage, and enjoy music seamlessly with our powerful music bot. Add Pepper to your server today!',
+		'Add Pepper to your Discord server for high-quality music streaming from Spotify, YouTube, and more. Enjoy lag-free playback, playlist control, and an intuitive dashboard.',
+	keywords: [
+		'Discord music bot',
+		'Pepper music bot',
+		'Lavalink music bot',
+		'Spotify Discord bot',
+		'YouTube music bot',
+		'high quality Discord music',
+		'Discord bot with dashboard',
+		'playlist management Discord bot',
+		'Discord audio streaming bot',
+	],
 };
 
 const Page: NextPage = () => {

@@ -3,7 +3,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
-	Shield,
 	Eye,
 	Database,
 	Clock,
@@ -18,9 +17,19 @@ import {
 interface Props {}
 
 export const metadata: Metadata = {
-	title: 'Privacy Policy | Pepper Music Bot',
+	title: 'Privacy Policy | How Pepper Music Bot Handles Your Data',
 	description:
-		'Read the privacy policy for Pepper Music Bot to understand how we collect, use, and protect your personal information.',
+		'Learn how Pepper Music Bot collects, uses, and protects your data. Our privacy policy explains user information handling, third-party integrations, and your rights as a user.',
+	keywords: [
+		'Pepper privacy policy',
+		'Discord bot privacy policy',
+		'data collection Discord bot',
+		'Pepper bot data usage',
+		'user privacy Discord',
+		'privacy and security Pepper',
+		'Lavalink bot privacy policy',
+		'Spotify Discord bot privacy',
+	],
 };
 
 const PrivacyPolicy: NextPage<Props> = ({}) => {

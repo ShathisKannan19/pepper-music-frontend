@@ -14,9 +14,20 @@ import { StatsData } from '@/types';
 import { ErrorComponent } from '@/components/shared/errorComponent';
 
 export const metadata = {
-	title: 'Pepper Bot Stats | Pepper Music Bot',
+	title: 'Pepper Bot Stats | Real-Time Metrics for the Pepper Music Bot',
 	description:
-		'View real-time statistics for Pepper Music Bot including server count, active players, user reach, and uptime metrics.',
+		'Track real-time statistics for Pepper Music Bot including total servers, active users, current playback sessions, uptime, and global reach. Stay updated on Pepper’s performance and usage.',
+	keywords: [
+		'Pepper bot stats',
+		'Discord music bot stats',
+		'real-time Discord bot metrics',
+		'Pepper uptime',
+		'Discord bot server count',
+		'Pepper usage stats',
+		'Discord bot analytics',
+		'Lavalink bot stats',
+		'Pepper bot reach and performance',
+	],
 };
 
 interface Props {}
