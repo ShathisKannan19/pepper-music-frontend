@@ -32,6 +32,8 @@ const MusicConfig: NextPage<Props> = ({ guildId, musicState }) => {
 		musicState?.autoPlay ?? false,
 	);
 
+	const [newAutoPlay, setNewAutoPlay] = useState<boolean | null>(null);
+
 	useEffect(() => {
 		if (musicState) {
 			if (
@@ -68,7 +70,7 @@ const MusicConfig: NextPage<Props> = ({ guildId, musicState }) => {
 
 	const saveChanges = async () => {
 		const volumeResult = await handleVolume(parseInt(newVolume ?? volume));
-		const autoPlayResult = await handleAutoPlay(autoPlay);
+		const autoPlayResult = await handleAutoPlay(newAutoPlay ?? autoPlay);
 
 		if (volumeResult.success && autoPlayResult.success) {
 			showToast('Settings saved successfully');
@@ -119,8 +121,8 @@ const MusicConfig: NextPage<Props> = ({ guildId, musicState }) => {
 						</div>
 
 						<Switch
-							checked={autoPlay}
-							onCheckedChange={(e) => setAutoPlay(e)}
+							checked={newAutoPlay ?? autoPlay}
+							onCheckedChange={(e) => setNewAutoPlay(e)}
 						/>
 					</div>
 
