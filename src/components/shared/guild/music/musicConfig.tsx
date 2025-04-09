@@ -26,16 +26,14 @@ const MusicConfig: NextPage<Props> = ({ guildId, musicState }) => {
 	const [volume, setVolume] = useState<string>(
 		(musicState?.volume ?? 50).toString(),
 	);
+	const [newVolume, setNewVolume] = useState<string | null>(null);
 
 	const [autoPlay, setAutoPlay] = useState<boolean>(
 		musicState?.autoPlay ?? false,
 	);
 
-	// Add a console log to debug the incoming musicState values
 	useEffect(() => {
-		console.log('MusicState updated:', musicState);
 		if (musicState) {
-			// Only update if musicState exists and values are different
 			if (
 				musicState.volume !== undefined &&
 				musicState.volume.toString() !== volume
@@ -69,7 +67,7 @@ const MusicConfig: NextPage<Props> = ({ guildId, musicState }) => {
 	};
 
 	const saveChanges = async () => {
-		const volumeResult = await handleVolume(parseInt(volume));
+		const volumeResult = await handleVolume(parseInt(newVolume ?? volume));
 		const autoPlayResult = await handleAutoPlay(autoPlay);
 
 		if (volumeResult.success && autoPlayResult.success) {
@@ -99,14 +97,17 @@ const MusicConfig: NextPage<Props> = ({ guildId, musicState }) => {
 								<Volume2 className="w-4 h-4 mr-2 text-zinc-400" />
 								<span className="font-medium">Default Volume</span>
 							</div>
-							<span className="text-sm text-zinc-400">{volume}%</span>
+							<span className="text-sm text-zinc-400">
+								{newVolume ? newVolume : volume}%
+							</span>
 						</div>
 						<input
 							type="range"
 							min="0"
 							max="100"
-							onChange={(e) => setVolume(e.target.value)}
-							value={volume} // Use value instead of defaultValue to ensure it updates
+							onChange={(e) => setNewVolume(e.target.value)}
+							value={newVolume ?? volume}
+							defaultValue={volume}
 							className="w-full h-2 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-white"
 						/>
 					</div>
