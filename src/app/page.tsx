@@ -22,8 +22,16 @@ const Page: NextPage = () => {
 					Stream Music Effortlessly with Pepper
 				</h2>
 				<p className="text-base md:text-lg text-gray-400 mb-6">
-					Your ultimate music companion on Discord. Play, manage, and enjoy
-					music seamlessly.
+					Your ultimate music companion on Discord with zero command. Play,
+					manage, and enjoy music seamlessly on our{' '}
+					<Link
+						href="/dashboard"
+						className="text-zinc-300 hover:text-zinc-200 hover:underline"
+					>
+						{' '}
+						Dashboard{' '}
+					</Link>
+					.
 				</p>
 				<Link href={inviteLink} target="_blank">
 					<GlobalButton>Add Pepper to Discord</GlobalButton>{' '}
@@ -38,15 +46,16 @@ const Page: NextPage = () => {
 					/>
 					<Card className="max-w-2xl bg-[var(--color-accent)] text-white border-0 rounded-lg lg:rounded-r-lg lg:rounded-l-none mt-0 lg:mt-0">
 						<CardContent className="text-justify my-auto p-6 md:p-10">
-							We're thrilled to have you on board. Pepper is here to bring the
-							power of music to your Discord server. Get ready to immerse
-							yourself in a world of melodies, beats, and rhythm that will
-							elevate your community interactions.
+							Pepper is a premium music bot powered by high-performance Lavalink
+							nodes strategically positioned across Asia and the US for
+							lag-free, high-quality music streaming worldwide.
 							<br /> <br />
-							With Pepper, you can effortlessly play music from popular sources
-							like YouTube, Spotify, SoundCloud, and more. Create personalized
-							playlists, explore a vast music library, and share your favorite
-							tunes with friends and fellow community members.
+							Enjoy seamless playback from Spotify, Deezer, YouTube, and more
+							with our comprehensive dashboard and advanced features including
+							soundboard, volume control, queueing, and playlist management.
+							Experience crystal-clear audio quality with minimal buffering
+							thanks to our distributed node architecture, making Pepper the
+							perfect music companion for any Discord server.
 						</CardContent>
 					</Card>
 				</div>
