@@ -233,5 +233,6 @@ export interface MusicState {
 	playing: boolean;
 	paused: boolean;
 	volume?: number;
+	autoPlay?: boolean;
 	queue: MusicTrack[];
 }

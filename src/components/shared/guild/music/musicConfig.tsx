@@ -1,3 +1,5 @@
+'use client';
+
 import {
 	Card,
 	CardContent,
@@ -8,10 +10,11 @@ import {
 import { Filter, List, Play, Volume2 } from 'lucide-react';
 import { NextPage } from 'next';
 import GlobalButton from '../../globalButton';
-import { useState } from 'react';
-import { setGuildVolume } from '@/app/actions/websocket';
+import { useEffect, useState } from 'react';
+import { setGuildAutoPlay, setGuildVolume } from '@/app/actions/websocket';
 import { MusicState } from '@/types';
 import { showToast } from '@/utils/toast';
+import { Switch } from '@/components/ui/switch';
 
 interface Props {
 	guildId: string;
@@ -19,16 +22,58 @@ interface Props {
 }
 
 const MusicConfig: NextPage<Props> = ({ guildId, musicState }) => {
+	// Initialize with the actual values from musicState
 	const [volume, setVolume] = useState<string>(
-		musicState?.volume?.toString() || '50',
+		(musicState?.volume ?? 50).toString(),
 	);
+
+	const [autoPlay, setAutoPlay] = useState<boolean>(
+		musicState?.autoPlay ?? false,
+	);
+
+	// Add a console log to debug the incoming musicState values
+	useEffect(() => {
+		console.log('MusicState updated:', musicState);
+		if (musicState) {
+			// Only update if musicState exists and values are different
+			if (
+				musicState.volume !== undefined &&
+				musicState.volume.toString() !== volume
+			) {
+				setVolume(musicState.volume.toString());
+			}
+
+			if (
+				musicState.autoPlay !== undefined &&
+				musicState.autoPlay !== autoPlay
+			) {
+				setAutoPlay(musicState.autoPlay);
+			}
+		}
+	}, [musicState, volume, autoPlay]);
+
+	const handleAutoPlay = async (checked: boolean) => {
+		const result = await setGuildAutoPlay(guildId, checked);
+		if (!result.success)
+			showToast('Auto Play Update Failed', result.message, { type: 'error' });
+
+		return result;
+	};
 
 	const handleVolume = async (volume: number) => {
 		const result = await setGuildVolume(guildId, volume);
-		if (!result.success) {
+		if (!result.success)
 			showToast('Volume Update Failed', result.message, { type: 'error' });
-		} else {
-			showToast('Volume Updated successfully');
+
+		return result;
+	};
+
+	const saveChanges = async () => {
+		const volumeResult = await handleVolume(parseInt(volume));
+		const autoPlayResult = await handleAutoPlay(autoPlay);
+
+		if (volumeResult.success && autoPlayResult.success) {
+			showToast('Settings saved successfully');
 		}
 	};
 
@@ -37,6 +82,7 @@ const MusicConfig: NextPage<Props> = ({ guildId, musicState }) => {
 			Coming Soon
 		</span>
 	);
+
 	return (
 		<Card className="bg-black border-zinc-800 text-white">
 			<CardHeader>
@@ -60,22 +106,21 @@ const MusicConfig: NextPage<Props> = ({ guildId, musicState }) => {
 							min="0"
 							max="100"
 							onChange={(e) => setVolume(e.target.value)}
-							defaultValue={volume}
+							value={volume} // Use value instead of defaultValue to ensure it updates
 							className="w-full h-2 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-white"
 						/>
 					</div>
 
-					<div className="p-4 bg-zinc-800 rounded-md flex items-center justify-between opacity-60 cursor-not-allowed">
+					<div className="p-4 bg-zinc-800 rounded-md flex items-center justify-between">
 						<div className="flex items-center">
 							<Play className="w-4 h-4 mr-2 text-zinc-400" />
-							<span className="font-medium flex items-center">
-								Auto-Play <ComingSoonTag />
-							</span>
+							<span className="font-medium flex items-center">Auto-Play</span>
 						</div>
-						<label className="relative inline-flex items-center cursor-not-allowed">
-							<input type="checkbox" className="sr-only" disabled />
-							<div className="w-11 h-6 bg-zinc-700 rounded-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-zinc-900"></div>
-						</label>
+
+						<Switch
+							checked={autoPlay}
+							onCheckedChange={(e) => setAutoPlay(e)}
+						/>
 					</div>
 
 					<div className="p-4 bg-zinc-800 rounded-md flex items-center justify-between opacity-60 cursor-not-allowed">
@@ -110,7 +155,7 @@ const MusicConfig: NextPage<Props> = ({ guildId, musicState }) => {
 
 				<GlobalButton
 					className="bg-white text-black mt-4 hover:bg-zinc-900 hover:text-white"
-					onClick={() => handleVolume(parseInt(volume))}
+					onClick={saveChanges}
 				>
 					Save Changes
 				</GlobalButton>

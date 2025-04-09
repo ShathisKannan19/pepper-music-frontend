@@ -267,3 +267,55 @@ export const getNowPlaying = async (
 		};
 	}
 };
+
+// Set Autoplay
+// This function sets the autoplay feature for a specific guild
+export const setGuildAutoPlay = async (
+	guildId: string,
+	enabled: boolean,
+): Promise<{ success: boolean; message: string }> => {
+	try {
+		await ensureWebSocketConnection();
+
+		webSocketInstance!.setAutoPlay(guildId, enabled);
+
+		// Revalidate the path to update any server components
+		revalidatePath(`/guilds/${guildId}`);
+
+		return {
+			success: true,
+			message: `AutoPlay set to ${enabled} for guild ${guildId}`,
+		};
+	} catch (error) {
+		return {
+			success: false,
+			message: `Failed to set Autoplay: ${
+				error instanceof Error ? error.message : String(error)
+			}`,
+		};
+	}
+};
+
+// Get Autoplay
+// This function retrieves the autoplay status for a specific guild
+export const getGuildAutoPlay = async (
+	guildId: string,
+): Promise<{ success: boolean; message: string }> => {
+	try {
+		await ensureWebSocketConnection();
+
+		webSocketInstance!.getAutoPlay(guildId);
+
+		return {
+			success: true,
+			message: `Volume for guild ${guildId}`,
+		};
+	} catch (error) {
+		return {
+			success: false,
+			message: `Failed to get volume: ${
+				error instanceof Error ? error.message : String(error)
+			}`,
+		};
+	}
+};

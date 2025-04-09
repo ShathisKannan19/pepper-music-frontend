@@ -28,6 +28,9 @@ export function handleWebSocketMessage(message: any) {
 			musicState[guildId].currentTrack = data.track || null;
 			musicState[guildId].playing = data.playing || false;
 			musicState[guildId].paused = data.paused || false;
+			musicState[guildId].autoPlay = data.autoPlay || false;
+			musicState[guildId].volume = data.volume || 50;
+
 		case 'track_start':
 			musicState[guildId].currentTrack = data.track || null;
 			musicState[guildId].queue = data.queue || [];

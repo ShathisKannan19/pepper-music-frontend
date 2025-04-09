@@ -266,4 +266,12 @@ export class WebsocketService {
 	getVolume(guildId: string): void {
 		this.send('volume', { guildId });
 	}
+
+	setAutoPlay(guildId: string, enabled: boolean): void {
+		this.send('autoplay', { guildId, enabled });
+	}
+
+	getAutoPlay(guildId: string): void {
+		this.send('autoplay', { guildId });
+	}
 }
