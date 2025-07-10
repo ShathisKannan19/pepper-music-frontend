@@ -82,12 +82,6 @@ const Navbar: NextPage<Props> = () => {
 				</ul>
 			</nav>
 
-			<Link href="/auth/login" className="hidden md:block">
-				<GlobalButton className="bg-none" size="sm">
-					Get Started
-				</GlobalButton>
-			</Link>
-
 			{/* Mobile Menu Button */}
 			<motion.button
 				className="md:hidden text-white z-10"
@@ -164,19 +158,6 @@ const Navbar: NextPage<Props> = () => {
 								))}
 							</ul>
 						</nav>
-
-						<motion.div
-							variants={itemVariants}
-							whileHover={{ scale: 1.05 }}
-							whileTap={{ scale: 0.95 }}
-						>
-							<Link href="/auth/login" onClick={() => setIsMenuOpen(false)}>
-								<GlobalButton className="bg-none hover:bg-gray-800 transition-colors duration-300">
-									Get Started
-								</GlobalButton>
-							</Link>
-						</motion.div>
-
 						<motion.div
 							className="absolute bottom-8 text-center text-sm text-gray-500"
 							initial={{ opacity: 0, y: 20 }}

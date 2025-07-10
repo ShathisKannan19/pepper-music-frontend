@@ -2,8 +2,6 @@ import { MenuItemType, SidebarItemType } from '@/types';
 import { ChartArea, Home, HomeIcon, List, Settings } from 'lucide-react';
 
 export const menuItems: MenuItemType[] = [
-	{ name: 'Commands', value: '/commands' },
-	{ name: 'Stats', value: '/stats' },
 	{ name: 'About Us', value: '/about-us' },
 	{ name: 'Terms of Service', value: '/terms-of-service' },
 	{ name: 'Privacy Policy', value: '/privacy-policy' },
@@ -76,3 +74,18 @@ export const features = [
 ];
 
 export const discordOauth2ApiUrl = 'https://discord.com/api/v10';
+
+export const MusicQuotes = [
+  "“Where words fail, music speaks.” – Hans Christian Andersen",
+  "“Music can change the world because it can change people.” – Bono",
+  "“Without music, life would be a mistake.” – Friedrich Nietzsche",
+  "“One good thing about music, when it hits you, you feel no pain.” – Bob Marley",
+  "“Music is the shorthand of emotion.” – Leo Tolstoy",
+  "“Music is the divine way to tell beautiful, poetic things to the heart.” – Pablo Casals",
+  "“After silence, that which comes nearest to expressing the inexpressible is music.” – Aldous Huxley",
+  "“To play a wrong note is insignificant; to play without passion is inexcusable.” – Ludwig van Beethoven",
+  "“Music gives a soul to the universe, wings to the mind, flight to the imagination, and life to everything.” – Plato",
+  "“Music is a world within itself, it’s a language we all understand.” – Stevie Wonder",
+  "“If something happened where I couldn’t write music anymore, it would kill me. It’s not just a job. It’s not just a hobby. It’s why I get up in the morning.” – Hans Zimmer",
+  "“Your inner voice is the voice of divinity. To hear it, we need to be in solitude, even in crowded places.” – A. R. Rahman"
+];

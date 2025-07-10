@@ -85,22 +85,10 @@ const Footer: NextPage<Props> = ({}) => {
 							<h3 className="text-lg font-medium">Quick Links</h3>
 							<nav className="flex flex-col space-y-2">
 								<Link
-									href="/dashboard"
+									href="/about-us"
 									className="text-gray-400 hover:text-white transition-colors"
 								>
-									Dashboard
-								</Link>
-								<Link
-									href="/commands"
-									className="text-gray-400 hover:text-white transition-colors"
-								>
-									Commands
-								</Link>
-								<Link
-									href="/stats"
-									className="text-gray-400 hover:text-white transition-colors"
-								>
-									Stats
+									About Us
 								</Link>
 							</nav>
 						</div>

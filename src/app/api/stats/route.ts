@@ -1,13 +1,7 @@
 export const GET = async () => {
 	try {
 		const response = await fetch(
-			process.env.BACKEND_API_ENDPOINT + '/info/stats',
-			{
-				headers: {
-					'x-api-key': `${process.env.BACKEND_API_SECRET}`,
-				},
-				cache: 'no-store',
-			},
+			process.env.BACKEND_API_ENDPOINT + '/stats/?limit=10&debug=false',
 		);
 
 		if (!response.ok) {
