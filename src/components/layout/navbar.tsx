@@ -5,13 +5,13 @@ import { menuItems, pepperLogoLink } from '@/constants';
 import { MenuItemType } from '@/types';
 import GlobalButton from '../shared/globalButton';
 import { NextPage } from 'next';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, Variants } from 'framer-motion';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react'; // or any icon library
 
 interface Props {}
 
-const menuVariants = {
+const menuVariants: Variants = {
 	open: {
 		opacity: 1,
 		y: 0,
@@ -29,7 +29,7 @@ const menuVariants = {
 	},
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
 	open: {
 		opacity: 1,
 		y: 0,

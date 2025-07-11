@@ -34,15 +34,7 @@ const Page: NextPage = () => {
 				</h2>
 				<p className="text-base md:text-lg text-gray-400 mb-6">
 					Your ultimate music companion on Discord with zero command. Play,
-					manage, and enjoy music seamlessly on our{' '}
-					<Link
-						href="/dashboard"
-						className="text-zinc-300 hover:text-zinc-200 hover:underline"
-					>
-						{' '}
-						Dashboard{' '}
-					</Link>
-					.
+					manage, and enjoy music seamlessly.
 				</p>
 				<Link href={inviteLink} target="_blank">
 					<GlobalButton>Add Pepper to Discord</GlobalButton>{' '}

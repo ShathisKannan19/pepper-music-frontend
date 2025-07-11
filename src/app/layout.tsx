@@ -1,20 +1,9 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/layout/navbar';
 import Footer from '@/components/layout/footer';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { Toaster } from 'sonner';
-
-const geistSans = Geist({
-	variable: '--font-geist-sans',
-	subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-	variable: '--font-geist-mono',
-	subsets: ['latin'],
-});
 
 export const metadata: Metadata = {
 	title: 'Pepper | Stream Music Effortlessly on Discord',
@@ -33,9 +22,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<GoogleAnalytics gaId="G-NCWY5GH7E9" />
-			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-			>
+			<body className="antialiased">
 				<Navbar />
 				{children}
 				<Footer />
