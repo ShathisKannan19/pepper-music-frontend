@@ -22,15 +22,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			priority: 0.8,
 		},
 		{
-			url: `${process.env.NEXT_PUBLIC_BASE_URL}/commands`,
+			url: `${process.env.NEXT_PUBLIC_BASE_URL}/bot-features`,
 			lastModified: new Date(),
 			changeFrequency: 'monthly',
-			priority: 0.8,
-		},
-		{
-			url: `${process.env.NEXT_PUBLIC_BASE_URL}/stats`,
-			lastModified: new Date(),
-			changeFrequency: 'daily',
 			priority: 0.8,
 		},
 		{

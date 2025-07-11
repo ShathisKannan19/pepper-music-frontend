@@ -2,6 +2,7 @@ import { MenuItemType, SidebarItemType } from '@/types';
 import { ChartArea, Home, HomeIcon, List, Settings } from 'lucide-react';
 
 export const menuItems: MenuItemType[] = [
+	{ name: 'Features', value: '/bot-features' },
 	{ name: 'About Us', value: '/about-us' },
 	{ name: 'Terms of Service', value: '/terms-of-service' },
 	{ name: 'Privacy Policy', value: '/privacy-policy' },
@@ -46,7 +47,7 @@ export const githubLink: string =
 export const twitterLink: string = 'https://twitter.com';
 export const discordServerLink: string = 'https://discord.gg/XzE9hSbsNb';
 
-export const commandsLink = '/commands';
+export const featursLink = '/bot-features';
 export const termsLink = '/terms-of-service';
 export const privacyLink = '/privacy-policy';
 export const pepperLogoLink = '/images/pepperLogo.png';

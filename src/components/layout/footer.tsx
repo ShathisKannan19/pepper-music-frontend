@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import {
 	discordServerLink,
+	featursLink,
 	githubLink,
 	inviteLink,
 	pepperLogoLink,
@@ -84,6 +85,12 @@ const Footer: NextPage<Props> = ({}) => {
 						<div className="space-y-4 w-fit ">
 							<h3 className="text-lg font-medium">Quick Links</h3>
 							<nav className="flex flex-col space-y-2">
+								<Link
+									href={featursLink}
+									className="text-gray-400 hover:text-white transition-colors"
+								>
+									Features
+								</Link>
 								<Link
 									href="/about-us"
 									className="text-gray-400 hover:text-white transition-colors"
