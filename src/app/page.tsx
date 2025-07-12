@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { features, inviteLink } from '@/constants';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import Features from '@/components/shared/features';
-import Stats from '@/components/shared/stats';
+import StatsComponent from '@/components/shared/stats/statsComponent';
 
 export const metadata: Metadata = {
 	title: 'Pepper | Best Discord Music Bot for Seamless Streaming',
@@ -74,7 +74,7 @@ const Page: NextPage = () => {
 				</div>
 			</section>
 			<section className="pb-8 px-4 md:px-8">
-				<Stats />
+				<StatsComponent />
 			</section>
 		</div>
 	);

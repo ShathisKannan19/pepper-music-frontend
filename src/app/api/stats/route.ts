@@ -1,7 +1,7 @@
 export const GET = async () => {
 	try {
 		const response = await fetch(
-			process.env.BACKEND_API_ENDPOINT + '/stats/?limit=10&debug=false',
+			process.env.BACKEND_API_ENDPOINT + '/stats/?limit=20&debug=false',
 		);
 
 		if (!response.ok) {

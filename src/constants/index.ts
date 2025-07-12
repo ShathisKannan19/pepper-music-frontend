@@ -1,6 +1,7 @@
 import { MenuItemType } from '@/types';
 
 export const menuItems: MenuItemType[] = [
+	{ name: 'Stats', value: '/stats' },
 	{ name: 'Features', value: '/bot-features' },
 	{ name: 'About Us', value: '/about-us' },
 	{ name: 'Terms of Service', value: '/terms-of-service' },

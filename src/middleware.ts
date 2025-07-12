@@ -16,6 +16,8 @@ export async function middleware(request: NextRequest) {
 		return NextResponse.next();
 	}
 
+	// TODO: Is there we are going to implement a private route?
+	// INFO: Now Itself its working as only for mentioned routes - Other routes to main. `/` routing to home page.
 	const token = request.cookies.get('session')?.value;
 
 	if (!token) {

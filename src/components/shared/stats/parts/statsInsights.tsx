@@ -1,4 +1,3 @@
-import { NextPage } from 'next';
 import {
 	Card,
 	CardContent,
@@ -6,8 +5,6 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card';
-
-import { ErrorComponent } from './errorComponent';
 import {
 	FaMusic,
 	FaPlay,
@@ -19,6 +16,8 @@ import {
 } from 'react-icons/fa';
 import { MusicQuotes } from '@/constants';
 import { FaDiscord } from 'react-icons/fa';
+import { ErrorComponent } from '../../errorComponent';
+import StatsSkeletonComponent from '@/components/skeletons/statsSkeletonComponent';
 
 interface StatsData {
 	global_stats: {
@@ -35,6 +34,22 @@ interface StatsData {
 		};
 		average_song_duration_ms: number;
 	};
+	top_songs: {
+		track: string;
+		artist: string;
+		total_plays: number;
+		total_duration_ms: number;
+		total_duration_formatted: string;
+		unique_requesters: number;
+		artwork_url: string;
+		spotify_uri: string;
+	}[];
+}
+
+interface StatsInsightsProps {
+	data: StatsData | null;
+	isLoading: boolean;
+	error: boolean;
 }
 
 const parsedQuotes = MusicQuotes.map((q) => {
@@ -47,21 +62,12 @@ const pickRandomQuote = () => {
 	return parsedQuotes[idx]
 }
 
-const fetchAPI = async () => {
-	try {
-		const response = await fetch(
-			process.env.NEXT_PUBLIC_BASE_URL + '/api/stats'
-		);
-		if (!response.ok) return null;
-		return await response.json();
-	} catch {
-		return null;
-	}
-};
+export const StatsInsights: React.FC<StatsInsightsProps> = ({ data, isLoading, error }) => {
 
-const Stats: NextPage = async () => {
-	const data: StatsData | null = await fetchAPI();
-	if (!data) return <ErrorComponent />;
+	if (error) return <ErrorComponent />;
+	if (isLoading) return <StatsSkeletonComponent />;
+	if (!data) return null;
+	
 	const stats = data.global_stats;
 
 	return (
@@ -114,7 +120,7 @@ const Stats: NextPage = async () => {
 					<div className="flex flex-wrap gap-2">
 						{stats.total_duration_formatted
 							.split(', ')
-							.map((part, idx) => (
+							.map((part: string, idx: number) => (
 								<span
 									key={idx}
 									className="flex items-center space-x-1 bg-teal-700/80 text-teal-100 px-3 py-1 rounded-full text-sm font-medium"
@@ -210,4 +216,4 @@ const Stats: NextPage = async () => {
 	);
 };
 
-export default Stats;
+export default StatsInsights;
