@@ -1,5 +1,3 @@
-import { DiscordPermissions } from '@/enums';
-
 export const formatUptime = (seconds: number) => {
 	const days = Math.floor(seconds / 86400);
 	const hours = Math.floor((seconds % 86400) / 3600);
@@ -27,32 +25,4 @@ export const getOptionTypeLabel = (type: number) => {
 		10: 'Number',
 	};
 	return types[type] || 'Unknown';
-};
-
-export const hasDiscordPermission = (
-	userPermissions: string,
-	requiredPermission: DiscordPermissions,
-): boolean => {
-	try {
-		const permNum = BigInt(userPermissions);
-		const permissionNum = BigInt(requiredPermission);
-		return (permNum & permissionNum) !== BigInt(0);
-	} catch (error) {
-		console.error('Error checking permissions:', error);
-		return false;
-	}
-};
-
-export const getServerIcon = (
-	guildId: string,
-	guildicon: string | null | undefined,
-	guildName: string,
-) => {
-	const serverIcon = guildicon
-		? `https://cdn.discordapp.com/icons/${guildId}/${guildicon}.webp?size=256`
-		: `https://ui-avatars.com/api/?name=${encodeURIComponent(
-				guildName,
-		  )}&background=000&color=fff&size=256`;
-
-	return serverIcon;
 };

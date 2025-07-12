@@ -1,5 +1,4 @@
-import { MenuItemType, SidebarItemType } from '@/types';
-import { ChartArea, Home, HomeIcon, List, Settings } from 'lucide-react';
+import { MenuItemType } from '@/types';
 
 export const menuItems: MenuItemType[] = [
 	{ name: 'Features', value: '/bot-features' },
@@ -8,32 +7,6 @@ export const menuItems: MenuItemType[] = [
 	{ name: 'Privacy Policy', value: '/privacy-policy' },
 ];
 
-export const SidebarServerItems: SidebarItemType[] = [
-	{
-		name: 'Overview',
-		value: '/dashboard',
-		icon: List,
-		children: [
-			{
-				name: 'Dashboard Home',
-				value: '/',
-				icon: Home,
-			},
-		],
-	},
-	{
-		name: 'Server Management',
-		value: '/server-management',
-		icon: List,
-		children: [
-			{
-				name: 'server list',
-				value: '/server',
-				icon: List,
-			},
-		],
-	},
-];
 export const commonRoutes = ['/auth', '/public', '/images', '/dashboard'];
 
 export const client_id =
@@ -52,10 +25,6 @@ export const termsLink = '/terms-of-service';
 export const privacyLink = '/privacy-policy';
 export const pepperLogoLink = '/images/pepperLogo.png';
 
-export const oauth2RedirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/callback`;
-export const discordOauth2Scopes = 'identify+guilds+guilds.join+email';
-export const discordOauth2Url = `https://discord.com/oauth2/authorize?client_id=${client_id}&response_type=code&redirect_uri=${oauth2RedirectUrl}&scope=${discordOauth2Scopes}`;
-
 export const features = [
 	{
 		name: 'High Quality Audio',
@@ -73,8 +42,6 @@ export const features = [
 		imgSrc: '/images/247.jpg',
 	},
 ];
-
-export const discordOauth2ApiUrl = 'https://discord.com/api/v10';
 
 export const MusicQuotes = [
   "“Where words fail, music speaks.” – Hans Christian Andersen",
