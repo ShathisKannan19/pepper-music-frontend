@@ -8,30 +8,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			changeFrequency: 'yearly',
 			priority: 1,
 		},
-
+		
 		{
-			url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`,
+			url: `${process.env.NEXT_PUBLIC_BASE_URL}/bot-features`,
 			lastModified: new Date(),
 			changeFrequency: 'yearly',
 			priority: 1,
 		},
 		{
-			url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`,
+			url: `${process.env.NEXT_PUBLIC_BASE_URL}/stats`,
 			lastModified: new Date(),
-			changeFrequency: 'yearly',
-			priority: 0.8,
-		},
-		{
-			url: `${process.env.NEXT_PUBLIC_BASE_URL}/bot-features`,
-			lastModified: new Date(),
-			changeFrequency: 'monthly',
+			changeFrequency: 'daily',
 			priority: 0.8,
 		},
 		{
 			url: `${process.env.NEXT_PUBLIC_BASE_URL}/about-us`,
 			lastModified: new Date(),
 			changeFrequency: 'yearly',
-			priority: 0.5,
+			priority: 0.7,
 		},
 		{
 			url: `${process.env.NEXT_PUBLIC_BASE_URL}/privacy-policy`,

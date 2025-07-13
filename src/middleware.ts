@@ -22,7 +22,10 @@ export async function middleware(request: NextRequest) {
 		// Encode the current URL to use as the redirect destination after login
 		const currentUrl = encodeURIComponent(pathname + search);
 		return NextResponse.redirect(
-			new URL(`/auth/login?redirect=${currentUrl}`, request.url),
+			// new URL(`/auth/login?redirect=${currentUrl}`, request.url),
+			// TODO: Is there we are going to implement a private route?
+			// INFO: Now Itself its working as only for mentioned routes - Others are routes to main. `/` routing to home page.
+			new URL(`/`, request.url),
 		);
 	}
 

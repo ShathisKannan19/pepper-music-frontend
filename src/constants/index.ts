@@ -2,6 +2,7 @@ import { MenuItemType, SidebarItemType } from '@/types';
 import { ChartArea, Home, HomeIcon, List, Settings } from 'lucide-react';
 
 export const menuItems: MenuItemType[] = [
+	{ name: 'Stats', value: '/stats'},
 	{ name: 'Features', value: '/bot-features' },
 	{ name: 'About Us', value: '/about-us' },
 	{ name: 'Terms of Service', value: '/terms-of-service' },

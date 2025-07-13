@@ -8,6 +8,7 @@ import {
 	CardDescription,
 } from '@/components/ui/card';
 import { Music, Users, Server, Zap, Award, Clock } from 'lucide-react';
+import { metadata } from '../layout';
 
 interface Props {}
 
@@ -34,6 +35,19 @@ function FeatureCard({
 		</Card>
 	);
 }
+
+metadata.title = 'Pepper | Discord Music Bot Features';
+metadata.description = 'Explore Pepper\'s features including voice channel music, multi-server support, and more.';
+metadata.keywords = [
+	'Discord music bot features',
+	'Pepper music bot',
+	'Discord voice channel music',
+	'multi-server music bot',
+	'community playlists',
+	'fast reliable music bot',
+	'premium audio quality',
+	'queue management',
+];
 
 const FeaturePage: NextPage<Props> = async ({}) => {
 
