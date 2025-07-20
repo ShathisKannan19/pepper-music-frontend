@@ -13,38 +13,12 @@ import {
 	FaUsers,
 	FaCrown,
 	FaHourglassHalf,
+	FaDiscord,
 } from 'react-icons/fa';
 import { MusicQuotes } from '@/constants';
-import { FaDiscord } from 'react-icons/fa';
 import { ErrorComponent } from '../../errorComponent';
 import StatsSkeletonComponent from '@/components/skeletons/statsSkeletonComponent';
-
-interface StatsData {
-	global_stats: {
-		total_songs: number;
-		total_plays: number;
-		total_duration_ms: number;
-		total_duration_formatted: string;
-		unique_artists: number;
-		unique_requesters: number;
-		most_active_requester: {
-			id: string;
-			username: string;
-			total_plays: number;
-		};
-		average_song_duration_ms: number;
-	};
-	top_songs: {
-		track: string;
-		artist: string;
-		total_plays: number;
-		total_duration_ms: number;
-		total_duration_formatted: string;
-		unique_requesters: number;
-		artwork_url: string;
-		spotify_uri: string;
-	}[];
-}
+import { StatsData } from '@/types';
 
 interface StatsInsightsProps {
 	data: StatsData | null;

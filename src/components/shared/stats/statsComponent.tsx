@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import StatsInsights from "./parts/statsInsights";
 import StatsMusicPage from "./parts/statsMusic";
+import { StatsData, FeatureCardProps} from "@/types";
 
 import {
     Music,
@@ -18,33 +19,6 @@ import {
     CardTitle,
     CardDescription,
 } from "@/components/ui/card";
-
-interface StatsData {
-	global_stats: {
-		total_songs: number;
-		total_plays: number;
-		total_duration_ms: number;
-		total_duration_formatted: string;
-		unique_artists: number;
-		unique_requesters: number;
-		most_active_requester: {
-			id: string;
-			username: string;
-			total_plays: number;
-		};
-		average_song_duration_ms: number;
-	},
-	top_songs: {
-        track: string;
-        artist: string;
-        total_plays: number;
-        total_duration_ms: number;
-        total_duration_formatted: string;
-        unique_requesters: number;
-        artwork_url: string;
-        spotify_uri: string;
-    }[];
-}
 
 const FeatureCardContent = [
 	{
@@ -95,11 +69,7 @@ function FeatureCard({
     icon,
     title,
     description,
-}: {
-    icon: React.ReactNode;
-    title: string;
-    description: string;
-}) {
+}: FeatureCardProps) {
     return (
         <Card className="bg-black border-zinc-700 text-white">
             <CardContent className="pt-6">

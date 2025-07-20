@@ -40,18 +40,6 @@ export interface CommandsData {
 		message: BotCommand[];
 	};
 }
-export interface StatsData {
-	status: string;
-	timestamp: string;
-	data: {
-		id: string;
-		name: string;
-		uptime: number;
-		players: number;
-		guilds: number;
-		users: number;
-	};
-}
 
 export interface HealthAPIData {
 	status: HealthAPIStatus.SUCCESS;
@@ -95,4 +83,37 @@ export interface ErrorComponentProps {
 		label: string;
 		onClick: () => void;
 	};
+}
+
+export interface StatsData {
+	global_stats: {
+		total_songs: number;
+		total_plays: number;
+		total_duration_ms: number;
+		total_duration_formatted: string;
+		unique_artists: number;
+		unique_requesters: number;
+		most_active_requester: {
+			id: string;
+			username: string;
+			total_plays: number;
+		};
+		average_song_duration_ms: number;
+	};
+	top_songs: {
+		track: string;
+		artist: string;
+		total_plays: number;
+		total_duration_ms: number;
+		total_duration_formatted: string;
+		unique_requesters: number;
+		artwork_url: string;
+		spotify_uri: string;
+	}[];
+}
+
+export interface FeatureCardProps {
+    readonly icon: React.ReactNode;
+    readonly title: string;
+    readonly description: string;
 }
