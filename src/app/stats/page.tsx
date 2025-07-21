@@ -4,7 +4,7 @@ import StatsComponent from "@/components/shared/stats/statsComponent"
 interface Props {}
 
 export const metadata = {
-    title: 'Pepper | Discord Music Bot Stats',
+    title: 'Stats | What we have achieved with Pepper',
     description: 'View Pepper\'s music bot statistics including total songs played, unique artists, and more.',
     keywords: [
         'Discord music bot stats',
