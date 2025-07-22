@@ -14,21 +14,16 @@ import { StatsData } from "@/types";
 
 interface StatsMusicPageProps {
     data: StatsData | null;
-    isLoading: boolean;
     error: boolean;
 }
 
-const StatsMusicPage: React.FC<StatsMusicPageProps> = ({ data, isLoading, error }) => {
+const StatsMusicPage: React.FC<StatsMusicPageProps> = ({ data , error }) => {
     if (error) {
         return (
             <div className="text-center text-gray-400">
                 <ErrorComponent />
             </div>
         );
-    }
-
-    if (isLoading) {
-        return <MusicHistoryLoadingSkeleton />;
     }
 
     if (!data?.top_songs) {

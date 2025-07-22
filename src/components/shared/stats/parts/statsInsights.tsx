@@ -22,7 +22,6 @@ import { StatsData } from '@/types';
 
 interface StatsInsightsProps {
 	data: StatsData | null;
-	isLoading: boolean;
 	error: boolean;
 }
 
@@ -36,10 +35,9 @@ const pickRandomQuote = () => {
 	return parsedQuotes[idx]
 }
 
-export const StatsInsights: React.FC<StatsInsightsProps> = ({ data, isLoading, error }) => {
+export const StatsInsights: React.FC<StatsInsightsProps> = ({ data, error }) => {
 
 	if (error) return <ErrorComponent />;
-	if (isLoading) return <StatsSkeletonComponent />;
 	if (!data) return null;
 	
 	const stats = data.global_stats;

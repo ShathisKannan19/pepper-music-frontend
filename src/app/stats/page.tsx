@@ -1,5 +1,9 @@
 import { NextPage } from 'next';
-import StatsComponent from "@/components/shared/stats/statsComponent"
+import { default as nextDynamic } from 'next/dynamic';
+const StatsComponent = nextDynamic(() => import('@/components/shared/stats/statsComponent'), {
+    ssr: true,
+}
+)
 
 interface Props {}
 

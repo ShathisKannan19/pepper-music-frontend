@@ -1,6 +1,3 @@
-"use client";
-
-import React, { useState, useEffect } from "react";
 import StatsInsights from "./parts/statsInsights";
 import StatsMusicPage from "./parts/statsMusic";
 import { StatsData } from "@/types";
@@ -12,39 +9,22 @@ const fetchAPI = async (): Promise<StatsData | null> => {
 			process.env.NEXT_PUBLIC_BASE_URL + '/api/stats'
 		);
 		if (!response.ok) return null;
-		return await response.json();
+		const data = await response.json();
+		return data as StatsData;
 	} catch {
 		return null;
 	}
 }
 
-const StatsComponent: React.FC = () => {
-	const [data, setData] = useState<StatsData | null>(null);
-	const [isLoading, setIsLoading] = useState(true);
-	const [error, setError] = useState(false);
-
-	useEffect(() => {
-		fetchAPI()
-			.then((stats) => {
-				if (!stats) {
-					setError(true);
-				} else {
-					setData(stats);
-				}
-			})
-			.catch(() => {
-				setError(true);
-			})
-			.finally(() => {
-				setIsLoading(false);
-			});
-	}, []);
+const StatsComponent: React.FC = async () => {
+	const data = await fetchAPI();
+	const error = false;
 
 	return (
 		<div className="py-2 md:px-8">
 			<FeatureCards />
-			<StatsInsights data={data} isLoading={isLoading} error={error} />
-			<StatsMusicPage data={data} isLoading={isLoading} error={error} />
+			<StatsInsights data={data} error={error} />
+			<StatsMusicPage data={data} error={error} />
 		</div>
 	);
 }
