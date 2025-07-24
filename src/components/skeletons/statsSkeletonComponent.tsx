@@ -24,7 +24,7 @@ const StatBoxSkeleton = ({ icon, label }: { icon: React.ReactNode; label: string
 const StatsSkeletonComponent = () => {
 	return (
 		<div className="w-full mx-auto p-6 space-y-8">
-			<Card className="w-full bg-zinc-900/70 backdrop-blur-md text-white border border-zinc-700 animate-pulse">
+			<Card className="w-full bg-black backdrop-blur-md text-white border border-zinc-700 animate-pulse">
 				<CardHeader className="pb-2">
 					<CardTitle className="text-2xl font-bold">
 						<SkeletonBar width="w-48" height="h-6" />
@@ -59,14 +59,14 @@ const StatsSkeletonComponent = () => {
 						{Array.from({ length: 3 }).map((_, idx) => (
 							<div
 								key={idx}
-								className="flex items-center space-x-1 bg-teal-700/80 text-teal-100 px-3 py-1 rounded-full text-sm font-medium"
+								className="flex items-center space-x-1 bg-teal-700/30 text-teal-100 px-3 py-1 rounded-full text-sm font-medium"
 							>
 								<FaHourglassHalf className="text-xs" />
 								<SkeletonBar width="w-16" height="h-3" />
 							</div>
 						))}
 					</div>
-					<div className="mt-2 p-3 bg-teal-800/50 rounded-lg">
+					<div className="mt-2 p-3 bg-teal-800/20 rounded-lg">
 						<SkeletonBar width="w-64" />
 					</div>
 				</CardContent>

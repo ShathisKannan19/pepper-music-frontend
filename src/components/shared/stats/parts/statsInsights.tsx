@@ -17,7 +17,6 @@ import {
 } from 'react-icons/fa';
 import { MusicQuotes } from '@/constants';
 import { ErrorComponent } from '../../errorComponent';
-import StatsSkeletonComponent from '@/components/skeletons/statsSkeletonComponent';
 import { StatsData } from '@/types';
 
 interface StatsInsightsProps {
@@ -44,7 +43,7 @@ export const StatsInsights: React.FC<StatsInsightsProps> = ({ data, error }) => 
 
 	return (
 		<div className="w-full mx-auto p-6 space-y-8">
-			<Card className="w-full bg-zinc-900/70 backdrop-blur-md text-white border border-zinc-700">
+			<Card className="w-full bg-black backdrop-blur-md text-white border border-zinc-700">
 				<CardHeader className="pb-2">
 					<CardTitle className="text-2xl font-bold">
 						Hot Info 🔥
@@ -95,7 +94,7 @@ export const StatsInsights: React.FC<StatsInsightsProps> = ({ data, error }) => 
 							.map((part: string, idx: number) => (
 								<span
 									key={idx}
-									className="flex items-center space-x-1 bg-teal-700/80 text-teal-100 px-3 py-1 rounded-full text-sm font-medium"
+									className="flex items-center space-x-1 bg-teal-700/30 text-teal-100 px-3 py-1 rounded-full text-sm font-medium"
 								>
 									<FaHourglassHalf className="text-xs" />
 									<span>{part}</span>
@@ -103,7 +102,7 @@ export const StatsInsights: React.FC<StatsInsightsProps> = ({ data, error }) => 
 							))}
 					</div>
 					{/* Highlight the total in a more concise summary */}
-					<div className="mt-2 p-3 bg-teal-800/50 rounded-lg">
+					<div className="mt-2 p-3 bg-teal-800/20 rounded-lg">
 						<p className="text-sm text-teal-200">
 							That's over{' '}
 							<span className="font-semibold text-white">
@@ -115,21 +114,21 @@ export const StatsInsights: React.FC<StatsInsightsProps> = ({ data, error }) => 
 				</CardContent>
 				<CardContent className="border-t border-zinc-800 pt-4">
 					<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-						<div className="p-4 rounded-lg bg-blue-900/50">
+						<div className="p-4 rounded-lg bg-zinc-800/50">
 							<div className="flex items-center space-x-2 mb-2">
 								<FaMusic className="text-2xl text-blue-300" />
 								<h3 className="font-medium text-blue-200">Total Songs</h3>
 							</div>
 							<p className="text-2xl font-mono">{stats.total_songs}</p>
 						</div>
-						<div className="p-4 rounded-lg bg-green-900/50">
+						<div className="p-4 rounded-lg bg-zinc-800/50">
 							<div className="flex items-center space-x-2 mb-2">
 								<FaPlay className="text-2xl text-green-300" />
 								<h3 className="font-medium text-green-200">Total Plays</h3>
 							</div>
 							<p className="text-2xl font-mono">{stats.total_plays}</p>
 						</div>
-						<div className="p-4 rounded-lg bg-yellow-900/50">
+						<div className="p-4 rounded-lg bg-zinc-800/50">
 							<div className="flex items-center space-x-2 mb-2">
 								<FaUserAlt className="text-2xl text-yellow-300" />
 								<h3 className="font-medium text-yellow-200">
@@ -140,7 +139,7 @@ export const StatsInsights: React.FC<StatsInsightsProps> = ({ data, error }) => 
 						</div>
 					</div>
 					<div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
-						<div className="p-4 rounded-lg bg-pink-900/50">
+						<div className="p-4 rounded-lg bg-zinc-800/50">
 							<div className="flex items-center space-x-2 mb-2">
 								<FaUsers className="text-2xl text-pink-300" />
 								<h3 className="font-medium text-pink-200">
@@ -151,7 +150,7 @@ export const StatsInsights: React.FC<StatsInsightsProps> = ({ data, error }) => 
 								{stats.unique_requesters}
 							</p>
 						</div>
-						<div className="p-4 rounded-lg bg-teal-900/50">
+						<div className="p-4 rounded-lg bg-zinc-800/50">
 							<div className="flex items-center space-x-2 mb-2">
 								<FaHourglassHalf className="text-2xl text-teal-300" />
 								<h3 className="font-medium text-teal-200">
