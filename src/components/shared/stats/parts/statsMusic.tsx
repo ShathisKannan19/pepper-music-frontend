@@ -36,7 +36,7 @@ const StatsMusicPage: React.FC<StatsMusicPageProps> = ({ data , error }) => {
 
     return (
         <div className="w-full mx-auto p-6 space-y-8 bg-black">
-            <Card className="w-full bg-zinc-900/70 backdrop-blur-md text-white border border-zinc-700">
+            <Card className="w-full bg-black backdrop-blur-md text-white border border-zinc-700">
                 <CardHeader>
                     <div className="flex items-center justify-between">
                         <CardTitle>Server Top Songs</CardTitle>
