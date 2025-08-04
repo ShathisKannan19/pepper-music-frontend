@@ -5,13 +5,13 @@ import { menuItems, pepperLogoLink } from '@/constants';
 import { MenuItemType } from '@/types';
 import GlobalButton from '../shared/globalButton';
 import { NextPage } from 'next';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, Variants } from 'framer-motion';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react'; // or any icon library
 
 interface Props {}
 
-const menuVariants = {
+const menuVariants : Variants = {
 	open: {
 		opacity: 1,
 		y: 0,
@@ -29,7 +29,7 @@ const menuVariants = {
 	},
 };
 
-const itemVariants = {
+const itemVariants : Variants = {
 	open: {
 		opacity: 1,
 		y: 0,
@@ -81,12 +81,6 @@ const Navbar: NextPage<Props> = () => {
 					))}
 				</ul>
 			</nav>
-
-			<Link href="/auth/login" className="hidden md:block">
-				<GlobalButton className="bg-none" size="sm">
-					Get Started
-				</GlobalButton>
-			</Link>
 
 			{/* Mobile Menu Button */}
 			<motion.button
@@ -164,19 +158,6 @@ const Navbar: NextPage<Props> = () => {
 								))}
 							</ul>
 						</nav>
-
-						<motion.div
-							variants={itemVariants}
-							whileHover={{ scale: 1.05 }}
-							whileTap={{ scale: 0.95 }}
-						>
-							<Link href="/auth/login" onClick={() => setIsMenuOpen(false)}>
-								<GlobalButton className="bg-none hover:bg-gray-800 transition-colors duration-300">
-									Get Started
-								</GlobalButton>
-							</Link>
-						</motion.div>
-
 						<motion.div
 							className="absolute bottom-8 text-center text-sm text-gray-500"
 							initial={{ opacity: 0, y: 20 }}

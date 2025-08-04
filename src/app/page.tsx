@@ -6,12 +6,11 @@ import Link from 'next/link';
 import { features, inviteLink } from '@/constants';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import Features from '@/components/shared/features';
-import Uptime from '@/components/shared/uptime';
 
 export const metadata: Metadata = {
 	title: 'Pepper | Best Discord Music Bot for Seamless Streaming',
 	description:
-		'Add Pepper to your Discord server for high-quality music streaming from Spotify, YouTube, and more. Enjoy lag-free playback, playlist control, and an intuitive dashboard.',
+		'Add Pepper to your Discord server for high-quality music streaming from Spotify, YouTube, and more. Enjoy lag-free playback, queue management, and seamless voice channel integration.',
 	keywords: [
 		'Discord music bot',
 		'Pepper music bot',
@@ -19,8 +18,8 @@ export const metadata: Metadata = {
 		'Spotify Discord bot',
 		'YouTube music bot',
 		'high quality Discord music',
-		'Discord bot with dashboard',
-		'playlist management Discord bot',
+		'Discord voice channel bot',
+		'queue management Discord bot',
 		'Discord audio streaming bot',
 	],
 };
@@ -33,16 +32,8 @@ const Page: NextPage = () => {
 					Stream Music Effortlessly with Pepper
 				</h2>
 				<p className="text-base md:text-lg text-gray-400 mb-6">
-					Your ultimate music companion on Discord with zero command. Play,
-					manage, and enjoy music seamlessly on our{' '}
-					<Link
-						href="/dashboard"
-						className="text-zinc-300 hover:text-zinc-200 hover:underline"
-					>
-						{' '}
-						Dashboard{' '}
-					</Link>
-					.
+					Your ultimate music companion on Discord with simple commands. Play,
+					manage, and enjoy music seamlessly in your voice channels.
 				</p>
 				<Link href={inviteLink} target="_blank">
 					<GlobalButton>Add Pepper to Discord</GlobalButton>{' '}
@@ -62,8 +53,8 @@ const Page: NextPage = () => {
 							lag-free, high-quality music streaming worldwide.
 							<br /> <br />
 							Enjoy seamless playback from Spotify, Deezer, YouTube, and more
-							with our comprehensive dashboard and advanced features including
-							soundboard, volume control, queueing, and playlist management.
+							with easy-to-use slash commands and advanced features including
+							queue management, volume control, loop modes, and song search.
 							Experience crystal-clear audio quality with minimal buffering
 							thanks to our distributed node architecture, making Pepper the
 							perfect music companion for any Discord server.
@@ -80,9 +71,6 @@ const Page: NextPage = () => {
 						<Features feature={feature} key={feature.value} />
 					))}
 				</div>
-			</section>
-			<section className="pb-8 px-4 md:px-8">
-				<Uptime />
 			</section>
 		</div>
 	);
