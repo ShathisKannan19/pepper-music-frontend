@@ -154,19 +154,21 @@ export const StatsInsights: React.FC<StatsInsightsProps> = ({ data, error }) => 
 							<div className="flex items-center space-x-2 mb-2">
 								<FaHourglassHalf className="text-2xl text-teal-300" />
 								<h3 className="font-medium text-teal-200">
-									Avg. Song Duration
+									Avg. Listening Time
 								</h3>
 							</div>
 							<p className="text-2xl font-mono">
-								{(() => {
-									const ms = stats.average_song_duration_ms;
-									const hours = Math.floor(ms / 3600000);
-									const minutes = Math.floor((ms % 3600000) / 60000);
-									const seconds = Math.floor((ms % 60000) / 1000);
-									if (hours > 0) {
-										return `${hours} hr ${minutes} min :${seconds.toString().padStart(2, '0')} sec`;
-									}
-								})()}
+							{(() => {
+								const ms = stats.average_song_duration_ms;
+								const years = Math.floor(ms / (1000 * 60 * 60 * 24 * 365));
+								const days = Math.floor((ms % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24));
+								
+								if (years > 0) {
+								return `${years} yr ${days} day${days !== 1 ? 's' : ''}`;
+								} else {
+								return `${days} day${days !== 1 ? 's' : ''}`;
+								}
+							})()}
 							</p>
 						</div>
 					</div>

@@ -10,13 +10,13 @@ import Features from '@/components/shared/features';
 export const metadata: Metadata = {
 	title: 'Pepper | Best Discord Music Bot for Seamless Streaming',
 	description:
-		'Add Pepper to your Discord server for high-quality music streaming from Spotify, YouTube, and more. Enjoy lag-free playback, queue management, and seamless voice channel integration.',
+		'Add Pepper to your Discord server for high-quality music streaming from Spotify, Apple Music, and more. Enjoy lag-free playback, queue management, and seamless voice channel integration.',
 	keywords: [
 		'Discord music bot',
 		'Pepper music bot',
 		'Lavalink music bot',
 		'Spotify Discord bot',
-		'YouTube music bot',
+		'Apple Music music bot',
 		'high quality Discord music',
 		'Discord voice channel bot',
 		'queue management Discord bot',
@@ -52,7 +52,7 @@ const Page: NextPage = () => {
 							nodes strategically positioned across Asia and the US for
 							lag-free, high-quality music streaming worldwide.
 							<br /> <br />
-							Enjoy seamless playback from Spotify, Deezer, YouTube, and more
+							Enjoy seamless playback from Spotify, Deezer, Apple Music, and more
 							with easy-to-use slash commands and advanced features including
 							queue management, volume control, loop modes, and song search.
 							Experience crystal-clear audio quality with minimal buffering

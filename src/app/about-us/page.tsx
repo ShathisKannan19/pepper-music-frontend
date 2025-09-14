@@ -77,7 +77,7 @@ const AboutUs: NextPage<Props> = ({}) => {
 									</h3>
 									<p className="text-white flex-grow">
 										With Pepper, you can effortlessly play music from popular
-										sources like YouTube, Spotify, SoundCloud, and more. Create
+										sources like Apple Music, Spotify, SoundCloud, and more. Create
 										personalized playlists, explore a vast music library, and
 										share your favorite tunes with friends and fellow community
 										members.

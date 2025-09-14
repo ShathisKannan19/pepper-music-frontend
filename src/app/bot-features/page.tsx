@@ -4,7 +4,7 @@ interface Props {}
 
 export const metadata: Metadata = {
 	title: 'Features | How Pepper Enhances Your Discord Experience',
-	description: 'Explore Pepper\'s features including voice channel music, multi-server support, and more.',
+	description: 'Explore Pepper\'s features including voice channel music, multi-lingual support, and more.',
 	keywords: [
 		'Discord music bot features',
 		'Pepper music bot',
