@@ -33,9 +33,9 @@ export const features = [
 		imgSrc: '/images/high_quality_audio.jpg',
 	},
 	{
-		name: 'Custom Playlists',
-		value: 'Create and manage playlists directly on Discord.',
-		imgSrc: '/images/custom_playlists.jpg',
+		name: 'DJ Support',
+		value: 'Give DJ roles the power to manage music controls.',
+		imgSrc: '/images/dj_for_discord.png',
 	},
 	{
 		name: '24/7 Availability',

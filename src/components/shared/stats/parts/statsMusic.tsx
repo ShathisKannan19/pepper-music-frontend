@@ -8,7 +8,6 @@ import {
     CardDescription,
 } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import MusicHistoryLoadingSkeleton from "@/components/skeletons/musicHistoryLoadingSkeleton";
 import { ErrorComponent } from "../../errorComponent";
 import { StatsData } from "@/types";
 
@@ -63,7 +62,16 @@ const StatsMusicPage: React.FC<StatsMusicPageProps> = ({ data , error }) => {
                                     </div>
                                     <div className="flex-1">
                                         <div className="flex justify-between items-center">
-                                            <span className="font-medium">{song.track}</span>
+                                            <span className="font-medium flex items-center">
+                                                <a 
+                                                    href={song.spotify_uri} 
+                                                    target="_blank" 
+                                                    rel="noopener noreferrer" 
+                                                    className="text-white hover:text-gray-400 px-2 py-1 rounded flex items-center group transition-colors duration-200"
+                                                >
+                                                    <span className="truncate">{song.track}</span>
+                                                </a>
+                                            </span>
                                             <span className="text-sm text-gray-400">
                                                 {song.total_plays} plays
                                             </span>

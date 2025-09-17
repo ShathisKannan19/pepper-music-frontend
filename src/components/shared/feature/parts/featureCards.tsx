@@ -35,8 +35,8 @@ const FeatureCardContent = [
     },
     {
         icon: <Server className="h-8 w-8 text-purple-500" />,
-        title: 'Multi-Server Support',
-        description: 'Add Pepper to multiple Discord servers and enjoy consistent music experience across all of them.',
+        title: 'Multi-Lingual Support',
+        description: 'Search and enjoy music in multiple languages with native language support across Discord commands.',
     },
     {        icon: <Users className="h-8 w-8 text-purple-500" />,
         title: 'Community Playlists',
