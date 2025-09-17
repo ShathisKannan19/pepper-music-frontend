@@ -44,7 +44,7 @@ const FeatureComponent: React.FC = () => {
                                 <li>• Simple slash commands for all music functions</li>
                                 <li>• Intuitive song search and playlist management</li>
                                 <li>• Quick setup with minimal configuration required</li>
-                                <li>• Support for Apple Music, Spotify, and SoundCloud</li>
+                                <li>• Support for Spotify, SoundCloud and Apple Music</li>
                             </ul>
                         </CardContent>
                     </Card>

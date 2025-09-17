@@ -10,7 +10,7 @@ import Features from '@/components/shared/features';
 export const metadata: Metadata = {
 	title: 'Pepper | Best Discord Music Bot for Seamless Streaming',
 	description:
-		'Add Pepper to your Discord server for high-quality music streaming from Spotify, Apple Music, and more. Enjoy lag-free playback, queue management, and seamless voice channel integration.',
+		'Add Pepper to your Discord server for high-quality music streaming from Spotify, SoundCloud, Apple Music and more. Enjoy lag-free playback, queue management, and seamless voice channel integration.',
 	keywords: [
 		'Discord music bot',
 		'Pepper music bot',
